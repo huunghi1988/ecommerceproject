@@ -69,7 +69,7 @@
 		</div>
 		<nav class="humberger__menu__nav mobile-menu">
 			<ul>
-				<li class="active"><a href="./index.html">Home</a></li>
+				<li class="active"><a href="./home">Home</a></li>
 				<li><a href="./shop-grid.html">Shop</a></li>
 				<li><a href="#">Pages</a>
 					<ul class="header__menu__dropdown">
@@ -139,13 +139,13 @@
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="header__logo">
-						<a href="./index.html"><img src="img/logo.png" alt=""></a>
+						<a href="./home"><img src="img/logo.png" alt=""></a>
 					</div>
 				</div>
 				<div class="col-lg-6">
 					<nav class="header__menu">
 						<ul>
-							<li class="active"><a href="./index.html">Home</a></li>
+							<li class="active"><a href="./home">Home</a></li>
 							<li><a href="./shop-grid.html">Shop</a></li>
 							<li><a href="#">Pages</a>
 								<ul class="header__menu__dropdown">
@@ -190,7 +190,7 @@
 						<ul>
 
 							<c:forEach var="category" items="${categoryList}">
-								<li><a href=""></a>${category.category_name}</li>
+								<li><a href="ProductList?categoryId=${category.category_id}">${category.category_name}</a></li>
 							</c:forEach>
 
 						</ul>
@@ -244,7 +244,7 @@
 							<div class="categories__item set-bg"
 								data-setbg="${category.image_url}">
 								<h5>
-									<a href="#">${category.category_name}</a>
+									<a href="productList?categoryId=${category.category_id}">${category.category_name}</a>
 								</h5>
 							</div>
 						</div>
@@ -594,7 +594,7 @@
 				<div class="col-lg-3 col-md-6 col-sm-6">
 					<div class="footer__about">
 						<div class="footer__about__logo">
-							<a href="./index.html"><img src="img/logo.png" alt=""></a>
+							<a href="./home"><img src="img/logo.png" alt=""></a>
 						</div>
 						<ul>
 							<li>Address: 60-49 Road 11378 New York</li>
