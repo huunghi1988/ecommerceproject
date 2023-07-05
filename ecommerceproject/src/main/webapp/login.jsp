@@ -1,3 +1,7 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+    
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,9 +35,18 @@
 				</div>
 
 				<form action="Login" method ="get" class="login100-form validate-form">
-				
-					<span class="login100-form-title">
-						Member Login
+
+					<span class="login100-form-title"> Member Login 
+					
+					
+					<c:if test="${user.email} != null }">
+							${user.username} IS NULL
+						</c:if> 
+					<c:if test="${user.email} == null }">
+							can not get
+						</c:if>
+						
+						
 					</span>
 
 					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
@@ -45,7 +58,7 @@
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate = "Password is required">
-						<input class="input100" type="password" name="pass" placeholder="Password">
+						<input class="input100" type="password" name="password" placeholder="Password">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-lock" aria-hidden="true"></i>
@@ -57,7 +70,13 @@
 							Login
 						</button>
 					</div>
+<div>
 
+<c:if test="${not empty errorMessage}">
+            <p>${errorMessage}</p>
+        </c:if>
+						
+						</div>
 					<div class="text-center p-t-12">
 						<span class="txt1">
 							Forgot
@@ -96,7 +115,7 @@
 		})
 	</script>
 <!--===============================================================================================-->
-	<script src="js/main.js"></script>
+	<script src="js/login.js"></script>
 
 </body>
 </html>

@@ -3,6 +3,7 @@ package coding.ecommerceproject.servlet;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -35,16 +36,24 @@ public class Login extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String email = request.getParameter("username");
-		String password = request.getParameter("password");
 		try {
+
+			String email = request.getParameter("email");
+			String password = request.getParameter("password");
 			User user = LoginService.getUserByEmailAndPassword(email, password);
+System.out.println(email);
+System.out.println(password);
 			if (user == null) {
-				response.sendRedirect("/login/login.jsp");
+				String errorMessage = "Incorrect username and password, please re-enter.";
+                request.setAttribute("errorMessage", errorMessage);
+                RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+                rd.forward(request, response);
 
 			} else {
+				System.out.println(
+						"gia tri la " + user.getEmail() + " " + user.getFirst_name() + "   " + user.getLast_name());
 				HttpSession session = request.getSession(false);
-				session.setAttribute("name", user.getFirst_name()+""+user.getLast_name());
+				session.setAttribute("name", user.getFirst_name() + " " + user.getLast_name());
 				session.setAttribute("userId", user.getUser_id());
 				response.sendRedirect("index.jsp");
 

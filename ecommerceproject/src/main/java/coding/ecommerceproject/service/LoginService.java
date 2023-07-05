@@ -31,7 +31,7 @@ public class LoginService {
 				 int user_id = rs.getInt("user_id");
 				 String username= rs.getString("username");			
 				 String first_name= rs.getString("first_name");
-				 String last_name= rs.getString("product_id");
+				 String last_name= rs.getString("last_name");
 				 String address= rs.getString("address");
 				 String city= rs.getString("city");
 				 String state= rs.getString("state");
@@ -40,8 +40,8 @@ public class LoginService {
 				 Timestamp created_at= rs.getTimestamp("created_at");
 				 Timestamp updated_at= rs.getTimestamp("updated_at");
 
-				user = new User (user_id,username,first_name,last_name,address,password,city,state,postcode,phone_number,email, created_at,updated_at);
-				
+				user = new User (user_id,username,email,password,first_name,last_name,address,city,state,postcode,phone_number, created_at,updated_at);
+				System.out.println(user.toString());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

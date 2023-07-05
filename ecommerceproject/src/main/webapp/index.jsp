@@ -64,7 +64,7 @@
 				</ul>
 			</div>
 			<div class="header__top__right__auth">
-				<a href="./login/login.jsp"><i class="fa fa-user"></i> Login</a>
+				<a href="login.jsp"><i class="fa fa-user"></i> Login</a>
 			</div>
 		</div>
 		<nav class="humberger__menu__nav mobile-menu">
@@ -136,7 +136,7 @@
 							</c:if>
 								<c:if test="${sessionScope.name == null }">
 							<div class="header__top__right__auth">
-								<a href="./login/login.jsp"><i class="fa fa-user"></i> Login</a>
+								<a href="login.jsp"><i class="fa fa-user"></i> Login</a>
 							</div>
 							</c:if>
 							
