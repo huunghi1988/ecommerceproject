@@ -58,4 +58,40 @@ public class LoginService {
 			}
 		}
 		return user;
-}}
+}
+	public static int checkDuplicateUser(String email) throws SQLException {
+
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		int isExisted = 0;
+		try {
+			conn = DBUtil.makeConnection();
+
+			ps = conn.prepareStatement("SELECT email FROM be4_project.Users where email  =? ");
+			
+			ps.setString(1, email);
+			rs = ps.executeQuery();
+
+			if (rs.next()) {
+				isExisted=1;
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		} finally {
+			if (rs != null) {
+				rs.close();
+			}
+			if (ps != null) {
+				ps.close();
+			}
+			if (conn != null) {
+				conn.close();
+			}
+		}
+		return isExisted;
+}	
+
+}

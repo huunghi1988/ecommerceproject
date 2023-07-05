@@ -41,13 +41,13 @@ public class Login extends HttpServlet {
 			String email = request.getParameter("email");
 			String password = request.getParameter("password");
 			User user = LoginService.getUserByEmailAndPassword(email, password);
-System.out.println(email);
-System.out.println(password);
+			System.out.println(email);
+			System.out.println(password);
 			if (user == null) {
 				String errorMessage = "Incorrect username and password, please re-enter.";
-                request.setAttribute("errorMessage", errorMessage);
-                RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
-                rd.forward(request, response);
+				request.setAttribute("errorMessage", errorMessage);
+				RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+				rd.forward(request, response);
 
 			} else {
 				System.out.println(
