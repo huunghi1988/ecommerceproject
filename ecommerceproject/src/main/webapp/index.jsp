@@ -64,7 +64,7 @@
 				</ul>
 			</div>
 			<div class="header__top__right__auth">
-				<a href="#"><i class="fa fa-user"></i> Login</a>
+				<a href="./login/login.jsp"><i class="fa fa-user"></i> Login</a>
 			</div>
 		</div>
 		<nav class="humberger__menu__nav mobile-menu">
@@ -78,8 +78,8 @@
 						<li><a href="./checkout.html">Check Out</a></li>
 						<li><a href="./blog-details.html">Blog Details</a></li>
 					</ul></li>
-				<li><a href="./blog.html">Blog</a></li>
-				<li><a href="./contact.html">Contact</a></li>
+				<!-- <li><a href="./blog.html">Blog</a></li>
+				<li><a href="./contact.html">Contact</a></li> -->
 			</ul>
 		</nav>
 		<div id="mobile-menu-wrap"></div>
@@ -127,9 +127,20 @@
 									<li><a href="#">English</a></li>
 								</ul>
 							</div>
+							
+							<c:if test="${sessionScope.name != null }">
 							<div class="header__top__right__auth">
-								<a href="#"><i class="fa fa-user"></i> Login</a>
+								<a href="#"><i class="fa fa-user"></i> ${sessionScope.name} </a>
+								<a href="Logout"><i class="fa fa-user"></i> Logout </a>
 							</div>
+							</c:if>
+								<c:if test="${sessionScope.name == null }">
+							<div class="header__top__right__auth">
+								<a href="./login/login.jsp"><i class="fa fa-user"></i> Login</a>
+							</div>
+							</c:if>
+							
+							
 						</div>
 					</div>
 				</div>
