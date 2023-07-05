@@ -60,8 +60,17 @@
                 </ul>
             </div>
             <div class="header__top__right__auth">
-                <a href="#"><i class="fa fa-user"></i> Login</a>
-            </div>
+	<c:if test="${sessionScope.name != null }">
+							<div class="header__top__right__auth">
+								<a href="#"><i class="fa fa-user"></i> ${sessionScope.name} </a>
+								<a href="Logout"><i class="fa fa-user"></i> Logout </a>
+							</div>
+							</c:if>
+								<c:if test="${sessionScope.name == null }">
+							<div class="header__top__right__auth">
+								<a href="login.jsp"><i class="fa fa-user"></i> Login</a>
+							</div>
+							</c:if>            </div>
         </div>
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
@@ -126,8 +135,17 @@
                                 </ul>
                             </div>
                             <div class="header__top__right__auth">
-                                <a href="#"><i class="fa fa-user"></i> Login</a>
-                            </div>
+	<c:if test="${sessionScope.name != null }">
+							<div class="header__top__right__auth">
+								<a href="#"><i class="fa fa-user"></i> ${sessionScope.name} </a>
+								<a href="Logout"><i class="fa fa-user"></i> Logout </a>
+							</div>
+							</c:if>
+								<c:if test="${sessionScope.name == null }">
+							<div class="header__top__right__auth">
+								<a href="login.jsp"><i class="fa fa-user"></i> Login</a>
+							</div>
+							</c:if>                            </div>
                         </div>
                     </div>
                 </div>

@@ -77,17 +77,17 @@
         </c:if>
 						
 						</div>
-					<div class="text-center p-t-12">
+				<!-- 	<div class="text-center p-t-12">
 						<span class="txt1">
 							Forgot
 						</span>
 						<a class="txt2" href="#">
 							Username / Password?
 						</a>
-					</div>
+					</div> -->
 
 					<div class="text-center p-t-136">
-						<a class="txt2" href="#">
+						<a class="txt2" href="Registration.jsp">
 							Create your Account
 							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
 						</a>
