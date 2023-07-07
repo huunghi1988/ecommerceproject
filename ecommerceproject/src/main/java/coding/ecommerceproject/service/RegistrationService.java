@@ -12,7 +12,7 @@ import coding.ecommerceproject.db.util.DBUtil;
 import coding.ecommerceproject.entity.User;
 
 public class RegistrationService {
-	public static User registerNewUser(String email, String password, String username, String first_name, String last_name) throws SQLException {
+	public static User registerNewUser(String email, String password, String username, String firstName, String lastName) throws SQLException {
 
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -21,13 +21,13 @@ public class RegistrationService {
 		try {
 			conn = DBUtil.makeConnection();
 
-			ps = conn.prepareStatement("INSERT INTO `be4_project`.`Users` (`username`, `email`, `password`, `first_name`,`last_name`) VALUES (?, ?, ?, ?,?)");
+			ps = conn.prepareStatement("INSERT INTO `sql6631093`.`Users` (`username`, `email`, `password`, `firstName`,`lastName`) VALUES (?, ?, ?, ?,?)");
 			
 			ps.setString(1, username);
 			ps.setString(2, email);
 			ps.setString(3, password);
-			ps.setString(4, first_name);
-			ps.setString(5, last_name);
+			ps.setString(4, firstName);
+			ps.setString(5, lastName);
 
 			ps.executeUpdate();
 

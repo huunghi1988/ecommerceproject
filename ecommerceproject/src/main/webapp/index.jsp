@@ -100,7 +100,7 @@
 		</div>
 		<div class="humberger__menu__contact">
 			<ul>
-				<li><i class="fa fa-envelope"></i> hello@colorlib.com</li>
+				<li><i class="fa fa-envelope"></i> </li>
 				<li>Free Shipping for all Order of $99</li>
 			</ul>
 		</div>
@@ -115,7 +115,7 @@
 					<div class="col-lg-6 col-md-6">
 						<div class="header__top__left">
 							<ul>
-								<li><i class="fa fa-envelope"></i> hello@colorlib.com</li>
+								<li><i class="fa fa-envelope"></i> </li>
 								<li>Free Shipping for all Order of $99</li>
 							</ul>
 						</div>
@@ -175,8 +175,8 @@
 									<li><a href="./checkout.html">Check Out</a></li>
 									<li><a href="./blog-details.html">Blog Details</a></li>
 								</ul></li>
-							<li><a href="./blog.html">Blog</a></li>
-							<li><a href="./contact.html">Contact</a></li>
+<!-- 							<li><a href="./blog.html">Blog</a></li> -->
+<!-- 							<li><a href="./contact.html">Contact</a></li> -->
 						</ul>
 					</nav>
 				</div>
@@ -211,7 +211,7 @@
 						<ul>
 
 							<c:forEach var="category" items="${categoryList}">
-								<li><a href="ProductList?categoryId=${category.category_id}">${category.category_name}</a></li>
+								<li><a href="ProductList?categoryId=${category.categoryId}">${category.categoryName}</a></li>
 							</c:forEach>
 
 						</ul>
@@ -263,9 +263,9 @@
 					<c:forEach var="category" items="${categoryList}">
 						<div class="col-lg-3">
 							<div class="categories__item set-bg"
-								data-setbg="${category.image_url}">
+								data-setbg="${category.imageUrl}">
 								<h5>
-									<a href="productList?categoryId=${category.category_id}">${category.category_name}</a>
+									<a href="productList?categoryId=${category.categoryId}">${category.categoryName}</a>
 								</h5>
 							</div>
 						</div>
@@ -291,7 +291,7 @@
 
 							<li class="active" data-filter="*">All</li>
 							<c:forEach var="category" items="${categoryList}">
-								<li data-filter=".category${category.category_id}">${category.category_name}</li>
+								<li data-filter=".category${category.categoryId}">${category.categoryName}</li>
 							</c:forEach>
 
 
@@ -302,10 +302,10 @@
 			<div class="row featured__filter">
 				<c:forEach var="product" items="${productListByCategoryId}">
 					<div
-						class="col-lg-3 col-md-4 col-sm-6 mix category${product.category_id}">
+						class="col-lg-3 col-md-4 col-sm-6 mix category${product.categoryId}">
 						<div class="featured__item">
 							<div class="featured__item__pic set-bg"
-								data-setbg="${product.image_url}">
+								data-setbg="${product.imageUrl}">
 								<ul class="featured__item__pic__hover">
 									<li><a href="#"><i class="fa fa-heart"></i></a></li>
 									<li><a href="#"><i class="fa fa-retweet"></i></a></li>
@@ -314,7 +314,7 @@
 							</div>
 							<div class="featured__item__text">
 								<h6>
-									<a href="#">${product.product_name}</a>
+									<a href="#">${product.productName}</a>
 								</h6>
 								<h5>$${product.price}</h5>
 							</div>
@@ -620,7 +620,7 @@
 						<ul>
 							<li>Address: 60-49 Road 11378 New York</li>
 							<li>Phone: +65 11.188.888</li>
-							<li>Email: hello@colorlib.com</li>
+							<li>Email: </li>
 						</ul>
 					</div>
 				</div>

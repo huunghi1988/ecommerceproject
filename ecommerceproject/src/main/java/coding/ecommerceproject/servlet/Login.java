@@ -44,17 +44,17 @@ public class Login extends HttpServlet {
 			System.out.println(email);
 			System.out.println(password);
 			if (user == null) {
-				String errorMessage = "Incorrect username and password, please re-enter.";
+				String errorMessage = "Incorrect email or password, please re-enter.";
 				request.setAttribute("errorMessage", errorMessage);
+				request.setAttribute("email", email);
 				RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
 				rd.forward(request, response);
 
 			} else {
-				System.out.println(
-						"gia tri la " + user.getEmail() + " " + user.getFirst_name() + "   " + user.getLast_name());
+				
 				HttpSession session = request.getSession(false);
-				session.setAttribute("name", user.getFirst_name() + " " + user.getLast_name());
-				session.setAttribute("userId", user.getUser_id());
+				session.setAttribute("name", user.getFirstName() + " " + user.getLastName());
+				session.setAttribute("userId", user.getUserId());
 				response.sendRedirect("index.jsp");
 
 			}

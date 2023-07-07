@@ -75,14 +75,14 @@
 					</div>
 
 					<div class="wrap-input100 validate-input">
-						<input class="input100" type="" name="first_name"
+						<input class="input100" type="" name="firstName"
 							placeholder="First name"> <span class="focus-input100"></span>
 						<span class="symbol-input100"> <i class="fa fa-lock"
 							aria-hidden="true"></i>
 						</span>
 					</div>
 					<div class="wrap-input100 validate-input">
-						<input class="input100" type="" name="last_name"
+						<input class="input100" type="" name="lastName"
 							placeholder="Last name"> <span class="focus-input100"></span>
 						<span class="symbol-input100"> <i class="fa fa-lock"
 							aria-hidden="true"></i>

@@ -3,43 +3,42 @@ package coding.ecommerceproject.entity;
 import java.sql.Timestamp;
 
 public class User {
-private int user_id;
+private int userId;
 private String username;
 private String password;
 private String email;
-private String first_name;
-private String last_name;
+private String firstName;
+private String lastName;
 private String address;
 private String city;
 private String state;
 private String postcode;
-private String phone_number;
-private Timestamp created_at;
-private Timestamp updated_at;
-
-public User(int user_id, String username, String password, String email, String first_name, String last_name,
-		String address, String city, String state, String postcode, String phone_number, Timestamp created_at,
-		Timestamp updated_at) {
+private String phoneNumber;
+private Timestamp createdAt;
+private Timestamp updatedAt;
+public User(int userId, String username, String password, String email, String firstName, String lastName,
+		String address, String city, String state, String postcode, String phoneNumber, Timestamp createdAt,
+		Timestamp updatedAt) {
 	super();
-	this.user_id = user_id;
+	this.userId = userId;
 	this.username = username;
 	this.password = password;
 	this.email = email;
-	this.first_name = first_name;
-	this.last_name = last_name;
+	this.firstName = firstName;
+	this.lastName = lastName;
 	this.address = address;
 	this.city = city;
 	this.state = state;
 	this.postcode = postcode;
-	this.phone_number = phone_number;
-	this.created_at = created_at;
-	this.updated_at = updated_at;
+	this.phoneNumber = phoneNumber;
+	this.createdAt = createdAt;
+	this.updatedAt = updatedAt;
 }
-public int getUser_id() {
-	return user_id;
+public int getUserId() {
+	return userId;
 }
-public void setUser_id(int user_id) {
-	this.user_id = user_id;
+public void setUserId(int userId) {
+	this.userId = userId;
 }
 public String getUsername() {
 	return username;
@@ -59,17 +58,17 @@ public String getEmail() {
 public void setEmail(String email) {
 	this.email = email;
 }
-public String getFirst_name() {
-	return first_name;
+public String getFirstName() {
+	return firstName;
 }
-public void setFirst_name(String first_name) {
-	this.first_name = first_name;
+public void setFirstName(String firstName) {
+	this.firstName = firstName;
 }
-public String getLast_name() {
-	return last_name;
+public String getLastName() {
+	return lastName;
 }
-public void setLast_name(String last_name) {
-	this.last_name = last_name;
+public void setLastName(String lastName) {
+	this.lastName = lastName;
 }
 public String getAddress() {
 	return address;
@@ -95,26 +94,24 @@ public String getPostcode() {
 public void setPostcode(String postcode) {
 	this.postcode = postcode;
 }
-public String getPhone_number() {
-	return phone_number;
+public String getPhoneNumber() {
+	return phoneNumber;
 }
-public void setPhone_number(String phone_number) {
-	this.phone_number = phone_number;
+public void setPhoneNumber(String phoneNumber) {
+	this.phoneNumber = phoneNumber;
 }
-public Timestamp getCreated_at() {
-	return created_at;
+public Timestamp getCreatedAt() {
+	return createdAt;
 }
-public void setCreated_at(Timestamp created_at) {
-	this.created_at = created_at;
+public void setCreatedAt(Timestamp createdAt) {
+	this.createdAt = createdAt;
 }
-public Timestamp getUpdated_at() {
-	return updated_at;
+public Timestamp getUpdatedAt() {
+	return updatedAt;
 }
-public void setUpdated_at(Timestamp updated_at) {
-	this.updated_at = updated_at;
+public void setUpdatedAt(Timestamp updatedAt) {
+	this.updatedAt = updatedAt;
 }
-
-
 
 
 }

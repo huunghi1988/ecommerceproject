@@ -21,26 +21,26 @@ public class LoginService {
 		try {
 			conn = DBUtil.makeConnection();
 
-			ps = conn.prepareStatement("SELECT * FROM be4_project.Users where email  =? and password = ?");
+			ps = conn.prepareStatement("SELECT * FROM `be4_project`.`Users` where `email`  =? and `password` = ?");
 			
 			ps.setString(1, email);
 			ps.setString(2, password);
 			rs = ps.executeQuery();
 
 			if (rs.next()) {
-				 int user_id = rs.getInt("user_id");
-				 String username= rs.getString("username");			
-				 String first_name= rs.getString("first_name");
-				 String last_name= rs.getString("last_name");
+				 int userId = rs.getInt("userId");
+				 String userName= rs.getString("username");			
+				 String firstName= rs.getString("firstName");
+				 String lastName= rs.getString("lastName");
 				 String address= rs.getString("address");
 				 String city= rs.getString("city");
 				 String state= rs.getString("state");
 				 String postcode= rs.getString("postcode");
-				 String phone_number= rs.getString("phone_number");
-				 Timestamp created_at= rs.getTimestamp("created_at");
-				 Timestamp updated_at= rs.getTimestamp("updated_at");
+				 String phoneNumber= rs.getString("phoneNumber");
+				 Timestamp createdAt= rs.getTimestamp("createdAt");
+				 Timestamp updatedAt= rs.getTimestamp("updatedAt");
 
-				user = new User (user_id,username,email,password,first_name,last_name,address,city,state,postcode,phone_number, created_at,updated_at);
+				user = new User (userId,userName,email,password,firstName,lastName,address,city,state,postcode,phoneNumber, createdAt,updatedAt);
 				System.out.println(user.toString());
 			}
 		} catch (Exception e) {
@@ -68,7 +68,7 @@ public class LoginService {
 		try {
 			conn = DBUtil.makeConnection();
 
-			ps = conn.prepareStatement("SELECT email FROM be4_project.Users where email  =? ");
+			ps = conn.prepareStatement("SELECT `email` FROM `be4_project`.`Users` where email  =? ");
 			
 			ps.setString(1, email);
 			rs = ps.executeQuery();

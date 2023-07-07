@@ -26,11 +26,11 @@ public class CategoryService {
 			rs = ps.executeQuery();
 
 			while (rs.next()) {
-				int category_id = rs.getInt("category_id");
-				String category_name = rs.getString("category_name");
-				String image_url = rs.getString("image_url");
+				int categoryId = rs.getInt("categoryId");
+				String categoryName = rs.getString("categoryName");
+				String imageUrl = rs.getString("imageUrl");
 
-				category = new Category(category_id, category_name,image_url);
+				category = new Category(categoryId, categoryName,imageUrl);
 				
 				list.add(category);
 			}

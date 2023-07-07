@@ -41,18 +41,17 @@
 				<form action="Login" method="get"
 					class="login100-form validate-form">
 
-					<span class="login100-form-title"> Member Login 
-					</span>
+					<span class="login100-form-title"> Member Login </span>
 					<div class="text-center p-t-12">
-						<span class="txt1"> </span> <a class="txt2" style="color:red;" href="#"> <c:if
-								test="${not empty SuccessMessage}">
+						<span class="txt1"> </span> <a class="txt2" style="color: red;"
+							href="#"> <c:if test="${not empty SuccessMessage}">
 							${SuccessMessage}
 						</c:if></a>
 					</div>
 					<div class="wrap-input100 validate-input"
 						data-validate="Valid email is required: ex@abc.xyz">
 						<input class="input100" type="text" name="email"
-							placeholder="Email" value="${user.username}"> <span
+							placeholder="Email" value="${email}"> <span
 							class="focus-input100"></span> <span class="symbol-input100">
 							<i class="fa fa-envelope" aria-hidden="true"></i>
 						</span>
@@ -73,7 +72,7 @@
 					<div>
 
 						<c:if test="${not empty errorMessage}">
-							<p>${errorMessage}</p>
+							<p style="color: red;">${errorMessage}</p>
 						</c:if>
 
 					</div>

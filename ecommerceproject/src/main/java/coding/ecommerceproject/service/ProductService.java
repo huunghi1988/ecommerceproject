@@ -26,28 +26,28 @@ public class ProductService {
 		try {
 			conn = DBUtil.makeConnection();
 
-			ps = conn.prepareStatement("SELECT * FROM be4_project.Products join Product_Images on Products.product_id = Product_Images.product_id join Product_Category on Products.product_id = Product_Category.product_id where Product_Images.is_primary=1 and category_id = ?");
+			ps = conn.prepareStatement("SELECT * FROM sql6631093.Products join ProductImages on Products.productId = ProductImages.productId join ProductCategory on Products.productId = ProductCategory.productId where ProductImages.isPrimary=1 and categoryId = ?");
 			//SELECT * FROM be4_project.Products join Product_Images on Products.product_id = Product_Images.product_id where Product_Images.is_primary=1
 			ps.setInt(1, categoryId);
 			
 			rs = ps.executeQuery();
 
 			while (rs.next()) {
-				int product_id = rs.getInt("product_id");
-				String product_name = rs.getString("product_name");
+				int productId = rs.getInt("productId");
+				String productName = rs.getString("productName");
 				String description= rs.getString("description");
 				String dimensions= rs.getString("dimensions");
-				int price=rs.getInt("price");
-				int discount_price=rs.getInt("discount_price");
-				int stock_quantity=rs.getInt("stock_quantity");
-				String weight= rs.getString("product_name");
-				Timestamp created_at=rs.getTimestamp("created_at");
-				Timestamp updated_at=rs.getTimestamp("updated_at");
-				String image_url= rs.getString("image_url");
-				int category_id = rs.getInt("category_id");
+				double price=rs.getDouble("price");
+				double discountPrice=rs.getDouble("discountPrice");
+				int stockQuantity=rs.getInt("stockQuantity");
+				String weight= rs.getString("weight");
+				Timestamp createdAt=rs.getTimestamp("createdAt");
+				Timestamp updatedAt=rs.getTimestamp("updatedAt");
+				String imageUrl= rs.getString("imageUrl");
+				int categoryId1 = rs.getInt("categoryId");
 
-				product = new Product( product_id,  product_name,  description,  dimensions,  price,
-						 discount_price,  stock_quantity,  weight,  created_at,  updated_at,image_url,category_id);
+				product = new Product( productId,  productName,  description,  dimensions,  price,
+						 discountPrice,  stockQuantity,  weight,  createdAt,  updatedAt,imageUrl,categoryId1);
 				list.add(product);
 			}
 		} catch (Exception e) {
@@ -78,29 +78,29 @@ public class ProductService {
 		try {
 			conn = DBUtil.makeConnection();
 
-			//ps = conn.prepareStatement("Select * from `Products`");
-			ps = conn.prepareStatement("SELECT * FROM be4_project.Products join Product_Images on Products.product_id = Product_Images.product_id join Product_Category on Products.product_id = Product_Category.product_id where where Product_Images.is_primary=1 and product_id = ?");
+			//ps = conn.prepareStatement("Select * from Products");
+			ps = conn.prepareStatement("SELECT * FROM sql6631093.Products join ProductImages on Products.productId = ProductImages.productId join ProductCategory on Products.productId = ProductCategory.productId where ProductImages.isPrimary=1 and productId = ?");
 
 			ps.setInt(1, productId);
 			
 			rs = ps.executeQuery();
 
 			while (rs.next()) {
-				int product_id = rs.getInt("product_id");
-				String product_name = rs.getString("product_name");
+				int productId1 = rs.getInt("productId");
+				String productName = rs.getString("productName");
 				String description= rs.getString("description");
 				String dimensions= rs.getString("dimensions");
-				int price=rs.getInt("price");
-				int discount_price=rs.getInt("discount_price");
-				int stock_quantity=rs.getInt("stock_quantity");
-				String weight= rs.getString("product_name");
-				Timestamp created_at=rs.getTimestamp("created_at");
-				Timestamp updated_at=rs.getTimestamp("updated_at");
-				String image_url= rs.getString("image_url");
-				int category_id = rs.getInt("category_id");
+				double price=rs.getDouble("price");
+				double discountPrice=rs.getDouble("discountPrice");
+				int stockQuantity=rs.getInt("stockQuantity");
+				String weight= rs.getString("weight");
+				Timestamp createdAt=rs.getTimestamp("createdAt");
+				Timestamp updatedAt=rs.getTimestamp("updatedAt");
+				String imageUrl= rs.getString("imageUrl");
+				int categoryId1 = rs.getInt("categoryId");
 
-				product = new Product( product_id,  product_name,  description,  dimensions,  price,
-						 discount_price,  stock_quantity,  weight,  created_at,  updated_at,image_url,category_id);
+				product = new Product( productId1,  productName,  description,  dimensions,  price,
+						 discountPrice,  stockQuantity,  weight,  createdAt,  updatedAt,imageUrl,categoryId1);
 				list.add(product);
 			}
 		} catch (Exception e) {
@@ -131,27 +131,27 @@ public class ProductService {
 		try {
 			conn = DBUtil.makeConnection();
 
-			ps = conn.prepareStatement("SELECT * FROM be4_project.Products join Product_Images on Products.product_id = Product_Images.product_id join Product_Category on Products.product_id = Product_Category.product_id where Product_Images.is_primary=1");
+			ps = conn.prepareStatement("SELECT * FROM sql6631093.Products join ProductImages on Products.productId = ProductImages.productId join ProductCategory on Products.productId = ProductCategory.productId where ProductImages.isPrimary=1");
 			
 			
 			rs = ps.executeQuery();
 
 			while (rs.next()) {
-				int product_id = rs.getInt("product_id");
-				String product_name = rs.getString("product_name");
+				int productId = rs.getInt("productId");
+				String productName = rs.getString("productName");
 				String description= rs.getString("description");
 				String dimensions= rs.getString("dimensions");
-				int price=rs.getInt("price");
-				int discount_price=rs.getInt("discount_price");
-				int stock_quantity=rs.getInt("stock_quantity");
-				String weight= rs.getString("product_name");
-				Timestamp created_at=rs.getTimestamp("created_at");
-				Timestamp updated_at=rs.getTimestamp("updated_at");
-				String image_url= rs.getString("image_url");
-				int category_id = rs.getInt("category_id");
-
-				product = new Product( product_id,  product_name,  description,  dimensions,  price,
-						 discount_price,  stock_quantity,  weight,  created_at,  updated_at,image_url,category_id);
+				double price=rs.getDouble("price");
+				double discountPrice=rs.getDouble("discountPrice");
+				int stockQuantity=rs.getInt("stockQuantity");
+				String weight= rs.getString("weight");
+				Timestamp createdAt=rs.getTimestamp("createdAt");
+				Timestamp updatedAt=rs.getTimestamp("updatedAt");
+				String imageUrl= rs.getString("imageUrl");
+				int categoryId1 = rs.getInt("categoryId");
+System.out.println(String.format("%.2f", price));
+				product = new Product( productId,  productName,  description,  dimensions,  price,
+						 discountPrice,  stockQuantity,  weight,  createdAt,  updatedAt,imageUrl,categoryId1);
 				list.add(product);
 			}
 		} catch (Exception e) {
@@ -182,7 +182,7 @@ public class ProductService {
 			try {
 				conn = DBUtil.makeConnection();
 
-				ps = conn.prepareStatement("SELECT * FROM be4_project.Products join Product_Images on Products.product_id = Product_Images.product_id join Product_Category on Products.product_id = Product_Category.product_id  where where Product_Images.is_primary=1 and Product_name like ?");
+				ps = conn.prepareStatement("SELECT * FROM sql6631093.Products join ProductImages on Products.productId = ProductImages.productId join ProductCategory on Products.productId = ProductCategory.productId  where ProductImages.isPrimary=1 and productName like ?");
 
 				ps.setString(1,"%"+ keyword+"%");
 				
@@ -190,22 +190,21 @@ public class ProductService {
 				rs = ps.executeQuery();
 
 				while (rs.next()) {
-					int product_id = rs.getInt("product_id");
-					String product_name = rs.getString("product_name");
+					int productId = rs.getInt("productId");
+					String productName = rs.getString("productName");
 					String description= rs.getString("description");
 					String dimensions= rs.getString("dimensions");
-					int price=rs.getInt("price");
-					int discount_price=rs.getInt("discount_price");
-					int stock_quantity=rs.getInt("stock_quantity");
-					String weight= rs.getString("product_name");
-					Timestamp created_at=rs.getTimestamp("created_at");
-					Timestamp updated_at=rs.getTimestamp("updated_at");
-					String image_url= rs.getString("image_url");
+					double price=rs.getDouble("price");
+					double discountPrice=rs.getDouble("discountPrice");
+					int stockQuantity=rs.getInt("stockQuantity");
+					String weight= rs.getString("weight");
+					Timestamp createdAt=rs.getTimestamp("createdAt");
+					Timestamp updatedAt=rs.getTimestamp("updatedAt");
+					String imageUrl= rs.getString("imageUrl");
+					int categoryId1 = rs.getInt("categoryId");
 
-					int category_id = rs.getInt("category_id");
-
-					product = new Product( product_id,  product_name,  description,  dimensions,  price,
-							 discount_price,  stock_quantity,  weight,  created_at,  updated_at,image_url,category_id);
+					product = new Product( productId,  productName,  description,  dimensions,  price,
+							 discountPrice,  stockQuantity,  weight,  createdAt,  updatedAt,imageUrl,categoryId1);
 					list.add(product);
 				}
 			} catch (Exception e) {

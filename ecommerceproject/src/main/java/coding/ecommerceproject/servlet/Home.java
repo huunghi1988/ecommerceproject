@@ -59,14 +59,12 @@ public class Home extends HttpServlet {
 			String keyword = request.getParameter("keyword");
 			
 			List<Product> productListBySearch = new ArrayList<Product>();
-			//System.out.println("searchBookInput: " + request.getParameter("keyword"));
 			
-			//System.out.println("searchKey: " + keyword);
 			
 			if (keyword != null && !keyword.isEmpty()) {
 	            productListBySearch = productService.getProductsBySearch(keyword);
 	            request.setAttribute("keyword", keyword);
-	            request.setAttribute("hideBookList", true);
+	           
 	        }
 
 			

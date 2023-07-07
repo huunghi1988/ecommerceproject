@@ -36,8 +36,8 @@ public class Registration extends HttpServlet {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		String username = request.getParameter("username");
-		String first_name = request.getParameter("first_name");
-		String last_name = request.getParameter("last_name");
+		String firstName = request.getParameter("firstName");
+		String lastName = request.getParameter("lastName");
 		try {
 			int isExisted=LoginService.checkDuplicateUser(email);
 
@@ -50,7 +50,7 @@ public class Registration extends HttpServlet {
 			}
 			else {		
 			RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
-			RegistrationService.registerNewUser(email, password, username, first_name, last_name);
+			RegistrationService.registerNewUser(email, password, username, firstName, lastName);
 			request.setAttribute("SuccessMessage", "Account is created successfully. Please login.");
 			rd.forward(request, response);
 
