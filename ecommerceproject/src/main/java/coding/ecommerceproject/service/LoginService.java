@@ -21,7 +21,7 @@ public class LoginService {
 		try {
 			conn = DBUtil.makeConnection();
 
-			ps = conn.prepareStatement("SELECT * FROM `be4_project`.`Users` where `email`  =? and `password` = ?");
+			ps = conn.prepareStatement("SELECT * FROM sql6631093.Users where email  =? and password = ?");
 			
 			ps.setString(1, email);
 			ps.setString(2, password);
@@ -68,7 +68,7 @@ public class LoginService {
 		try {
 			conn = DBUtil.makeConnection();
 
-			ps = conn.prepareStatement("SELECT `email` FROM `be4_project`.`Users` where email  =? ");
+			ps = conn.prepareStatement("SELECT email FROM be4_project.Users where email  =? ");
 			
 			ps.setString(1, email);
 			rs = ps.executeQuery();
