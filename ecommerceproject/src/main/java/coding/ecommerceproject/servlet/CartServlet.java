@@ -46,7 +46,6 @@ public class CartServlet extends HttpServlet {
 				productId = Integer.parseInt(request.getParameter("productId"));
 				
 				
-				//Book book = bookService.getBookDetails(bookId);
 				Product product = productService.getProductsByProductId(productId);
 				HttpSession session = request.getSession();
 				Map<Integer, Product> cart = (Map<Integer, Product>) session.getAttribute("cart");
@@ -56,8 +55,10 @@ public class CartServlet extends HttpServlet {
 				cart.put(product.getProductId(), product);
 				session.setAttribute("cart", cart);
 				request.setAttribute("product", product);;
-				System.out.println(request.getContextPath()+"/"+request.get());
-				response.sendRedirect(request.getContextPath());
+				request.setAttribute("cartPrice",product.getPrice());
+				
+			//redirect to current page
+				response.sendRedirect(request.getHeader("referer"));
 			} else if (command != null && command.equals("VIEW_CART")) {
 				response.sendRedirect("shoping-cart.jsp");
 			}
