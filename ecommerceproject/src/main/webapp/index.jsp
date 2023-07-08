@@ -47,7 +47,7 @@
 		<div class="humberger__menu__cart">
 			<ul>
 				<li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-				<li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+				<li><a href="/shoping-cart.jsp"><i class="fa fa-shopping-bag"></i> <span>Cart(${empty sessionScope.cart? 0 : sessionScope.cart.size()})</span></a></li>
 			</ul>
 			<div class="header__cart__price">
 				item: <span>$150.00</span>
@@ -67,7 +67,7 @@
 					<c:if test="${sessionScope.name != null }">
 							<div class="header__top__right__auth">
 								<a href="#"><i class="fa fa-user"></i> ${sessionScope.name} </a>
-								<a href="Logout"><i class="fa fa-user"></i> Logout </a>
+								<a href="logout"><i class="fa fa-user"></i> Logout </a>
 							</div>
 							</c:if>
 								<c:if test="${sessionScope.name == null }">
@@ -79,7 +79,7 @@
 		</div>
 		<nav class="humberger__menu__nav mobile-menu">
 			<ul>
-				<li class="active"><a href="./home">Home</a></li>
+				<li class="active"><a href="./Home">Home</a></li>
 				<li><a href="./shop-grid.html">Shop</a></li>
 				<li><a href="#">Pages</a>
 					<ul class="header__menu__dropdown">
@@ -141,7 +141,7 @@
 							<c:if test="${sessionScope.name != null }">
 							<div class="header__top__right__auth">
 								<a href="#"><i class="fa fa-user"></i> ${sessionScope.name} </a>
-								<a href="Logout"><i class="fa fa-user"></i> Logout </a>
+								<a href="logout"><i class="fa fa-user"></i> Logout </a>
 							</div>
 							</c:if>
 								<c:if test="${sessionScope.name == null }">
@@ -160,13 +160,13 @@
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="header__logo">
-						<a href="./home"><img src="img/logo.png" alt=""></a>
+						<a href="./Home"><img src="img/logo.png" alt=""></a>
 					</div>
 				</div>
 				<div class="col-lg-6">
 					<nav class="header__menu">
 						<ul>
-							<li class="active"><a href="./home">Home</a></li>
+							<li class="active"><a href="./Home">Home</a></li>
 							<li><a href="./shop-grid.html">Shop</a></li>
 							<li><a href="#">Pages</a>
 								<ul class="header__menu__dropdown">
@@ -184,7 +184,7 @@
 					<div class="header__cart">
 						<ul>
 							<li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-							<li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+							<li><a href="#"><i class="fa fa-shopping-bag"></i> <span>${empty sessionScope.cart? 0 : sessionScope.cart.size()}</span></a></li>
 						</ul>
 						<div class="header__cart__price">
 							item: <span>$150.00</span>
@@ -220,7 +220,7 @@
 				<div class="col-lg-9">
 					<div class="hero__search">
 						<div class="hero__search__form">
-							<form action="home?searchBookInput=${book.name}">
+							<form action="Home?searchBookInput=${book.name}">
 								<div class="hero__search__categories">
 									All Categories <span class="arrow_carrot-down"> </span>
 
@@ -308,8 +308,10 @@
 								data-setbg="${product.imageUrl}">
 								<ul class="featured__item__pic__hover">
 									<li><a href="#"><i class="fa fa-heart"></i></a></li>
+									
 									<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-									<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+									<li><button type="submit" 
+							class="fa fa-shopping-cart" onclick="window.location.href='CartServlet?command=ADD_TO_CART&productId=${product.productId}'"></button></li>
 								</ul>
 							</div>
 							<div class="featured__item__text">
@@ -615,7 +617,7 @@
 				<div class="col-lg-3 col-md-6 col-sm-6">
 					<div class="footer__about">
 						<div class="footer__about__logo">
-							<a href="./home"><img src="img/logo.png" alt=""></a>
+							<a href="./Home"><img src="img/logo.png" alt=""></a>
 						</div>
 						<ul>
 							<li>Address: 60-49 Road 11378 New York</li>

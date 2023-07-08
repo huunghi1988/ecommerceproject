@@ -52,12 +52,6 @@
         $(thisAlert).removeClass('alert-validate');
     }
     
-    function submitRegister(){
-		var password = document.getElementById('password').value;
-		var encryptedPassword = md5(password);
-		document.getElementById('password').value = encryptedPassword;
-		
-		document.getElementById('login100-form-btn').submit();
-	}
+    
 
 })(jQuery);

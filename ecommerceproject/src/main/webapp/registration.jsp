@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Login V1</title>
+<title>Registration</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->
@@ -52,8 +52,8 @@
 						</span>
 					</div>
 					<div class="text-center p-t-12">
-						<span class="txt1"> </span> <a class="txt2" style="color:red;" href="login.jsp"> <c:if
-								test="${not empty errorMessage}">
+						<span class="txt1"> </span> <a class="txt2" style="color: red;"
+							href="login.jsp"> <c:if test="${not empty errorMessage}">
 							${errorMessage}
 						</c:if></a>
 					</div>
@@ -67,7 +67,7 @@
 					</div>
 
 					<div class="wrap-input100 validate-input">
-						<input class="input100" type="username" name="username"
+						<input class="input100" type="" name="username"
 							placeholder="Username"> <span class="focus-input100"></span>
 						<span class="symbol-input100"> <i class="fa fa-lock"
 							aria-hidden="true"></i>
@@ -90,7 +90,8 @@
 					</div>
 
 					<div class="container-login100-form-btn">
-						<button type="submit" onclick="submitRegister()" class="login100-form-btn">Submit</button>
+						<button type="submit" 
+							class="login100-form-btn" onclick="submitRegister()">Submit</button>
 					</div>
 					<div></div>
 
@@ -124,6 +125,15 @@
 	</script>
 	<!--===============================================================================================-->
 	<script src="js/login.js"></script>
+	<script src="js/md5.min.js"></script>
+	<script>
+		function submitRegister() {
+			var password = document.getElementById('password').value;
+			var encryptedPassword = md5(password);
+			document.getElementById('password').value = encryptedPassword;
+			document.getElementById('registrationForm').submit();
+		}
+	</script>
 
 </body>
 </html>

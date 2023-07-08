@@ -55,7 +55,7 @@ public class Login extends HttpServlet {
 				HttpSession session = request.getSession(false);
 				session.setAttribute("name", user.getFirstName() + " " + user.getLastName());
 				session.setAttribute("userId", user.getUserId());
-				response.sendRedirect("index.jsp");
+				response.sendRedirect("Home");
 
 			}
 		} catch (SQLException e) {

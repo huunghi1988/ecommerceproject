@@ -66,7 +66,7 @@ public class ProductService {
 		}
 		return list;
 	}
-		public List<Product> getProductsByProductId(int productId) throws SQLException {
+		public Product getProductsByProductId(int productId) throws SQLException {
 
 		//public List<Product> getProductsByName() throws SQLException {
 
@@ -79,7 +79,7 @@ public class ProductService {
 			conn = DBUtil.makeConnection();
 
 			//ps = conn.prepareStatement("Select * from Products");
-			ps = conn.prepareStatement("SELECT * FROM sql6631093.Products join ProductImages on Products.productId = ProductImages.productId join ProductCategory on Products.productId = ProductCategory.productId where ProductImages.isPrimary=1 and productId = ?");
+			ps = conn.prepareStatement("SELECT * FROM sql6631093.Products join ProductImages on Products.productId = ProductImages.productId join ProductCategory on Products.productId = ProductCategory.productId where ProductImages.isPrimary=1 and ProductCategory.productId = ?");
 
 			ps.setInt(1, productId);
 			
@@ -117,7 +117,7 @@ public class ProductService {
 				conn.close();
 			}
 		}
-		return list;
+		return product;
 	}
 		public List<Product> getAllProducts() throws SQLException {
 
@@ -182,7 +182,7 @@ System.out.println(String.format("%.2f", price));
 			try {
 				conn = DBUtil.makeConnection();
 
-				ps = conn.prepareStatement("SELECT * FROM sql6631093.Products join ProductImages on Products.productId = ProductImages.productId join ProductCategory on Products.productId = ProductCategory.productId  where ProductImages.isPrimary=1 and productName like ?");
+				ps = conn.prepareStatement("SELECT * FROM sql6631093.Products join ProductImages on Products.productId = ProductImages.productId join ProductCategory on Products.productId = ProductCategory.productId  where ProductImages.isPrimary=1 and Products.productName like ?");
 
 				ps.setString(1,"%"+ keyword+"%");
 				

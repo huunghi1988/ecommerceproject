@@ -79,7 +79,7 @@
 		</div>
 		<nav class="humberger__menu__nav mobile-menu">
 			<ul>
-				<li class="active"><a href="./home">Home</a></li>
+				<li class="active"><a href="./Home">Home</a></li>
 				<li><a href="./shop-grid.html">Shop</a></li>
 				<li><a href="#">Pages</a>
 					<ul class="header__menu__dropdown">
@@ -160,13 +160,13 @@
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="header__logo">
-						<a href="./home"><img src="img/logo.png" alt=""></a>
+						<a href="./Home"><img src="img/logo.png" alt=""></a>
 					</div>
 				</div>
 				<div class="col-lg-6">
 					<nav class="header__menu">
 						<ul>
-							<li><a href="./home">Home</a></li>
+							<li><a href="./Home">Home</a></li>
 							<li class="active"><a href="./shop-grid.html">Shop</a></li>
 							<li><a href="#">Pages</a>
 								<ul class="header__menu__dropdown">
@@ -253,7 +253,7 @@
 					<div class="breadcrumb__text">
 						<h2>Organi Shop</h2>
 						<div class="breadcrumb__option">
-							<a href="./home">Home</a> <span>Shop</span>
+							<a href="./Home">Home</a> <span>Shop</span>
 						</div>
 					</div>
 				</div>
@@ -613,7 +613,7 @@
 				<div class="col-lg-3 col-md-6 col-sm-6">
 					<div class="footer__about">
 						<div class="footer__about__logo">
-							<a href="./home"><img src="img/logo.png" alt=""></a>
+							<a href="./Home"><img src="img/logo.png" alt=""></a>
 						</div>
 						<ul>
 							<li>Address: 60-49 Road 11378 New York</li>
