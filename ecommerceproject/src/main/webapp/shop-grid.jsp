@@ -47,7 +47,8 @@
 		<div class="humberger__menu__cart">
 			<ul>
 				<li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-				<li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+				<li><a href="/shoping-cart.jsp"><i
+						class="fa fa-shopping-bag"></i> <span>Cart(${empty sessionScope.cart? 0 : sessionScope.cart.size()})</span></a></li>
 			</ul>
 			<div class="header__cart__price">
 				item: <span>$150.00</span>
@@ -67,7 +68,7 @@
 				<c:if test="${sessionScope.name != null }">
 					<div class="header__top__right__auth">
 						<a href="#"><i class="fa fa-user"></i> ${sessionScope.name} </a> <a
-							href="Logout"><i class="fa fa-user"></i> Logout </a>
+							href="logout"><i class="fa fa-user"></i> Logout </a>
 					</div>
 				</c:if>
 				<c:if test="${sessionScope.name == null }">
@@ -80,7 +81,7 @@
 		<nav class="humberger__menu__nav mobile-menu">
 			<ul>
 				<li class="active"><a href="./Home">Home</a></li>
-				<li><a href="./shop-grid.html">Shop</a></li>
+				<li><a href="./shop-grid.jsp">Shop</a></li>
 				<li><a href="#">Pages</a>
 					<ul class="header__menu__dropdown">
 						<li><a href="./shop-details.html">Shop Details</a></li>
@@ -88,8 +89,8 @@
 						<li><a href="./checkout.html">Check Out</a></li>
 						<li><a href="./blog-details.html">Blog Details</a></li>
 					</ul></li>
-				<li><a href="./blog.html">Blog</a></li>
-				<li><a href="./contact.html">Contact</a></li>
+				<!-- <li><a href="./blog.html">Blog</a></li>
+				<li><a href="./contact.html">Contact</a></li> -->
 			</ul>
 		</nav>
 		<div id="mobile-menu-wrap"></div>
@@ -100,7 +101,7 @@
 		</div>
 		<div class="humberger__menu__contact">
 			<ul>
-				<li><i class="fa fa-envelope"></i> hello@colorlib.com</li>
+				<li><i class="fa fa-envelope"></i></li>
 				<li>Free Shipping for all Order of $99</li>
 			</ul>
 		</div>
@@ -112,15 +113,15 @@
 		<div class="header__top">
 			<div class="container">
 				<div class="row">
-					<div class="col-lg-6">
+					<div class="col-lg-6 col-md-6">
 						<div class="header__top__left">
 							<ul>
-								<li><i class="fa fa-envelope"></i> hello@colorlib.com</li>
+								<li><i class="fa fa-envelope"></i></li>
 								<li>Free Shipping for all Order of $99</li>
 							</ul>
 						</div>
 					</div>
-					<div class="col-lg-6">
+					<div class="col-lg-6 col-md-6">
 						<div class="header__top__right">
 							<div class="header__top__right__social">
 								<a href="#"><i class="fa fa-facebook"></i></a> <a href="#"><i
@@ -137,20 +138,20 @@
 									<li><a href="#">English</a></li>
 								</ul>
 							</div>
-							<div class="header__top__right__auth">
-								<c:if test="${sessionScope.name != null }">
-									<div class="header__top__right__auth">
-										<a href="#"><i class="fa fa-user"></i>
-											${sessionScope.name} </a> <a href="Logout"><i
-											class="fa fa-user"></i> Logout </a>
-									</div>
-								</c:if>
-								<c:if test="${sessionScope.name == null }">
-									<div class="header__top__right__auth">
-										<a href="login.jsp"><i class="fa fa-user"></i> Login</a>
-									</div>
-								</c:if>
-							</div>
+
+							<c:if test="${sessionScope.name != null }">
+								<div class="header__top__right__auth">
+									<a href="#"><i class="fa fa-user"></i> ${sessionScope.name}
+									</a> <a href="logout"><i class="fa fa-user"></i> Logout </a>
+								</div>
+							</c:if>
+							<c:if test="${sessionScope.name == null }">
+								<div class="header__top__right__auth">
+									<a href="login.jsp"><i class="fa fa-user"></i> Login</a>
+								</div>
+							</c:if>
+
+
 						</div>
 					</div>
 				</div>
@@ -166,8 +167,8 @@
 				<div class="col-lg-6">
 					<nav class="header__menu">
 						<ul>
-							<li><a href="./Home">Home</a></li>
-							<li class="active"><a href="./shop-grid.html">Shop</a></li>
+							<li class="active"><a href="./Home">Home</a></li>
+							<li><a href="./ProductList">Shop</a></li>
 							<li><a href="#">Pages</a>
 								<ul class="header__menu__dropdown">
 									<li><a href="./shop-details.html">Shop Details</a></li>
@@ -175,8 +176,8 @@
 									<li><a href="./checkout.html">Check Out</a></li>
 									<li><a href="./blog-details.html">Blog Details</a></li>
 								</ul></li>
-							<li><a href="./blog.html">Blog</a></li>
-							<li><a href="./contact.html">Contact</a></li>
+							<!-- 							<li><a href="./blog.html">Blog</a></li> -->
+							<!-- 							<li><a href="./contact.html">Contact</a></li> -->
 						</ul>
 					</nav>
 				</div>
@@ -184,7 +185,7 @@
 					<div class="header__cart">
 						<ul>
 							<li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-							<li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+							<li><a href="#"><i class="fa fa-shopping-bag"></i> <span>${empty sessionScope.cart? 0 : sessionScope.cart.size()}</span></a></li>
 						</ul>
 						<div class="header__cart__price">
 							item: <span>$150.00</span>
@@ -198,6 +199,7 @@
 		</div>
 	</header>
 	<!-- Header Section End -->
+
 
 	<!-- Hero Section Begin -->
 	<section class="hero hero-normal">
@@ -253,7 +255,7 @@
 					<div class="breadcrumb__text">
 						<h2>Organi Shop</h2>
 						<div class="breadcrumb__option">
-							<a href="./Home">Home</a> <span>Shop</span>
+							<a href="./home">Home</a> <span>Shop</span>
 						</div>
 					</div>
 				</div>
@@ -466,7 +468,8 @@
 											<ul class="product__item__pic__hover">
 												<li><a href="#"><i class="fa fa-heart"></i></a></li>
 												<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-												<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+												<li><button type="submit" class="fa fa-shopping-cart"
+														onclick="window.location.href='CartServlet?command=ADD_TO_CART&productId=${product.productId}'"></button></li>
 											</ul>
 										</div>
 										<div class="product__discount__item__text">
@@ -574,8 +577,8 @@
 						</div>
 					</div>
 					<div class="row">
-					
-							<c:forEach var="product" items="${productListByCategoryId}">
+
+						<c:forEach var="product" items="${productListByCategoryId}">
 							<div class="col-lg-4 col-md-6 col-sm-6">
 								<div class="product__item">
 									<div class="product__item__pic set-bg"
@@ -583,7 +586,8 @@
 										<ul class="product__item__pic__hover">
 											<li><a href="#"><i class="fa fa-heart"></i></a></li>
 											<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-											<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+											<li><button type="submit" class="fa fa-shopping-cart"
+													onclick="window.location.href='CartServlet?command=ADD_TO_CART&productId=${product.productId}'"></button></li>
 										</ul>
 									</div>
 									<div class="product__item__text">
@@ -613,7 +617,7 @@
 				<div class="col-lg-3 col-md-6 col-sm-6">
 					<div class="footer__about">
 						<div class="footer__about__logo">
-							<a href="./Home"><img src="img/logo.png" alt=""></a>
+							<a href="./home"><img src="img/logo.png" alt=""></a>
 						</div>
 						<ul>
 							<li>Address: 60-49 Road 11378 New York</li>
@@ -668,7 +672,9 @@
 							<p>
 								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 								Copyright &copy;
-								<script>document.write(new Date().getFullYear());</script>
+								<script>
+									document.write(new Date().getFullYear());
+								</script>
 								All rights reserved | This template is made with <i
 									class="fa fa-heart" aria-hidden="true"></i> by <a
 									href="https://colorlib.com" target="_blank">Colorlib</a>

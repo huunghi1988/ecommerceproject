@@ -80,7 +80,7 @@
 		<nav class="humberger__menu__nav mobile-menu">
 			<ul>
 				<li class="active"><a href="./Home">Home</a></li>
-				<li><a href="./shop-grid.html">Shop</a></li>
+				<li><a href="./shop-grid.jsp">Shop</a></li>
 				<li><a href="#">Pages</a>
 					<ul class="header__menu__dropdown">
 						<li><a href="./shop-details.html">Shop Details</a></li>
@@ -167,7 +167,7 @@
 					<nav class="header__menu">
 						<ul>
 							<li class="active"><a href="./Home">Home</a></li>
-							<li><a href="./shop-grid.html">Shop</a></li>
+							<li><a href="./ProductList">Shop</a></li>
 							<li><a href="#">Pages</a>
 								<ul class="header__menu__dropdown">
 									<li><a href="./shop-details.html">Shop Details</a></li>
@@ -265,7 +265,7 @@
 							<div class="categories__item set-bg"
 								data-setbg="${category.imageUrl}">
 								<h5>
-									<a href="productList?categoryId=${category.categoryId}">${category.categoryName}</a>
+									<a href="ProductList?categoryId=${category.categoryId}">${category.categoryName}</a>
 								</h5>
 							</div>
 						</div>

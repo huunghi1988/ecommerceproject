@@ -56,7 +56,7 @@ public class CartServlet extends HttpServlet {
 				cart.put(product.getProductId(), product);
 				session.setAttribute("cart", cart);
 				request.setAttribute("product", product);;
-				System.out.println(request.getContextPath()+"/"+request.getRequestURI());
+				System.out.println(request.getContextPath()+"/"+request.get());
 				response.sendRedirect(request.getContextPath());
 			} else if (command != null && command.equals("VIEW_CART")) {
 				response.sendRedirect("shoping-cart.jsp");

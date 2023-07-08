@@ -67,7 +67,31 @@ public class Registration extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
+		String username = request.getParameter("username");
+		String firstName = request.getParameter("firstName");
+		String lastName = request.getParameter("lastName");
+		try {
+			int isExisted=LoginService.checkDuplicateUser(email);
+
+			if (isExisted==1)
+			{
+			RequestDispatcher rd = request.getRequestDispatcher("registration.jsp");
+			request.setAttribute("errorMessage", "Email is already used. Please login.");
+		    request.setAttribute("email", email);
+			rd.forward(request, response);
+			}
+			else {		
+			RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+			RegistrationService.registerNewUser(email, password, username, firstName, lastName);
+			request.setAttribute("SuccessMessage", "Account is created successfully. Please login.");
+			rd.forward(request, response);
+
+}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	}
 
 }

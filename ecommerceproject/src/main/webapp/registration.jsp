@@ -38,7 +38,7 @@
 					<img src="images/img-01.png" alt="IMG">
 				</div>
 
-				<form action="Registration" method="get"
+				<form action="Registration" method="post"
 					class="login100-form validate-form">
 
 					<span class="login100-form-title"> Registration </span>
@@ -91,7 +91,7 @@
 
 					<div class="container-login100-form-btn">
 						<button type="submit" 
-							class="login100-form-btn" onclick="submitRegister()">Submit</button>
+							class="login100-form-btn">Submit</button>
 					</div>
 					<div></div>
 

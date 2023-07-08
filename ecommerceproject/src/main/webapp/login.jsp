@@ -38,7 +38,7 @@
 					<img src="images/img-01.png" alt="IMG">
 				</div>
 
-				<form action="Login" method="get"
+				<form action="Login" method="post"
 					class="login100-form validate-form">
 
 					<span class="login100-form-title"> Member Login </span>
@@ -114,6 +114,8 @@
 	</script>
 	<!--===============================================================================================-->
 	<script src="js/login.js"></script>
+		<script src="js/md5.min.js"></script>
+	
 
 </body>
 </html>
