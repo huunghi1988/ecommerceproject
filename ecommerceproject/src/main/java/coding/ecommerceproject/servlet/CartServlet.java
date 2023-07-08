@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.catalina.filters.ExpiresFilter.XServletOutputStream;
+
 import coding.ecommerceproject.entity.Product;
 import coding.ecommerceproject.service.ProductService;
 
@@ -41,7 +43,6 @@ public class CartServlet extends HttpServlet {
 			String command = request.getParameter("command");
 			int productId=0;
 			if (command != null && command.equals("ADD_TO_CART")) {
-//				bookId = Integer.parseInt(request.getParameter("bookId"));
 				productId = Integer.parseInt(request.getParameter("productId"));
 				
 				
@@ -54,9 +55,9 @@ public class CartServlet extends HttpServlet {
 				}
 				cart.put(product.getProductId(), product);
 				session.setAttribute("cart", cart);
-				request.setAttribute("product", product);
-
-				response.sendRedirect("Home");
+				request.setAttribute("product", product);;
+				System.out.println(request.getContextPath()+"/"+request.getRequestURI());
+				response.sendRedirect(request.getContextPath());
 			} else if (command != null && command.equals("VIEW_CART")) {
 				response.sendRedirect("shoping-cart.jsp");
 			}
