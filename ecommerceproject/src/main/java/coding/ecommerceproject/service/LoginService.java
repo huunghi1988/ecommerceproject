@@ -14,7 +14,7 @@ import coding.ecommerceproject.db.util.DBUtil;
 import coding.ecommerceproject.entity.User;
 
 public class LoginService {
-	public static User getUserByEmailAndPassword(String email, String password) throws SQLException {
+	public  User getUserByEmailAndPassword(String email, String password) throws SQLException {
 
 		Connection conn = null;
 		PreparedStatement ps = null;

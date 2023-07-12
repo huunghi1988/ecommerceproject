@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.catalina.filters.ExpiresFilter.XServletOutputStream;
 
 import coding.ecommerceproject.entity.Product;
+import coding.ecommerceproject.entity.ProductInCart;
 import coding.ecommerceproject.service.ProductService;
 
 /**
@@ -22,56 +24,77 @@ import coding.ecommerceproject.service.ProductService;
 @WebServlet("/CartServlet")
 public class CartServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public CartServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public CartServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//BookService bookService = new BookService();
 		ProductService productService = new ProductService();
-		
+
 		try {
 			String command = request.getParameter("command");
-			int productId=0;
+			int productId = 0;
+			int quantity = 1;
 			if (command != null && command.equals("ADD_TO_CART")) {
 				productId = Integer.parseInt(request.getParameter("productId"));
-				
-				
-				Product product = productService.getProductsByProductId(productId);
+				if (request.getParameter("quantity") != null)
+					quantity = Integer.parseInt(request.getParameter("quantity"));
+
 				HttpSession session = request.getSession();
-				Map<Integer, Product> cart = (Map<Integer, Product>) session.getAttribute("cart");
+				Map<Integer, ProductInCart> cart = (Map<Integer, ProductInCart>) session.getAttribute("cart");
 				if (cart == null) {
-					cart = new HashMap<Integer, Product>();
+					cart = new HashMap<Integer, ProductInCart>();
 				}
-				cart.put(product.getProductId(), product);
+				if (cart.containsKey(productId)) {
+
+					ProductInCart productInCart = cart.get(productId);
+					if (quantity > 1) {
+						productInCart.setQuantity(productInCart.getQuantity() + quantity);
+					} else {
+						productInCart.setQuantity(productInCart.getQuantity() + 1);
+					}
+					request.setAttribute("productInCart", productInCart);
+
+				} else {
+					Product product = productService.getProductsByProductId(productId);
+					ProductInCart newProductInCart = new ProductInCart(product, quantity);
+					cart.put(productId, newProductInCart);
+					request.setAttribute("productInCart", newProductInCart);
+				}
 				session.setAttribute("cart", cart);
-				request.setAttribute("product", product);;
-				request.setAttribute("cartPrice",product.getPrice());
-				
-			//redirect to current page
 				response.sendRedirect(request.getHeader("referer"));
 			} else if (command != null && command.equals("VIEW_CART")) {
-				response.sendRedirect("shoping-cart.jsp");
+
+				RequestDispatcher rd = request.getRequestDispatcher("shoping-cart.jsp");
+				// request.getServletContext().getRequestDispatcher("ProductList");
+
+				rd.forward(request, response);
+
 			}
-			
-		}catch(Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
-			
-		}	}
+
+		}
+	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}

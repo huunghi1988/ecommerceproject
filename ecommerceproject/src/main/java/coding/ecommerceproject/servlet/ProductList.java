@@ -53,7 +53,7 @@ public class ProductList extends HttpServlet {
 				
 			} else {
 				productListByCategoryId = productService.getProductsByCategoryId(Integer.parseInt(categoryId));
-				System.out.println("category khac 1");
+				//System.out.println("category khac 1");
 
 				System.out.println(productListByCategoryId.size());
 

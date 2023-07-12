@@ -50,9 +50,9 @@ public class Login extends HttpServlet {
 
 			String email = request.getParameter("email");
 			String password = request.getParameter("password");
-			User user = LoginService.getUserByEmailAndPassword(email, password);
-			System.out.println(email);
-			System.out.println(password);
+			LoginService loginService = new LoginService();
+			User user = loginService.getUserByEmailAndPassword(email, password);
+			
 			if (user == null) {
 				String errorMessage = "Incorrect email or password, please re-enter.";
 				request.setAttribute("errorMessage", errorMessage);

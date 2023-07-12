@@ -47,7 +47,7 @@
 		<div class="humberger__menu__cart">
 			<ul>
 				<li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-				<li><a href="/shoping-cart.jsp"><i class="fa fa-shopping-bag"></i> <span>Cart(${empty sessionScope.cart? 0 : sessionScope.cart.size()})</span></a></li>
+				<li><a href="CartServlet?command=VIEW_CART"><i class="fa fa-shopping-bag"></i> <span>Cart(${empty sessionScope.cart? 0 : sessionScope.cart.size()})</span></a></li>
 			</ul>
 			<div class="header__cart__price">
 				item: <span>$150.00</span>
@@ -66,8 +66,7 @@
 			<div class="header__top__right__auth">
 					<c:if test="${sessionScope.name != null }">
 							<div class="header__top__right__auth">
-								<a href="#"><i class="fa fa-user"></i> ${sessionScope.name} </a>
-								<a href="logout"><i class="fa fa-user"></i> Logout </a>
+								<a href="#"><i class="fa fa-user"></i> ${sessionScope.name} </a><a href="logout">Logout </a>
 							</div>
 							</c:if>
 								<c:if test="${sessionScope.name == null }">
@@ -140,8 +139,8 @@
 							
 							<c:if test="${sessionScope.name != null }">
 							<div class="header__top__right__auth">
-								<a href="#"><i class="fa fa-user"></i> ${sessionScope.name} </a>
-								<a href="logout"><i class="fa fa-user"></i> Logout </a>
+								<a href="#"><i class="fa fa-user"></i> ${sessionScope.name} </a><a href="logout">Logout </a>
+
 							</div>
 							</c:if>
 								<c:if test="${sessionScope.name == null }">
@@ -184,7 +183,7 @@
 					<div class="header__cart">
 						<ul>
 							<li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-							<li><a href="#"><i class="fa fa-shopping-bag"></i> <span>${empty sessionScope.cart? 0 : sessionScope.cart.size()}</span></a></li>
+							<li><a href="CartServlet?command=VIEW_CART"><i class="fa fa-shopping-bag"></i> <span>${empty sessionScope.cart? 0 : sessionScope.cart.size()}</span></a></li>
 						</ul>
 						<div class="header__cart__price">
 							item: <span>$150.00</span>
