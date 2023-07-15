@@ -1,6 +1,5 @@
 package coding.ecommerceproject.servlet;
 
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,39 +40,29 @@ public class ProductList extends HttpServlet {
 		// TODO Auto-generated method stub
 		try {
 			CategoryService service = new CategoryService();
-			ProductService productService  = new ProductService();
+			ProductService productService = new ProductService();
 			List<Category> categoryList = service.getAllCategories();
 			String categoryId = request.getParameter("categoryId");
 			List<Product> productListByCategoryId = new ArrayList<Product>();
-			System.out.println("categoryid" + categoryId);
-			//Product List by id
-			if(categoryId == null ) {
+			if (categoryId == null) {
 				productListByCategoryId = productService.getAllProducts();
-				System.out.println(productListByCategoryId.size());
-				
+
 			} else {
 				productListByCategoryId = productService.getProductsByCategoryId(Integer.parseInt(categoryId));
-				//System.out.println("category khac 1");
 
 				System.out.println(productListByCategoryId.size());
 
 			}
-			
-			//ProductList  by search
-			String keyword = request.getParameter("keyword");
-			
-			List<Product> productListBySearch = new ArrayList<Product>();
-			//System.out.println("searchBookInput: " + request.getParameter("keyword"));
-			
-			//System.out.println("searchKey: " + keyword);
-			
-			if (keyword != null && !keyword.isEmpty()) {
-	            productListBySearch = productService.getProductsBySearch(keyword);
-	            request.setAttribute("keyword", keyword);
-	            request.setAttribute("hideBookList", true);
-	        }
 
-			
+			String keyword = request.getParameter("keyword");
+			List<Product> productListBySearch = new ArrayList<Product>();
+
+			if (keyword != null && !keyword.isEmpty()) {
+				productListBySearch = productService.getProductsBySearch(keyword);
+				request.setAttribute("keyword", keyword);
+				request.setAttribute("hideBookList", true);
+			}
+
 			RequestDispatcher rd = request.getRequestDispatcher("shop-grid.jsp");
 			request.setAttribute("categoryList", categoryList);
 			request.setAttribute("productListByCategoryId", productListByCategoryId);

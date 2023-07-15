@@ -47,7 +47,7 @@
 		<div class="humberger__menu__cart">
 			<ul>
 				<li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-				<li><a href="/shoping-cart.jsp"><i
+				<li><a href="CartServlet?command=VIEW_CART"><i
 						class="fa fa-shopping-bag"></i> <span>Cart(${empty sessionScope.cart? 0 : sessionScope.cart.size()})</span></a></li>
 			</ul>
 			<div class="header__cart__price">
@@ -55,12 +55,20 @@
 			</div>
 		</div>
 		<div class="humberger__menu__widget">
-			
+			<div class="header__top__right__language">
+				<img src="img/language.png" alt="">
+				<div>English</div>
+				<span class="arrow_carrot-down"></span>
+				<ul>
+					<li><a href="#">Spanis</a></li>
+					<li><a href="#">English</a></li>
+				</ul>
+			</div>
 			<div class="header__top__right__auth">
 				<c:if test="${sessionScope.name != null }">
 					<div class="header__top__right__auth">
-						<a href="#"><i class="fa fa-user"></i> ${sessionScope.name} </a> <a
-							href="logout"><i class="fa fa-user"></i> Logout </a>
+						<a href="#"><i class="fa fa-user"></i> ${sessionScope.name} </a><a
+							href="logout">Logout </a>
 					</div>
 				</c:if>
 				<c:if test="${sessionScope.name == null }">
@@ -121,12 +129,21 @@
 									class="fa fa-linkedin"></i></a> <a href="#"><i
 									class="fa fa-pinterest-p"></i></a>
 							</div>
-						
+							<div class="header__top__right__language">
+								<img src="img/language.png" alt="">
+								<div>English</div>
+								<span class="arrow_carrot-down"></span>
+								<ul>
+									<li><a href="#">Spanis</a></li>
+									<li><a href="#">English</a></li>
+								</ul>
+							</div>
 
 							<c:if test="${sessionScope.name != null }">
 								<div class="header__top__right__auth">
 									<a href="#"><i class="fa fa-user"></i> ${sessionScope.name}
-									</a> <a href="logout"><i class="fa fa-user"></i> Logout </a>
+									</a><a href="logout">Logout </a>
+
 								</div>
 							</c:if>
 							<c:if test="${sessionScope.name == null }">
@@ -169,7 +186,8 @@
 					<div class="header__cart">
 						<ul>
 							<li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-							<li><a href="#"><i class="fa fa-shopping-bag"></i> <span>${empty sessionScope.cart? 0 : sessionScope.cart.size()}</span></a></li>
+							<li><a href="CartServlet?command=VIEW_CART"><i
+									class="fa fa-shopping-bag"></i> <span>${empty sessionScope.cart? 0 : sessionScope.cart.size()}</span></a></li>
 						</ul>
 						<div class="header__cart__price">
 							item: <span>$150.00</span>
@@ -184,9 +202,8 @@
 	</header>
 	<!-- Header Section End -->
 
-
 	<!-- Hero Section Begin -->
-	<section class="hero hero-normal">
+	<section class="hero">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-3">
@@ -194,8 +211,7 @@
 						<div class="hero__categories__all">
 							<i class="fa fa-bars"></i> <span>All departments</span>
 						</div>
-						<ul>
-
+						<ul style="display: none;">
 							<c:forEach var="category" items="${categoryList}">
 								<li><a href="ProductList?categoryId=${category.categoryId}">${category.categoryName}</a></li>
 							</c:forEach>
@@ -206,11 +222,12 @@
 				<div class="col-lg-9">
 					<div class="hero__search">
 						<div class="hero__search__form">
-							<form action="#">
+							<form action="ProductList">
 								<div class="hero__search__categories">
-									All Categories <span class="arrow_carrot-down"></span>
+									All Categories <span class="arrow_carrot-down"> </span>
 								</div>
-								<input type="text" placeholder="What do yo u need?">
+								<input type="text" name="keyword"
+									placeholder="What do you need?" value="${keyword}">
 								<button type="submit" class="site-btn">SEARCH</button>
 							</form>
 						</div>
@@ -224,12 +241,13 @@
 							</div>
 						</div>
 					</div>
+
 				</div>
 			</div>
 		</div>
 	</section>
 	<!-- Hero Section End -->
-
+	<!-- bat dau body -->
 	<!-- Breadcrumb Section Begin -->
 	<section class="breadcrumb-section set-bg"
 		data-setbg="img/breadcrumb.jpg">
@@ -549,7 +567,15 @@
 							<div class="col-lg-4 col-md-4">
 								<div class="filter__found">
 									<h6>
-										<span>16</span> Products found
+										<c:if test="${empty keyword}">
+											<span>${productListByCategoryId.size()}</span> Products found
+									
+										</c:if>
+										
+										<c:if test="${not empty keyword}">
+											<span>${productListBySearch.size()}</span> Products found
+									
+										</c:if>
 									</h6>
 								</div>
 							</div>
@@ -561,28 +587,53 @@
 						</div>
 					</div>
 					<div class="row">
-
-						<c:forEach var="product" items="${productListByCategoryId}">
-							<div class="col-lg-4 col-md-6 col-sm-6">
-								<div class="product__item">
-									<div class="product__item__pic set-bg"
-										data-setbg="${product.imageUrl}">
-										<ul class="product__item__pic__hover">
-											<li><a href="#"><i class="fa fa-heart"></i></a></li>
-											<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-											<li><button type="submit" class="fa fa-shopping-cart"
-													onclick="window.location.href='CartServlet?command=ADD_TO_CART&productId=${product.productId}'"></button></li>
-										</ul>
-									</div>
-									<div class="product__item__text">
-										<h6>
-											<a href="#">${product.productName}</a>
-										</h6>
-										<h5>$${product.price}</h5>
+						<c:if test="${empty keyword}">
+							<c:forEach var="product" items="${productListByCategoryId}">
+								<div class="col-lg-4 col-md-6 col-sm-6">
+									<div class="product__item">
+										<div class="product__item__pic set-bg"
+											data-setbg="${product.imageUrl}">
+											<ul class="product__item__pic__hover">
+												<li><a href="#"><i class="fa fa-heart"></i></a></li>
+												<li><a href="#"><i class="fa fa-retweet"></i></a></li>
+												<li><button type="submit" class="fa fa-shopping-cart"
+														onclick="window.location.href='CartServlet?command=ADD_TO_CART&productId=${product.productId}'"></button></li>
+											</ul>
+										</div>
+										<div class="product__item__text">
+											<h6>
+												<a href="#">${product.productName}</a>
+											</h6>
+											<h5>$${product.price}</h5>
+										</div>
 									</div>
 								</div>
-							</div>
-						</c:forEach>
+							</c:forEach>
+						</c:if>
+
+						<c:if test="${not empty keyword}">
+							<c:forEach var="product" items="${productListBySearch}">
+								<div class="col-lg-4 col-md-6 col-sm-6">
+									<div class="product__item">
+										<div class="product__item__pic set-bg"
+											data-setbg="${product.imageUrl}">
+											<ul class="product__item__pic__hover">
+												<li><a href="#"><i class="fa fa-heart"></i></a></li>
+												<li><a href="#"><i class="fa fa-retweet"></i></a></li>
+												<li><button type="submit" class="fa fa-shopping-cart"
+														onclick="window.location.href='CartServlet?command=ADD_TO_CART&productId=${product.productId}'"></button></li>
+											</ul>
+										</div>
+										<div class="product__item__text">
+											<h6>
+												<a href="#">${product.productName}</a>
+											</h6>
+											<h5>$${product.price}</h5>
+										</div>
+									</div>
+								</div>
+							</c:forEach>
+						</c:if>
 					</div>
 					<div class="product__pagination">
 						<a href="#">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#"><i

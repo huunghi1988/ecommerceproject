@@ -16,9 +16,10 @@ public class Product {
 	private Timestamp updatedAt;
 	private String imageUrl;
 	private int categoryId;
+	private String categoryName;
 	public Product(int productId, String productName, String description, String dimensions, double price,
 			double discountPrice, int stockQuantity, String weight, Timestamp createdAt, Timestamp updatedAt,
-			String imageUrl, int categoryId) {
+			String imageUrl, int categoryId, String categoryName) {
 		super();
 		this.productId = productId;
 		this.productName = productName;
@@ -32,6 +33,7 @@ public class Product {
 		this.updatedAt = updatedAt;
 		this.imageUrl = imageUrl;
 		this.categoryId = categoryId;
+		this.categoryName = categoryName;
 	}
 	public int getProductId() {
 		return productId;
@@ -105,6 +107,13 @@ public class Product {
 	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
 	}
+	public String getCategoryName() {
+		return categoryName;
+	}
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+	
 	
 	
 }

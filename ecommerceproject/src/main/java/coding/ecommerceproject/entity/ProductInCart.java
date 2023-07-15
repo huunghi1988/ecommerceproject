@@ -3,11 +3,14 @@ package coding.ecommerceproject.entity;
 public class ProductInCart {
 	private Product product;
 	private int quantity;
-	public ProductInCart(Product product, int quantity) {
+	private double totalPrice;
+	public ProductInCart(Product product, int quantity, double totalPrice) {
 		super();
 		this.product = product;
 		this.quantity = quantity;
+		this.totalPrice = totalPrice;
 	}
+	
 	public Product getProduct() {
 		return product;
 	}
@@ -20,6 +23,13 @@ public class ProductInCart {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-
+	public double getTotalPrice() {
+		return totalPrice;
+	}
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
+	} 
+	
+	
 	
 }

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.filters.ExpiresFilter.XServletOutputStream;
 
+import coding.ecommerceproject.entity.CartSession;
 import coding.ecommerceproject.entity.Product;
 import coding.ecommerceproject.entity.ProductInCart;
 import coding.ecommerceproject.service.ProductService;
@@ -44,45 +45,134 @@ public class CartServlet extends HttpServlet {
 
 		try {
 			String command = request.getParameter("command");
+			//String productId = request.getParameter("productId");
+			//String quantity = request.getParameter("quantity");
+
 			int productId = 0;
 			int quantity = 1;
+			double totalPrice = 0;
+
+			double totalCartPrice = 0;
+
+			HttpSession session = request.getSession();
+
+			Map<Integer, ProductInCart> cart = (Map<Integer, ProductInCart>) session.getAttribute("cart");
+			if(request.getParameter("quantity")!= null &&!request.getParameter("quantity").isEmpty()) {
+				quantity = Integer.parseInt(request.getParameter("quantity"));
+		
+			}
+				
 			if (command != null && command.equals("ADD_TO_CART")) {
 				productId = Integer.parseInt(request.getParameter("productId"));
-				if (request.getParameter("quantity") != null)
-					quantity = Integer.parseInt(request.getParameter("quantity"));
 
-				HttpSession session = request.getSession();
-				Map<Integer, ProductInCart> cart = (Map<Integer, ProductInCart>) session.getAttribute("cart");
 				if (cart == null) {
 					cart = new HashMap<Integer, ProductInCart>();
 				}
 				if (cart.containsKey(productId)) {
 
+
 					ProductInCart productInCart = cart.get(productId);
 					if (quantity > 1) {
 						productInCart.setQuantity(productInCart.getQuantity() + quantity);
+
 					} else {
 						productInCart.setQuantity(productInCart.getQuantity() + 1);
-					}
-					request.setAttribute("productInCart", productInCart);
 
+					}
+					productInCart.setTotalPrice((double) Math
+							.round(productInCart.getQuantity() * productInCart.getProduct().getPrice() * 100) / 100);
+
+					totalCartPrice = totalCartPrice + productInCart.getTotalPrice();
+
+					request.setAttribute("productInCart", productInCart);
 				} else {
 					Product product = productService.getProductsByProductId(productId);
-					ProductInCart newProductInCart = new ProductInCart(product, quantity);
+					ProductInCart newProductInCart = new ProductInCart(product, quantity,
+							product.getPrice() * quantity);
 					cart.put(productId, newProductInCart);
+					if (session.getAttribute("totalCartPrice") == null)
+						totalCartPrice = newProductInCart.getTotalPrice();
+					else
+						totalCartPrice = newProductInCart.getTotalPrice()
+								+ (Double) session.getAttribute("totalCartPrice");
+
 					request.setAttribute("productInCart", newProductInCart);
+
 				}
+				session.setAttribute("totalCartPrice", totalCartPrice);
+
 				session.setAttribute("cart", cart);
+
 				response.sendRedirect(request.getHeader("referer"));
+			
+			
+			// add multiple value
+			
+
 			} else if (command != null && command.equals("VIEW_CART")) {
 
 				RequestDispatcher rd = request.getRequestDispatcher("shoping-cart.jsp");
-				// request.getServletContext().getRequestDispatcher("ProductList");
 
 				rd.forward(request, response);
 
-			}
+			} else if (command != null && command.equals("REMOVE")) {
+				productId = Integer.parseInt(request.getParameter("productId"));
+				totalCartPrice = (Double) session.getAttribute("totalCartPrice") - cart.get(productId).getTotalPrice();
+				session.setAttribute("totalCartPrice", totalCartPrice);
 
+				cart.remove(productId);
+				response.sendRedirect(request.getHeader("referer"));
+
+			} else if (command != null && command.equals("SUBMIT")) {
+				productId = Integer.parseInt(request.getParameter("productId"));
+				cart.remove(productId);
+				response.sendRedirect(request.getHeader("referer"));
+
+			}
+			else if (command==null&&quantity>=1) {
+				productId = Integer.parseInt(request.getParameter("productId"));
+
+				if (cart == null) {
+					cart = new HashMap<Integer, ProductInCart>();
+				}
+				if (cart.containsKey(productId)) {
+
+
+					ProductInCart productInCart = cart.get(productId);
+					if (quantity > 1) {
+						productInCart.setQuantity(productInCart.getQuantity() + quantity);
+
+					} else {
+						productInCart.setQuantity(productInCart.getQuantity() + 1);
+
+					}
+					productInCart.setTotalPrice((double) Math
+							.round(productInCart.getQuantity() * productInCart.getProduct().getPrice() * 100) / 100);
+
+					totalCartPrice = totalCartPrice + productInCart.getTotalPrice();
+
+					request.setAttribute("productInCart", productInCart);
+				} else {
+					Product product = productService.getProductsByProductId(productId);
+					ProductInCart newProductInCart = new ProductInCart(product, quantity,
+							product.getPrice() * quantity);
+					cart.put(productId, newProductInCart);
+					if (session.getAttribute("totalCartPrice") == null)
+						totalCartPrice = newProductInCart.getTotalPrice();
+					else
+						totalCartPrice = newProductInCart.getTotalPrice()
+								+ (Double) session.getAttribute("totalCartPrice");
+
+					request.setAttribute("productInCart", newProductInCart);
+
+				}
+				session.setAttribute("totalCartPrice", totalCartPrice);
+
+				session.setAttribute("cart", cart);
+
+				response.sendRedirect(request.getHeader("referer"));
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 

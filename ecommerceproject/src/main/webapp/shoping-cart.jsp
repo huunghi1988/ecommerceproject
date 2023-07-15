@@ -26,9 +26,34 @@
 <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
 <link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
+<script>
+	function clicked(e) {
+		if (!confirm('Do you want to remove the product from cart')) {
+			e.preventDefault();
+		}
+	}
+</script>
+<script>
+	let temp = $
+	{
+		sessionScope.totalCartPrice
+	};
+	let totalCartPrice = temp.toFixed(2);
+
+	document.getElementById("TotalCartPrice").innerHTML = totalCartPrice;
+</script>
+
+<script>
+	function onChange() {
+		var x = document.getElementById("quantity").value;
+		var y = document.getElementById("productPrice").value;
+
+		document.getElementById("totalPrice").innerHTML = "You selected: " + x;
+	}
+</script>
 
 <body>
-		<!-- Page Preloder -->
+	<!-- Page Preloder -->
 	<div id="preloder">
 		<div class="loader"></div>
 	</div>
@@ -42,26 +67,27 @@
 		<div class="humberger__menu__cart">
 			<ul>
 				<li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-				<li><a href="CartServlet?command=VIEW_CART"><i class="fa fa-shopping-bag"></i> <span>Cart(${empty sessionScope.cart? 0 : sessionScope.cart.size()})</span></a></li>
+				<li><a href="CartServlet?command=VIEW_CART"><i
+						class="fa fa-shopping-bag"></i> <span>Cart(${empty sessionScope.cart? 0 : sessionScope.cart.size()})</span></a></li>
 			</ul>
 			<div class="header__cart__price">
-				item: <span>$150.00</span>
+				item: <span>$${sessionScope.totalCartPrice}</span>
 			</div>
 		</div>
 		<div class="humberger__menu__widget">
-			
+
 			<div class="header__top__right__auth">
-					<c:if test="${sessionScope.name != null }">
-							<div class="header__top__right__auth">
-								<a href="#"><i class="fa fa-user"></i> ${sessionScope.name} </a>
-								<a href="logout">Logout </a>
-							</div>
-							</c:if>
-								<c:if test="${sessionScope.name == null }">
-							<div class="header__top__right__auth">
-								<a href="login.jsp"><i class="fa fa-user"></i> Login</a>
-							</div>
-							</c:if>
+				<c:if test="${sessionScope.name != null }">
+					<div class="header__top__right__auth">
+						<a href="#"><i class="fa fa-user"></i> ${sessionScope.name} </a> <a
+							href="logout">Logout </a>
+					</div>
+				</c:if>
+				<c:if test="${sessionScope.name == null }">
+					<div class="header__top__right__auth">
+						<a href="login.jsp"><i class="fa fa-user"></i> Login</a>
+					</div>
+				</c:if>
 			</div>
 		</div>
 		<nav class="humberger__menu__nav mobile-menu">
@@ -87,7 +113,7 @@
 		</div>
 		<div class="humberger__menu__contact">
 			<ul>
-				<li><i class="fa fa-envelope"></i> </li>
+				<li><i class="fa fa-envelope"></i></li>
 				<li>Free Shipping for all Order of $99</li>
 			</ul>
 		</div>
@@ -102,7 +128,7 @@
 					<div class="col-lg-6 col-md-6">
 						<div class="header__top__left">
 							<ul>
-								<li><i class="fa fa-envelope"></i> </li>
+								<li><i class="fa fa-envelope"></i></li>
 								<li>Free Shipping for all Order of $99</li>
 							</ul>
 						</div>
@@ -115,20 +141,21 @@
 									class="fa fa-linkedin"></i></a> <a href="#"><i
 									class="fa fa-pinterest-p"></i></a>
 							</div>
-						
-							
+
+
 							<c:if test="${sessionScope.name != null }">
-							<div class="header__top__right__auth">
-								${sessionScope.name}<a href="logout"><i class="fa fa-user"></i> Logout </a>
-							</div>
+								<div class="header__top__right__auth">
+									${sessionScope.name}<a href="logout"><i class="fa fa-user"></i>
+										Logout </a>
+								</div>
 							</c:if>
-								<c:if test="${sessionScope.name == null }">
-							<div class="header__top__right__auth">
-								<a href="login.jsp"><i class="fa fa-user"></i> Login</a>
-							</div>
+							<c:if test="${sessionScope.name == null }">
+								<div class="header__top__right__auth">
+									<a href="login.jsp"><i class="fa fa-user"></i> Login</a>
+								</div>
 							</c:if>
-							
-							
+
+
 						</div>
 					</div>
 				</div>
@@ -153,8 +180,8 @@
 									<li><a href="./checkout.html">Check Out</a></li>
 									<li><a href="./blog-details.html">Blog Details</a></li>
 								</ul></li>
-<!-- 							<li><a href="./blog.html">Blog</a></li> -->
-<!-- 							<li><a href="./contact.html">Contact</a></li> -->
+							<!-- 							<li><a href="./blog.html">Blog</a></li> -->
+							<!-- 							<li><a href="./contact.html">Contact</a></li> -->
 						</ul>
 					</nav>
 				</div>
@@ -162,10 +189,11 @@
 					<div class="header__cart">
 						<ul>
 							<li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-							<li><a href="CartServlet?command=VIEW_CART"><i class="fa fa-shopping-bag"></i> <span>${empty sessionScope.cart? 0 : sessionScope.cart.size()}</span></a></li>
+							<li><a href="CartServlet?command=VIEW_CART"><i
+									class="fa fa-shopping-bag"></i> <span>${empty sessionScope.cart? 0 : sessionScope.cart.size()}</span></a></li>
 						</ul>
 						<div class="header__cart__price">
-							item: <span>$150.00</span>
+							item: <span>$${sessionScope.totalCartPrice}</span>
 						</div>
 					</div>
 				</div>
@@ -216,7 +244,7 @@
 							</div>
 						</div>
 					</div>
-			
+
 				</div>
 			</div>
 		</div>
@@ -232,7 +260,7 @@
 					<div class="breadcrumb__text">
 						<h2>Shopping Cart</h2>
 						<div class="breadcrumb__option">
-							<a href="./index.html">Home</a> <span>Shopping Cart</span>
+							<a href="Home">Home</a> <span>Shopping Cart</span>
 						</div>
 					</div>
 				</div>
@@ -258,26 +286,34 @@
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach var="productInCart" items="${cart.values()}" varStatus="status">
+								<c:forEach var="productInCart" items="${cart.values()}"
+									varStatus="status">
 									<tr>
 										<td class="shoping__cart__item"><img
-											src="${productInCart.product.imageUrl}" alt="">
-											<h5>${productInCart.product.productName}</h5></td>
-										<td class="shoping__cart__price">${productInCart.product.price}</td>
+											src="${productInCart.getProduct().imageUrl}"
+											style="width: 225px; height: 225px;" alt="">
+											<h5>${productInCart.getProduct().productName}</h5></td>
+										<td class="shoping__cart__price">${productInCart.getProduct().price}</td>
 										<td class="shoping__cart__quantity">
 											<div class="quantity">
 												<div class="pro-qty">
-													<input type="text" value="${productInCart.product.quantity }">
+													<input type="text" name="quantity" id="quantity"
+														value="${productInCart.getQuantity()}"
+														onchange="myFunction()">
 												</div>
 											</div>
 										</td>
-										<td class="shoping__cart__total">$110.00</td>
-										<td class="shoping__cart__item__close"><span
-											class="icon_close"></span></td>
+
+										<td class="shoping__cart__total">${productInCart.getTotalPrice()}</td>
+										<td class="shoping__cart__item__close"><a
+											href="CartServlet?command=REMOVE&productId=${productInCart.getProduct().productId}"
+											onclick="clicked(event)">X</a></td>
+
+
 									</tr>
+
 								</c:forEach>
-								
-								
+
 							</tbody>
 						</table>
 					</div>
@@ -286,9 +322,13 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="shoping__cart__btns">
-						<a href="#" class="primary-btn cart-btn">CONTINUE SHOPPING</a> <a
-							href="#" class="primary-btn cart-btn cart-btn-right"><span
-							class="icon_loading"></span> Update Cart</a>
+						<a href="ProductList" class="primary-btn cart-btn">CONTINUE
+							SHOPPING</a>
+						<button type="submit"
+							onclick="window.location.href='UpdateCartServlet?command=UPDATE_CART&quantity=${quantity}'"
+							class="primary-btn cart-btn cart-btn-right">
+							<span class="icon_loading"></span> Update Cart
+						</button>
 					</div>
 				</div>
 				<div class="col-lg-6">
@@ -298,7 +338,6 @@
 							<form action="#">
 								<input type="text" placeholder="Enter your coupon code">
 								<button type="submit" class="site-btn">APPLY COUPON</button>
-							</form>
 						</div>
 					</div>
 				</div>
@@ -306,14 +345,15 @@
 					<div class="shoping__checkout">
 						<h5>Cart Total</h5>
 						<ul>
-							<li>Subtotal <span>$454.98</span></li>
-							<li>Total <span>$454.98</span></li>
+							<li>Subtotal <span id="totalCartPrice">${sessionScope.totalCartPrice}</span></li>
+							<li>Total <span id="totalCartPrice">${sessionScope.totalCartPrice}</span></li>
 						</ul>
 						<a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
 					</div>
 				</div>
 			</div>
 		</div>
+		</form>
 	</section>
 	<!-- Shoping Cart Section End -->
 
@@ -379,7 +419,9 @@
 							<p>
 								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 								Copyright &copy;
-								<script>document.write(new Date().getFullYear());</script>
+								<script>
+									document.write(new Date().getFullYear());
+								</script>
 								All rights reserved | This template is made with <i
 									class="fa fa-heart" aria-hidden="true"></i> by <a
 									href="https://colorlib.com" target="_blank">Colorlib</a>
