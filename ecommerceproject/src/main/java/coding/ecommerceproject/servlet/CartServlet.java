@@ -106,7 +106,6 @@ public class CartServlet extends HttpServlet {
 				response.sendRedirect(request.getHeader("referer"));
 			
 			
-			// add multiple value
 			
 
 			} else if (command != null && command.equals("VIEW_CART")) {
@@ -129,6 +128,9 @@ public class CartServlet extends HttpServlet {
 				response.sendRedirect(request.getHeader("referer"));
 
 			}
+			
+			// add multiple value
+
 			else if (command==null&&quantity>=1) {
 				productId = Integer.parseInt(request.getParameter("productId"));
 
