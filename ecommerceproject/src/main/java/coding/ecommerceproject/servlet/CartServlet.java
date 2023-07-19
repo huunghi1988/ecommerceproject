@@ -45,8 +45,6 @@ public class CartServlet extends HttpServlet {
 
 		try {
 			String command = request.getParameter("command");
-			//String productId = request.getParameter("productId");
-			//String quantity = request.getParameter("quantity");
 
 			int productId = 0;
 			int quantity = 1;
@@ -57,11 +55,10 @@ public class CartServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 
 			Map<Integer, ProductInCart> cart = (Map<Integer, ProductInCart>) session.getAttribute("cart");
-			if(request.getParameter("quantity")!= null &&!request.getParameter("quantity").isEmpty()) {
+			if (request.getParameter("quantity") != null && !request.getParameter("quantity").isEmpty()) {
 				quantity = Integer.parseInt(request.getParameter("quantity"));
-		
 			}
-				
+
 			if (command != null && command.equals("ADD_TO_CART")) {
 				productId = Integer.parseInt(request.getParameter("productId"));
 
@@ -70,15 +67,10 @@ public class CartServlet extends HttpServlet {
 				}
 				if (cart.containsKey(productId)) {
 
-
 					ProductInCart productInCart = cart.get(productId);
-					if (quantity > 1) {
-						productInCart.setQuantity(productInCart.getQuantity() + quantity);
 
-					} else {
-						productInCart.setQuantity(productInCart.getQuantity() + 1);
+					productInCart.setQuantity(productInCart.getQuantity() + quantity);
 
-					}
 					productInCart.setTotalPrice((double) Math
 							.round(productInCart.getQuantity() * productInCart.getProduct().getPrice() * 100) / 100);
 
@@ -104,9 +96,6 @@ public class CartServlet extends HttpServlet {
 				session.setAttribute("cart", cart);
 
 				response.sendRedirect(request.getHeader("referer"));
-			
-			
-			
 
 			} else if (command != null && command.equals("VIEW_CART")) {
 
@@ -128,10 +117,10 @@ public class CartServlet extends HttpServlet {
 				response.sendRedirect(request.getHeader("referer"));
 
 			}
-			
+
 			// add multiple value
 
-			else if (command==null&&quantity>=1) {
+			else if (command == null && quantity >= 1) {
 				productId = Integer.parseInt(request.getParameter("productId"));
 
 				if (cart == null) {
@@ -139,15 +128,10 @@ public class CartServlet extends HttpServlet {
 				}
 				if (cart.containsKey(productId)) {
 
-
 					ProductInCart productInCart = cart.get(productId);
-					if (quantity > 1) {
-						productInCart.setQuantity(productInCart.getQuantity() + quantity);
 
-					} else {
-						productInCart.setQuantity(productInCart.getQuantity() + 1);
+					productInCart.setQuantity(productInCart.getQuantity() + quantity);
 
-					}
 					productInCart.setTotalPrice((double) Math
 							.round(productInCart.getQuantity() * productInCart.getProduct().getPrice() * 100) / 100);
 
@@ -174,7 +158,7 @@ public class CartServlet extends HttpServlet {
 
 				response.sendRedirect(request.getHeader("referer"));
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 

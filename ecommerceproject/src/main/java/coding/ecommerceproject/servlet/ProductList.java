@@ -41,32 +41,53 @@ public class ProductList extends HttpServlet {
 		try {
 			CategoryService service = new CategoryService();
 			ProductService productService = new ProductService();
+			double maxPrice = productService.getMaxPrice();
+			double minPrice = productService.getMinPrice();
+			System.out.println("max" + maxPrice + "  min" + minPrice);
+
 			List<Category> categoryList = service.getAllCategories();
 			String categoryId = request.getParameter("categoryId");
+
 			List<Product> productListByCategoryId = new ArrayList<Product>();
 			if (categoryId == null) {
 				productListByCategoryId = productService.getAllProducts();
-
 			} else {
 				productListByCategoryId = productService.getProductsByCategoryId(Integer.parseInt(categoryId));
-
-				System.out.println(productListByCategoryId.size());
-
 			}
 
+//by keyword
 			String keyword = request.getParameter("keyword");
 			List<Product> productListBySearch = new ArrayList<Product>();
 
 			if (keyword != null && !keyword.isEmpty()) {
 				productListBySearch = productService.getProductsBySearch(keyword);
 				request.setAttribute("keyword", keyword);
-				request.setAttribute("hideBookList", true);
 			}
+// by sort  max min
+			String maxValue = request.getParameter("maxValue");
+			String minValue = request.getParameter("minValue");
+			List<Product> productListByMaxMin = new ArrayList<Product>();
+
+			if (maxValue != null && !maxValue.isEmpty()) {
+				productListByMaxMin = productService.getProductsByMaxMin(Double.parseDouble(maxValue),
+						Double.parseDouble(minValue));
+			}
+
+//discountProduct
+			List<Product> productListByDiscount = new ArrayList<Product>();
+			productListByDiscount = productService.getDiscountProducts();
 
 			RequestDispatcher rd = request.getRequestDispatcher("shop-grid.jsp");
 			request.setAttribute("categoryList", categoryList);
 			request.setAttribute("productListByCategoryId", productListByCategoryId);
 			request.setAttribute("productListBySearch", productListBySearch);
+			request.setAttribute("productListByDiscount", productListByDiscount);
+
+			request.setAttribute("maxValue", maxValue);
+			request.setAttribute("minValue", minValue);
+			request.setAttribute("maxPrice", maxPrice);
+			request.setAttribute("minPrice", minPrice);
+			request.setAttribute("productListByMaxMin", productListByMaxMin);
 			rd.forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
