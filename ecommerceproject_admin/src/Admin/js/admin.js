@@ -12,7 +12,6 @@ function getUsers(page) {
   xhttp.onload = function () {
     const userArray = JSON.parse(this.responseText);
     const table = document.querySelector('.grid-container-table table');
-    //table.innerHTML = ""; // Clear the table before adding new rows
 
     userArray.forEach(user => {
       const newRow = document.createElement("tr");
