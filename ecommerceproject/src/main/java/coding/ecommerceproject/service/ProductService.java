@@ -1,5 +1,6 @@
 package coding.ecommerceproject.service;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.util.Date;
 import java.sql.Timestamp;
@@ -37,8 +38,8 @@ public class ProductService {
 				String productName = rs.getString("productName");
 				String description = rs.getString("description");
 				String dimensions = rs.getString("dimensions");
-				double price = rs.getDouble("price");
-				double discountPrice = rs.getDouble("discountPrice");
+				BigDecimal price = rs.getBigDecimal("price");
+				BigDecimal discountPrice = rs.getBigDecimal("discountPrice");
 				int stockQuantity = rs.getInt("stockQuantity");
 				String weight = rs.getString("weight");
 				Timestamp createdAt = rs.getTimestamp("createdAt");
@@ -50,6 +51,8 @@ public class ProductService {
 						stockQuantity, weight, createdAt, updatedAt, imageUrl, categoryId, categoryName);
 				list.add(product);
 			}
+			System.out.println(list.size());
+
 		} catch (Exception e) {
 			e.printStackTrace();
 
@@ -91,8 +94,8 @@ public class ProductService {
 				String productName = rs.getString("productName");
 				String description = rs.getString("description");
 				String dimensions = rs.getString("dimensions");
-				double price = rs.getDouble("price");
-				double discountPrice = rs.getDouble("discountPrice");
+				BigDecimal price = rs.getBigDecimal("price");
+				BigDecimal discountPrice = rs.getBigDecimal("discountPrice");
 				int stockQuantity = rs.getInt("stockQuantity");
 				String weight = rs.getString("weight");
 				Timestamp createdAt = rs.getTimestamp("createdAt");
@@ -142,8 +145,8 @@ public class ProductService {
 				String productName = rs.getString("productName");
 				String description = rs.getString("description");
 				String dimensions = rs.getString("dimensions");
-				double price = rs.getDouble("price");
-				double discountPrice = rs.getDouble("discountPrice");
+				BigDecimal price = rs.getBigDecimal("price");
+				BigDecimal discountPrice = rs.getBigDecimal("discountPrice");
 				int stockQuantity = rs.getInt("stockQuantity");
 				String weight = rs.getString("weight");
 				Timestamp createdAt = rs.getTimestamp("createdAt");
@@ -192,8 +195,8 @@ public class ProductService {
 				String productName = rs.getString("productName");
 				String description = rs.getString("description");
 				String dimensions = rs.getString("dimensions");
-				double price = rs.getDouble("price");
-				double discountPrice = rs.getDouble("discountPrice");
+				BigDecimal price = rs.getBigDecimal("price");
+				BigDecimal discountPrice = rs.getBigDecimal("discountPrice");
 				int stockQuantity = rs.getInt("stockQuantity");
 				String weight = rs.getString("weight");
 				Timestamp createdAt = rs.getTimestamp("createdAt");
@@ -223,9 +226,9 @@ public class ProductService {
 		return list;
 	}
 
-	public double getMaxPrice() throws SQLException {
+	public BigDecimal getMaxPrice() throws SQLException {
 
-		double maxPrice = 0;
+		BigDecimal maxPrice = null ;
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -238,7 +241,7 @@ public class ProductService {
 			rs = ps.executeQuery();
 
 			while (rs.next()) {
-				maxPrice = rs.getDouble("maxPrice");
+				maxPrice = rs.getBigDecimal("maxPrice");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -257,9 +260,9 @@ public class ProductService {
 		return maxPrice;
 	}
 
-	public double getMinPrice() throws SQLException {
+	public BigDecimal getMinPrice() throws SQLException {
 
-		double minPrice = 0;
+		BigDecimal minPrice = null ;
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -272,7 +275,7 @@ public class ProductService {
 			rs = ps.executeQuery();
 
 			while (rs.next()) {
-				minPrice = rs.getDouble("minPrice");
+				minPrice = rs.getBigDecimal("minPrice");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -313,8 +316,8 @@ public class ProductService {
 				String productName = rs.getString("productName");
 				String description = rs.getString("description");
 				String dimensions = rs.getString("dimensions");
-				double price = rs.getDouble("price");
-				double discountPrice = rs.getDouble("discountPrice");
+				BigDecimal price = rs.getBigDecimal("price");
+				BigDecimal discountPrice = rs.getBigDecimal("discountPrice");
 				int stockQuantity = rs.getInt("stockQuantity");
 				String weight = rs.getString("weight");
 				Timestamp createdAt = rs.getTimestamp("createdAt");
@@ -344,7 +347,7 @@ public class ProductService {
 		}
 		return list;
 	}
-	public List<Product> getProductsByMaxMin(double max,double min) throws SQLException {
+	public List<Product> getProductsByMaxMin(String maxValue,String minValue) throws SQLException {
 
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -357,8 +360,8 @@ public class ProductService {
 			ps = conn.prepareStatement(
 					"SELECT * FROM sql6631093.Products join ProductImages on Products.productId = ProductImages.productId join ProductCategory on Products.productId = ProductCategory.productId join Categories on ProductCategory.categoryId= Categories.categoryId  where ProductImages.isPrimary=1 and Products.price >= ? and Products.price <= ?");
 
-			ps.setDouble(1, getMinPrice());
-			ps.setDouble(1, getMaxPrice());
+			ps.setBigDecimal(1, getMinPrice());
+			ps.setBigDecimal(1, getMaxPrice());
 
 			rs = ps.executeQuery();
 
@@ -367,8 +370,8 @@ public class ProductService {
 				String productName = rs.getString("productName");
 				String description = rs.getString("description");
 				String dimensions = rs.getString("dimensions");
-				double price = rs.getDouble("price");
-				double discountPrice = rs.getDouble("discountPrice");
+				BigDecimal price = rs.getBigDecimal("price");
+				BigDecimal discountPrice = rs.getBigDecimal("discountPrice");
 				int stockQuantity = rs.getInt("stockQuantity");
 				String weight = rs.getString("weight");
 				Timestamp createdAt = rs.getTimestamp("createdAt");

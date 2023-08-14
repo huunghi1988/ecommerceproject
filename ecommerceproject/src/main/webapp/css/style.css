@@ -662,6 +662,7 @@ ol {
 	float: left;
 }
 
+
 .hero__search__form form .hero__search__categories {
 	width: 30%;
 	float: left;
@@ -699,9 +700,77 @@ ol {
 	padding-left: 20px;
 }
 
-.hero__search__form form input::placeholder {
-	color: #b2b2b2;
+.hero__search__form form .searchInput{
+	background: #fff;
+	width: 100%;
+	border-radius: 5px;
+	position: relative;
+	box-shadow: 0px 1px 5px 3px rgba(0,0,0,0.12);
+  }
+
+
+.searchInput input{
+  height: 55px;
+  width: 100%;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  padding: 0 60px 0 20px;
+  font-size: 18px;
+  box-shadow: 0px 1px 5px rgba(0,0,0,0.1);
 }
+
+.searchInput.active input{
+  border-radius: 10px 10px 0 0;
+}
+
+.searchInput .resultBox{
+  padding: 0;
+  opacity: 0;
+  pointer-events: none;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.searchInput.active .resultBox{
+  padding: 10px 8px;
+font-size: 16px;
+	color: #b2b2b2;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.resultBox li{
+  list-style: none;
+  padding: 8px 12px;
+  font-size: 16px;
+	color: #b2b2b2;
+  display: none;
+  width: 100%;
+  cursor: default;
+  border-radius: 3px;
+}
+
+.searchInput.active .resultBox li{
+  display: block;
+}
+.resultBox li:hover{
+  background: #efefef;
+}
+
+.searchInput .icon{
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  height: 55px;
+  width: 55px;
+  text-align: center;
+  line-height: 55px;
+  font-size: 20px;
+  color: #644bff;
+  cursor: pointer;
+}
+
 
 .hero__search__form form button {
 	position: absolute;
@@ -709,6 +778,8 @@ ol {
 	top: -1px;
 	height: 50px;
 }
+
+
 
 .hero__search__phone {
 	float: right;

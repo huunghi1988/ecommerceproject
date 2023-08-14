@@ -1,6 +1,7 @@
 package coding.ecommerceproject.entity;
 
 import java.util.Date;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 public class Product {
 
@@ -8,8 +9,8 @@ public class Product {
 	private String productName;
 	private String description;
 	private String dimensions;
-	private double price;
-	private double discountPrice;
+	private BigDecimal price;
+	private BigDecimal discountPrice;
 	private int stockQuantity;
 	private String weight;
 	private Timestamp createdAt;
@@ -17,8 +18,8 @@ public class Product {
 	private String imageUrl;
 	private int categoryId;
 	private String categoryName;
-	public Product(int productId, String productName, String description, String dimensions, double price,
-			double discountPrice, int stockQuantity, String weight, Timestamp createdAt, Timestamp updatedAt,
+	public Product(int productId, String productName, String description, String dimensions, BigDecimal price,
+			BigDecimal discountPrice, int stockQuantity, String weight, Timestamp createdAt, Timestamp updatedAt,
 			String imageUrl, int categoryId, String categoryName) {
 		super();
 		this.productId = productId;
@@ -59,16 +60,16 @@ public class Product {
 	public void setDimensions(String dimensions) {
 		this.dimensions = dimensions;
 	}
-	public double getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
-	public void setPrice(double price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
-	public double getDiscountPrice() {
+	public BigDecimal getDiscountPrice() {
 		return discountPrice;
 	}
-	public void setDiscountPrice(double discountPrice) {
+	public void setDiscountPrice(BigDecimal discountPrice) {
 		this.discountPrice = discountPrice;
 	}
 	public int getStockQuantity() {

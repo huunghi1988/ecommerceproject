@@ -71,7 +71,7 @@
 						class="fa fa-shopping-bag"></i> <span>Cart(${empty sessionScope.cart? 0 : sessionScope.cart.size()})</span></a></li>
 			</ul>
 			<div class="header__cart__price">
-				item: <span>$${sessionScope.totalCartPrice}</span>
+				item: <span>$${sessionScope.totalPrice}</span>
 			</div>
 		</div>
 		<div class="humberger__menu__widget">
@@ -193,7 +193,7 @@
 									class="fa fa-shopping-bag"></i> <span>${empty sessionScope.cart? 0 : sessionScope.cart.size()}</span></a></li>
 						</ul>
 						<div class="header__cart__price">
-							item: <span>$${sessionScope.totalCartPrice}</span>
+							item: <span>$${sessionScope.totalPrice}</span>
 						</div>
 					</div>
 				</div>
@@ -271,6 +271,8 @@
 
 	<!-- Shoping Cart Section Begin -->
 	<section class="shoping-cart spad">
+		<form action="UpdateCartServlet">
+		
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
@@ -297,7 +299,7 @@
 										<td class="shoping__cart__quantity">
 											<div class="quantity">
 												<div class="pro-qty">
-													<input type="text" name="quantity" id="quantity"
+													<input type="text" name="quantity_${productInCart.getProduct().productId}" id="quantity"
 														value="${productInCart.getQuantity()}"
 														onchange="myFunction()">
 												</div>
@@ -325,7 +327,6 @@
 						<a href="ProductList" class="primary-btn cart-btn">CONTINUE
 							SHOPPING</a>
 						<button type="submit"
-							onclick="window.location.href='UpdateCartServlet?command=UPDATE_CART&quantity=${quantity}'"
 							class="primary-btn cart-btn cart-btn-right">
 							<span class="icon_loading"></span> Update Cart
 						</button>
@@ -335,7 +336,6 @@
 					<div class="shoping__continue">
 						<div class="shoping__discount">
 							<h5>Discount Codes</h5>
-							<form action="#">
 								<input type="text" placeholder="Enter your coupon code">
 								<button type="submit" class="site-btn">APPLY COUPON</button>
 						</div>

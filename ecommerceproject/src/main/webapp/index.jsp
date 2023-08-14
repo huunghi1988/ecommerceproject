@@ -30,6 +30,8 @@
 <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
 <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
 <link rel="stylesheet" href="css/style.css" type="text/css">
+
+
 </head>
 
 <body>
@@ -196,7 +198,7 @@
 									class="fa fa-shopping-bag"></i> <span>${empty sessionScope.cart? 0 : sessionScope.cart.size()}</span></a></li>
 						</ul>
 						<div class="header__cart__price">
-							item: <span>$${sessionScope.totalCartPrice}</span>
+							item: <span>$${sessionScope.totalPrice}</span>
 						</div>
 					</div>
 				</div>
@@ -226,16 +228,23 @@
 						</ul>
 					</div>
 				</div>
+
 				<div class="col-lg-9">
 					<div class="hero__search">
 						<div class="hero__search__form">
 							<form action="ProductList">
-								<div class="hero__search__categories">
-									All Categories <span class="arrow_carrot-down"> </span>
+							
+								<div class="searchInput">
+									<input type="text" name="keyword" id="searchTxt"
+										placeholder="What do you need?" value="${keyword}">
 
+									<div class="resultBox">
+										<!-- here list are inserted from javascript -->
+									</div>
+									<div class="icon">
+										<i class="fas fa-search"></i>
+									</div>
 								</div>
-								<input type="text" name="keyword"
-									placeholder="What do you need?" value="${keyword}">
 								<button type="submit" class="site-btn">SEARCH</button>
 							</form>
 						</div>
@@ -711,6 +720,8 @@
 	<script src="js/mixitup.min.js"></script>
 	<script src="js/owl.carousel.min.js"></script>
 	<script src="js/main.js"></script>
+	<script src="js/Search.js"></script>
+
 
 
 

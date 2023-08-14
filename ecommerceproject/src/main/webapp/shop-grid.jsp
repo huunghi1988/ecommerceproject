@@ -35,7 +35,12 @@
 <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
 <link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
-
+<script type="text/javascript">
+document.getElementById('paging').itemsPerPage.onchange = function() {
+    var newaction = document.getElementById('paging').action + this.value;
+    document.getElementById('itemsPerPage').action = newaction;
+};
+</script>
 <body>
 	<!-- Page Preloder -->
 	<div id="preloder">
@@ -399,7 +404,8 @@
 											<div class="product__discount__item__text">
 												<span>${product.categoryName}</span>
 												<h5>
-													<a href="ProductDetailServlet?productId=${product.productId}">${product.productName}</a>
+													<a
+														href="ProductDetailServlet?productId=${product.productId}">${product.productName}</a>
 												</h5>
 												<div class="product__item__price">
 													$${product.discountPrice} <span>$${product.price}</span>
@@ -439,17 +445,17 @@
 									</h6>
 								</div>
 							</div>
-							Items per page : 
-							<div class="header__top__right__language">
-								<div>10</div>
-								<span class="arrow_carrot-down"></span>
-								<ul>
-									<li><a href="Paging?itemsPerPage=10">10</a></li>
-									<li><a href="Paging?itemsPerPage=15">15</a></li>
-									<li><a href="Paging?itemsPerPage=20">20</a></li>
-								</ul>
-							</div>
-							
+							<form name="paging" id="paging" action="Paging?itemsPerPage=">
+								<div class="filter__sort">
+									<span>Items per page : </span> <select id="itemsPerPage">
+										<option value="10">10</option>
+										<option value="15">15</option>
+										<option value="20">20</option>
+									</select>
+								</div>
+							</form>
+
+
 						</div>
 					</div>
 					<div class="row">

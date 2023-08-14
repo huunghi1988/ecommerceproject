@@ -1,6 +1,7 @@
 package coding.ecommerceproject.servlet;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,46 +35,27 @@ public class UpdateCartServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String command = request.getParameter("command");
-		int productId = 0;
-		int quantity = 1;
-		if (command != null && command.equals("UPDATE_CART")) {
-			productId = Integer.parseInt(request.getParameter("productId"));
-			if (request.getParameter("quantity") != null)
-				quantity = Integer.parseInt(request.getParameter("quantity"));
+		HttpSession session = request.getSession();
+        // Get the cart from the session
 
-			HttpSession session = request.getSession();
-			Map<Integer, ProductInCart> cart = (Map<Integer, ProductInCart>) session.getAttribute("cart");
-			if (cart == null) {
-				cart = new HashMap<Integer, ProductInCart>();
-			}
-			if (cart.containsKey(productId)) {
+		Map<Integer, ProductInCart> cart = (Map<Integer, ProductInCart>) session.getAttribute("cart");
+		if (cart != null) {
+            // Iterate through the request parameters to update quantities
+           
+			for (Integer cartProductId : cart.keySet()) {
+                String updatedQuantityStr = request.getParameter("quantity_" + cartProductId);
+                int updatedQuantity = 0;
+                    updatedQuantity = Integer.parseInt(updatedQuantityStr);
+	                ProductInCart productInCart = cart.get(cartProductId);
+	                productInCart.setQuantity(updatedQuantity);
+	                productInCart.setTotalPrice(productInCart.getProduct().getPrice().multiply(BigDecimal.valueOf(productInCart.getQuantity())) );
+                    cart.put(cartProductId, productInCart);
 
-				ProductInCart productInCart = cart.get(productId);
-				if (quantity > 1) {
-					productInCart.setQuantity(productInCart.getQuantity() + quantity);
-				} else {
-					productInCart.setQuantity(productInCart.getQuantity() + 1);
-				}
-				request.setAttribute("productInCart", productInCart);
-
-			} else {
-				Product product = productService.getProductsByProductId(productId);
-				ProductInCart newProductInCart = new ProductInCart(product, quantity);
-				cart.put(productId, newProductInCart);
-				request.setAttribute("productInCart", newProductInCart);
-				
-			}
+                }
 			session.setAttribute("cart", cart);
-			response.sendRedirect(request.getHeader("referer"));
-		} else if (command != null && command.equals("VIEW_CART")) {
+            response.sendRedirect(request.getHeader("referer"));
 
-			RequestDispatcher rd = request.getRequestDispatcher("shoping-cart.jsp");
-			rd.forward(request, response);
-		}
-		//else if (command !=null && command.equals("UPDATE_CART")) {
-			
-		//}
+            }
 	}
 
 	/**

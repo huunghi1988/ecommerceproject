@@ -1,6 +1,7 @@
 package coding.ecommerceproject.servlet;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,18 +42,26 @@ public class ProductList extends HttpServlet {
 		try {
 			CategoryService service = new CategoryService();
 			ProductService productService = new ProductService();
-			double maxPrice = productService.getMaxPrice();
-			double minPrice = productService.getMinPrice();
+			
+			String itemsPerPage = request.getParameter("itemsPerPage");
+			int totalPage;
+			
+			BigDecimal maxPrice = productService.getMaxPrice();
+			BigDecimal minPrice = productService.getMinPrice();
 			System.out.println("max" + maxPrice + "  min" + minPrice);
-
+//get all
 			List<Category> categoryList = service.getAllCategories();
 			String categoryId = request.getParameter("categoryId");
 
 			List<Product> productListByCategoryId = new ArrayList<Product>();
 			if (categoryId == null) {
 				productListByCategoryId = productService.getAllProducts();
+				//totalPage=(int) Math.ceil((double)productListByCategoryId.size()/Integer.parseInt(itemsPerPage));
+				
 			} else {
 				productListByCategoryId = productService.getProductsByCategoryId(Integer.parseInt(categoryId));
+				//totalPage=(int) Math.ceil((double)productListByCategoryId.size()/Integer.parseInt(itemsPerPage));
+
 			}
 
 //by keyword
@@ -61,6 +70,9 @@ public class ProductList extends HttpServlet {
 
 			if (keyword != null && !keyword.isEmpty()) {
 				productListBySearch = productService.getProductsBySearch(keyword);
+				//totalPage=(int) Math.ceil((double)productListBySearch.size()/Integer.parseInt(itemsPerPage));
+				
+
 				request.setAttribute("keyword", keyword);
 			}
 // by sort  max min
@@ -69,13 +81,18 @@ public class ProductList extends HttpServlet {
 			List<Product> productListByMaxMin = new ArrayList<Product>();
 
 			if (maxValue != null && !maxValue.isEmpty()) {
-				productListByMaxMin = productService.getProductsByMaxMin(Double.parseDouble(maxValue),
-						Double.parseDouble(minValue));
+				productListByMaxMin = productService.getProductsByMaxMin(maxValue,
+						minValue);
 			}
 
 //discountProduct
 			List<Product> productListByDiscount = new ArrayList<Product>();
 			productListByDiscount = productService.getDiscountProducts();
+			
+			//paging
+			
+			
+		
 
 			RequestDispatcher rd = request.getRequestDispatcher("shop-grid.jsp");
 			request.setAttribute("categoryList", categoryList);
@@ -88,6 +105,7 @@ public class ProductList extends HttpServlet {
 			request.setAttribute("maxPrice", maxPrice);
 			request.setAttribute("minPrice", minPrice);
 			request.setAttribute("productListByMaxMin", productListByMaxMin);
+			//request.setAttribute("totalPage", totalPage);
 			rd.forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -27,6 +27,7 @@
 <!--===============================================================================================-->
 <link rel="stylesheet" type="text/css" href="css/util.css">
 <link rel="stylesheet" type="text/css" href="css/main.css">
+<link rel="stylesheet" type="text/css" href="css/registration.css">
 <!--===============================================================================================-->
 </head>
 <body>
@@ -69,7 +70,7 @@
 					<div class="wrap-input100 validate-input">
 						<input class="input100" type="Required field" name="username"
 							placeholder="Username"> <span class="focus-input100"></span>
-						<span class="symbol-input100"> <i class="fa fa-lock"
+						<span class="symbol-input100"> <i class="fa  fa-keyboard-o"
 							aria-hidden="true"></i>
 						</span>
 					</div>
@@ -77,14 +78,14 @@
 					<div class="wrap-input100 validate-input">
 						<input class="input100" type="Required field" name="firstName"
 							placeholder="First name"> <span class="focus-input100"></span>
-						<span class="symbol-input100"> <i class="fa fa-lock"
+						<span class="symbol-input100"> <i class="fa fa-keyboard-o"
 							aria-hidden="true"></i>
 						</span>
 					</div>
 					<div class="wrap-input100 validate-input">
 						<input class="input100" type="Required field" name="lastName"
 							placeholder="Last name"> <span class="focus-input100"></span>
-						<span class="symbol-input100"> <i class="fa fa-lock"
+						<span class="symbol-input100"> <i class="fa fa-keyboard-o"
 							aria-hidden="true"></i>
 						</span>
 					</div>

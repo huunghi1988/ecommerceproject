@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import coding.ecommerceproject.entity.User;
 import coding.ecommerceproject.service.LoginService;
+import coding.ecommerceproject.service.SendEmailThroughGmail;
 
 /**
  * Servlet implementation class Login
@@ -52,6 +53,8 @@ public class Login extends HttpServlet {
 			String password = request.getParameter("password");
 			LoginService loginService = new LoginService();
 			User user = loginService.getUserByEmailAndPassword(email, password);
+		
+			
 			
 			if (user == null) {
 				String errorMessage = "Incorrect email or password, please re-enter.";
@@ -61,7 +64,8 @@ public class Login extends HttpServlet {
 				rd.forward(request, response);
 
 			} else {
-
+				SendEmailThroughGmail sendEmail= new SendEmailThroughGmail();
+				sendEmail.SendEmail("huunghi1988@gmail.com", "abc", "abc");
 				HttpSession session = request.getSession(false);
 				session.setAttribute("name", user.getFirstName() + " " + user.getLastName());
 				session.setAttribute("userId", user.getUserId());
