@@ -2,7 +2,6 @@ package coding.ecommerceproject.db.util;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.SQLOutput;
 
 public class DBUtil {
 	public static  Connection makeConnection() {

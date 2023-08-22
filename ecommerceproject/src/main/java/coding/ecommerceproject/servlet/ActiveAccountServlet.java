@@ -19,13 +19,13 @@ import coding.ecommerceproject.service.UserService;
  * Servlet implementation class ActiveAccount
  */
 @WebServlet("/activate")
-public class ActiveAccount extends HttpServlet {
+public class ActiveAccountServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public ActiveAccount() {
+	public ActiveAccountServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -50,28 +50,28 @@ public class ActiveAccount extends HttpServlet {
 
 				if (savedToken.getToken().equals(token)) {
 					userService.setUserActive(email);
-					String successMessage =  email + " has been successfully verified and activated.Please login";
+					String SuccessMessage =  email + " has been successfully verified and activated.Please login";
 					RequestDispatcher rd = request.getRequestDispatcher("ActiveAccount.jsp");
-					request.setAttribute("success", successMessage);
+					request.setAttribute("SuccessMessage", SuccessMessage);
 					rd.forward(request, response);
 					System.out.println(  email + " has been successfully verified and activated.");
 				} else {
-					String tokenExpireMessage = "Invalid verification token.";
+					String errorMessage = "Invalid verification token.";
 					RequestDispatcher rd = request.getRequestDispatcher("ActiveAccount.jsp");
-					request.setAttribute("tokenExpireMessage", tokenExpireMessage);
+					request.setAttribute("errorMessage", errorMessage);
 					rd.forward(request, response);
 					System.out.println("Invalid verification token.");
 				}
 			} else if (token != null && currentTimestamp.after(savedToken.getExpiration())) {
-				String tokenExpireMessage = "Token has expired. Request a new verification link.";
+				String errorMessage = "Token has expired. Request a new verification link.";
 				RequestDispatcher rd = request.getRequestDispatcher("ActiveAccount.jsp");
-				request.setAttribute("tokenExpireMessage", tokenExpireMessage);
+				request.setAttribute("errorMessage", errorMessage);
 				rd.forward(request, response);
 				System.out.println("Token has expired. Request a new verification link.");
 			} else {
-				String tokenInvalidMessage = "Invalid verification token";
+				String errorMessage = "Invalid verification token";
 				RequestDispatcher rd = request.getRequestDispatcher("ActiveAccount.jsp");
-				request.setAttribute("tokenInvalidMessage", tokenInvalidMessage);
+				request.setAttribute("errorMessage", errorMessage);
 				rd.forward(request, response);
 				System.out.println("Invalid verification token.");
 			}

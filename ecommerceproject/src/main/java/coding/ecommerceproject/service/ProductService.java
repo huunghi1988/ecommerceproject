@@ -22,6 +22,7 @@ public class ProductService {
 	private final String GET_MIN_PRICE = "SELECT MIN(price) as minPrice FROM sql6631093.product";
 	private final String GET_MAX_PRICE = "SELECT MAX(price) as maxPrice FROM sql6631093.product";
 	private final String GET_PRODUCTS_BY_MAXMIN = "SELECT * FROM sql6631093.product join product_image on product.product_id=product_image.product_id join category on product.category_id=category.category_id where product_image.is_primary=1 and product.price >= ? and product.price <= ?";
+	private final String GET_LASTEST_10_PRODUCTS = "SELECT * FROM sql6631093.product join product_image on product.product_id=product_image.product_id join category on product.category_id=category.category_id where product_image.is_primary=1 ORDER BY created_at DESC LIMIT 10";
 
 	public List<Product> getProductsByCategoryId(int categoryId) throws SQLException {
 
@@ -356,6 +357,56 @@ public class ProductService {
 
 			ps.setBigDecimal(1, getMinPrice());
 			ps.setBigDecimal(1, getMaxPrice());
+
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+				int productId = rs.getInt("product_id");
+				String productName = rs.getString("product_name");
+				String description = rs.getString("description");
+				String dimensions = rs.getString("dimensions");
+				BigDecimal price = rs.getBigDecimal("price");
+				BigDecimal discountPrice = rs.getBigDecimal("discount_price");
+				int stockQuantity = rs.getInt("stock_quantity");
+				String weight = rs.getString("weight");
+
+				String imageUrl = rs.getString("image_url");
+				int categoryId = rs.getInt("category_id");
+				String categoryName = rs.getString("category_name");
+
+				product = new Product(productId, productName, description, dimensions, price, discountPrice,
+						stockQuantity, weight, imageUrl, categoryId, categoryName);
+				list.add(product);
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		} finally {
+			if (rs != null) {
+				rs.close();
+			}
+			if (ps != null) {
+				ps.close();
+			}
+			if (conn != null) {
+				conn.close();
+			}
+		}
+		return list;
+	}
+	
+	public List<Product> getLastestProduct() throws SQLException {
+
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Product product = null;
+		List<Product> list = new ArrayList<Product>();
+		try {
+			conn = DBUtil.makeConnection();
+
+			ps = conn.prepareStatement(GET_LASTEST_10_PRODUCTS);
 
 			rs = ps.executeQuery();
 

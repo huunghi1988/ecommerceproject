@@ -11,6 +11,10 @@ import coding.ecommerceproject.db.util.DBUtil;
 import coding.ecommerceproject.entity.User;
 
 public class LoginService {
+	private final static String GET_USER_BY_EMAIL_PASSWORD = "SELECT * FROM sql6631093.user where email  =? and password = ?";
+	private final static String CHECK_DUPLICATE_EMAIL = "SELECT email FROM sql6631093.user where email  =?";
+
+	
 	public  User getUserByEmailAndPassword(String email, String password) throws SQLException {
 
 		Connection conn = null;
@@ -20,7 +24,7 @@ public class LoginService {
 		try {
 			conn = DBUtil.makeConnection();
 
-			ps = conn.prepareStatement("SELECT * FROM sql6631093.user where email  =? and password = ?");
+			ps = conn.prepareStatement(GET_USER_BY_EMAIL_PASSWORD);
 
 			ps.setString(1, email);
 			ps.setString(2, password);
@@ -69,7 +73,7 @@ public class LoginService {
 		try {
 			conn = DBUtil.makeConnection();
 
-			ps = conn.prepareStatement("SELECT email FROM sql6631093.user where email  =? ");
+			ps = conn.prepareStatement(CHECK_DUPLICATE_EMAIL);
 
 			ps.setString(1, email);
 			rs = ps.executeQuery();

@@ -2,40 +2,49 @@ package coding.ecommerceproject.service;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Timer;
 import java.util.TimerTask;
 
 import coding.ecommerceproject.db.util.DBUtil;
-import coding.ecommerceproject.entity.User;
 
-public class ScheduledDeleteTask extends TimerTask {
 
-	private final String email;
+public class ScheduledDeleteTask {
+	private final static String DELETE_EXPIRED_VERIFICATION_TOKEN = "DELETE FROM `sql6631093`.`verification_token` WHERE email = ?";
+	private final static String DELETE_EXPIRED_VERIFICATION_USER = "DELETE FROM `sql6631093`.`user` WHERE is_active = 0 and email = ?";
 
-	public ScheduledDeleteTask(String email) {
-		this.email = email;
-	}
+	public static void ScheduleVerificationRowDeletion(String email) throws SQLException {
+		 final int expirationMinute = 1;// set exp 
 
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		Connection conn = null;
-		PreparedStatement ps = null;
+		TimerTask task = new TimerTask() {
+			public void run() {
+				Connection conn = null;
+				PreparedStatement ps = null;
 
-		try {
-			conn = DBUtil.makeConnection();
+				try {
+					conn = DBUtil.makeConnection();
 
-			ps = conn.prepareStatement("DELETE FROM `sql6631093`.`verification_token` WHERE email = ?",
-					java.sql.Statement.RETURN_GENERATED_KEYS);
+					ps = conn.prepareStatement(DELETE_EXPIRED_VERIFICATION_TOKEN);
 
-			ps.setString(1, email);
+					ps.setString(1, email);
 
-			ps.executeUpdate();
+					ps.executeUpdate();
+					ps = conn.prepareStatement(DELETE_EXPIRED_VERIFICATION_USER);
 
-		} catch (Exception e) {
-			e.printStackTrace();
+					ps.setString(1, email);
 
-		}
+					ps.executeUpdate();
+					System.out.println("delete " + email);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+
+				}
+			
+			}
+		};
+		Timer timer = new Timer("Timer");
+		long delay = expirationMinute*60000;
+		timer.schedule(task, delay);
 	}
 }

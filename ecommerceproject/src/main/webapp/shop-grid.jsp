@@ -36,10 +36,10 @@
 <link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
 <script type="text/javascript">
-document.getElementById('paging').itemsPerPage.onchange = function() {
-    var newaction = document.getElementById('paging').action + this.value;
-    document.getElementById('itemsPerPage').action = newaction;
-};
+	document.getElementById('paging').itemsPerPage.onchange = function() {
+		var newaction = document.getElementById('paging').action + this.value;
+		document.getElementById('itemsPerPage').action = newaction;
+	};
 </script>
 <body>
 	<!-- Page Preloder -->
@@ -397,8 +397,9 @@ document.getElementById('paging').itemsPerPage.onchange = function() {
 												<ul class="product__item__pic__hover">
 													<li><a href="#"><i class="fa fa-heart"></i></a></li>
 													<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-													<li><button type="submit" class="fa fa-shopping-cart"
-															onclick="window.location.href='CartServlet?command=ADD_TO_CART&productId=${product.productId}'"></button></li>
+													<li><a
+													href="CartServlet?command=ADD_TO_CART&productId=${product.productId}"><i
+														class="fa fa-shopping-cart"></i></a></li>
 												</ul>
 											</div>
 											<div class="product__discount__item__text">
@@ -468,8 +469,10 @@ document.getElementById('paging').itemsPerPage.onchange = function() {
 											<ul class="product__item__pic__hover">
 												<li><a href="#"><i class="fa fa-heart"></i></a></li>
 												<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-												<li><button type="submit" class="fa fa-shopping-cart"
-														onclick="window.location.href='CartServlet?command=ADD_TO_CART&productId=${product.productId}'"></button></li>
+												<li><a
+													href="CartServlet?command=ADD_TO_CART&productId=${product.productId}"><i
+														class="fa fa-shopping-cart"></i></a></li>
+
 											</ul>
 										</div>
 										<div class="product__item__text">
@@ -493,8 +496,10 @@ document.getElementById('paging').itemsPerPage.onchange = function() {
 											<ul class="product__item__pic__hover">
 												<li><a href="#"><i class="fa fa-heart"></i></a></li>
 												<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-												<li><button type="submit" class="fa fa-shopping-cart"
-														onclick="window.location.href='CartServlet?command=ADD_TO_CART&productId=${product.productId}'"></button></li>
+												<li><a
+													href="CartServlet?command=ADD_TO_CART&productId=${product.productId}"><i
+														class="fa fa-shopping-cart"></i></a></li>
+
 											</ul>
 										</div>
 										<div class="product__item__text">

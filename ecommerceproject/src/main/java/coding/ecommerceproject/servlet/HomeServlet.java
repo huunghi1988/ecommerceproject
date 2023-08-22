@@ -20,7 +20,7 @@ import coding.ecommerceproject.service.ProductService;
  * Servlet implementation class Home
  */
 @WebServlet("/Home")
-public class Home extends HttpServlet {
+public class HomeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final String REQUEST_FROM_CATEGORYID = "GetProductsByCategoryId";
 	private final String REQUEST_FROM_SEARCH = "SEARCH";
@@ -29,7 +29,7 @@ public class Home extends HttpServlet {
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public Home() {
+	public HomeServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -88,6 +88,9 @@ public class Home extends HttpServlet {
 			ProductService productService = new ProductService();
 			List<Category> categoryList = service.getAllCategories();
 			List<Product> productListByCategoryId = new ArrayList<Product>();
+			List<Product> lastest10ProductList= new ArrayList<Product>();
+			lastest10ProductList=productService.getLastestProduct();
+
 			if (categoryId == null) {
 				productListByCategoryId = productService.getAllProducts();
 				System.out.println(productListByCategoryId.size());
@@ -95,8 +98,12 @@ public class Home extends HttpServlet {
 			} else {
 				productListByCategoryId = productService.getProductsByCategoryId(Integer.parseInt(categoryId));
 			}
+			
+			
 			RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
 			request.setAttribute("categoryList", categoryList);
+			request.setAttribute("lastest10ProductList", lastest10ProductList);
+
 			request.setAttribute("productListByCategoryId", productListByCategoryId);
 			rd.forward(request, response);
 		} catch (Exception e) {

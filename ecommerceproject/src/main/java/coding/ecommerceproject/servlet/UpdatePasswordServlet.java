@@ -18,13 +18,13 @@ import coding.ecommerceproject.service.UserService;
  * Servlet implementation class UpdatePassword
  */
 @WebServlet("/UpdatePassword")
-public class UpdatePassword extends HttpServlet {
+public class UpdatePasswordServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public UpdatePassword() {
+	public UpdatePasswordServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -45,8 +45,18 @@ public class UpdatePassword extends HttpServlet {
 		try {
 			Token savedToken = userService.getToken(email);
 			Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
-			boolean isExpired = currentTimestamp.after(savedToken.getExpiration());
 			
+			if (savedToken== null) {
+				String errorMessage = "Invalid verification token.";
+				RequestDispatcher rd = request.getRequestDispatcher("forgetpassword.jsp");
+				request.setAttribute("errorMessage", errorMessage);
+				rd.forward(request, response);
+				System.out.println("Invalid verification token.");
+			}
+			
+			
+			boolean isExpired = currentTimestamp.after(savedToken.getExpiration());
+
 			if(command !=null) {
 			if (command.equals("update") && password != null) {
 				String errorMessage = " Password is updated . Please login";
@@ -60,7 +70,7 @@ public class UpdatePassword extends HttpServlet {
 			}
 			}
 
-			if (token != null && email != null && !isExpired) {
+			if (token != null && email != null && !isExpired && savedToken!= null) {
 
 				if (savedToken.getToken().equals(token)) {
 
@@ -90,8 +100,8 @@ public class UpdatePassword extends HttpServlet {
 				request.setAttribute("errorMessage", errorMessage);
 				rd.forward(request, response);
 				System.out.println("Invalid verification token.");
+			
 			}
-
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -13,6 +13,13 @@ import coding.ecommerceproject.entity.Token;
 import coding.ecommerceproject.entity.User;
 
 public class UserService {
+	private final static String GET_ALL_USERS = "SELECT * FROM sql6631093.user";
+	private final static String CHECK_DUPLICATE_USER = "SELECT email FROM sql6631093.user where email  =? ";
+	private final static String GET_TOKEN = "SELECT * FROM sql6631093.verification_token where email  =? ";
+	private final static String SET_USER_ACTIVE = "UPDATE `sql6631093`.`user` SET `is_active` = 1 WHERE (`email` = ?)`";
+	private final static String SET_NEW_PASSWORD = "UPDATE `sql6631093`.`user` SET `password` = ? WHERE (`email` = ?)";
+
+
 	public List<User> getAllUsers() throws SQLException {
 
 		Connection conn = null;
@@ -23,7 +30,7 @@ public class UserService {
 		try {
 			conn = DBUtil.makeConnection();
 
-			ps = conn.prepareStatement("SELECT * FROM sql6631093.user ");
+			ps = conn.prepareStatement(GET_ALL_USERS);
 
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -72,7 +79,7 @@ public class UserService {
 		try {
 			conn = DBUtil.makeConnection();
 
-			ps = conn.prepareStatement("SELECT email FROM sql6631093.user where email  =? ");
+			ps = conn.prepareStatement(CHECK_DUPLICATE_USER);
 
 			ps.setString(1, email);
 			rs = ps.executeQuery();
@@ -107,7 +114,7 @@ public class UserService {
 		try {
 			conn = DBUtil.makeConnection();
 
-			ps = conn.prepareStatement("SELECT * FROM sql6631093.verification_token where email  =? ");
+			ps = conn.prepareStatement(GET_TOKEN);
 
 			ps.setString(1, email);
 			rs = ps.executeQuery();
@@ -135,7 +142,7 @@ public class UserService {
 		return newtoken;
 	}
 	
-	public static void setUserActive(String email) throws SQLException {
+	public void setUserActive(String email) throws SQLException {
 
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -143,7 +150,7 @@ public class UserService {
 		try {
 			conn = DBUtil.makeConnection();
 
-			ps = conn.prepareStatement("UPDATE `sql6631093`.`user` SET `is_active` = 1 WHERE (`email` = ?)");
+			ps = conn.prepareStatement(SET_USER_ACTIVE);
 
 			ps.setString(1, email);
 			ps.executeUpdate();
@@ -173,7 +180,7 @@ public class UserService {
 		try {
 			conn = DBUtil.makeConnection();
 
-			ps = conn.prepareStatement("UPDATE `sql6631093`.`user` SET `password` = ? WHERE (`email` = ?)");
+			ps = conn.prepareStatement(SET_NEW_PASSWORD);
 			ps.setString(1, password);
 
 			ps.setString(2, email);

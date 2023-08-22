@@ -4,6 +4,8 @@
 <%@page import="coding.ecommerceproject.entity.Category"%>
 <%@page import="coding.ecommerceproject.service.CategoryService"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page import="java.util.List"%>
+
 
 <!DOCTYPE html>
 <html lang="zxx">
@@ -33,6 +35,7 @@
 </head>
 
 <body>
+
 	<!-- Page Preloder -->
 	<div id="preloder">
 		<div class="loader"></div>
@@ -136,7 +139,7 @@
 								<div>English</div>
 								<span class="arrow_carrot-down"></span>
 								<ul>
-									<li><a href="#">Spanis</a></li>
+									<li><a href="#">Spanish</a></li>
 									<li><a href="#">English</a></li>
 								</ul>
 							</div>
@@ -191,13 +194,14 @@
 				<div class="col-lg-3">
 					<div class="header__cart">
 						<ul>
-							<li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
+							<li><a href="#"><i class="fa fa-heart"></i> <span>0</span></a></li>
 							<li><a href="CartServlet?command=VIEW_CART"><i
 									class="fa fa-shopping-bag"></i> <span>${empty sessionScope.cart? 0 : sessionScope.cart.size()}</span></a></li>
 						</ul>
 						<div class="header__cart__price">
-							item: <span>$${sessionScope.totalPrice}</span>
+							item: <span>$<c:if test="${sessionScope.totalPrice == 0 }"></c:if>${sessionScope.totalPrice}</span>
 						</div>
+
 					</div>
 				</div>
 			</div>
@@ -230,12 +234,11 @@
 				<div class="col-lg-9">
 					<div class="hero__search">
 						<div class="hero__search__form">
-							<form action="Home?command=SEARCH">
-							
+							<form action="ProductList?command=SEARCH">
+
 								<div class="searchInput">
-									<input name="Command" hidden=true value="SEARCH"></input>
-								
-									<input type="text" name="keyword" id="searchTxt"
+									<input name="Command" hidden=true value="SEARCH"></input> <input
+										type="text" name="keyword" id="searchTxt"
 										placeholder="What do you need?" value="${keyword}">
 
 									<div class="resultBox">
@@ -253,7 +256,7 @@
 								<i class="fa fa-phone"></i>
 							</div>
 							<div class="hero__search__phone__text">
-								<h5>+65 11.188.888</h5>
+								<h5>+61 402 502 880</h5>
 								<span>support 24/7 time</span>
 							</div>
 						</div>
@@ -265,7 +268,7 @@
 								Vegetable <br />100% Organic
 							</h2>
 							<p>Free Pickup and Delivery Available</p>
-							<a href="#" class="primary-btn">SHOP NOW</a>
+							<a href="ProductList" class="primary-btn">SHOP NOW</a>
 						</div>
 					</div>
 				</div>
@@ -273,8 +276,8 @@
 		</div>
 	</section>
 	<!-- Hero Section End -->
+
 	<!-- bat dau cua body -->
-	>
 	<!-- Categories Section Begin -->
 	<section class="categories">
 		<div class="container">
@@ -330,8 +333,9 @@
 									<li><a href="#"><i class="fa fa-heart"></i></a></li>
 
 									<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-									<li><button type="submit" class="fa fa-shopping-cart"
-											onclick="window.location.href='CartServlet?command=ADD_TO_CART&productId=${product.productId}'"></button></li>
+									<li><a
+										href="CartServlet?command=ADD_TO_CART&productId=${product.productId}"><i
+											class="fa fa-shopping-cart"></i></a></li>
 								</ul>
 							</div>
 							<div class="featured__item__text">
@@ -376,6 +380,25 @@
 					<div class="latest-product__text">
 						<h4>Latest Products</h4>
 						<div class="latest-product__slider owl-carousel">
+
+							<div class="latest-prdouct__slider__item">
+								<c:forEach var="product" items="${lastest10ProductList}"
+									begin="0" end="2">
+									<a href="#" class="latest-product__item">
+										<div class="latest-product__item__pic">
+											<img src="${product.imageUrl}" alt=""
+												style="width: 110px; height: 110px;">
+										</div>
+										<div class="latest-product__item__text">
+											<h6>${product.productName}</h6>
+											<span>$${product.price}</span>
+										</div>
+									</a>
+								</c:forEach>
+
+							</div>
+
+
 							<div class="latest-prdouct__slider__item">
 								<a href="#" class="latest-product__item">
 									<div class="latest-product__item__pic">
@@ -582,10 +605,11 @@
 								<li><i class="fa fa-comment-o"></i> 5</li>
 							</ul>
 							<h5>
-								<a href="#">Cooking tips make cooking simple</a>
+								<a href="blog-details.html">Cooking tips make cooking simple</a>
 							</h5>
-							<p>Sed quia non numquam modi tempora indunt ut labore et
-								dolore magnam aliquam quaerat</p>
+							<p>We've compiled this list of tips to make every time in the
+								kitchen a successful one. Check 'em out! 1. Set up your
+								workspace by gathering clean tools,</p>
 						</div>
 					</div>
 				</div>
@@ -600,10 +624,12 @@
 								<li><i class="fa fa-comment-o"></i> 5</li>
 							</ul>
 							<h5>
-								<a href="#">6 ways to prepare breakfast for 30</a>
+								<a href="blog-details.html">6 ways to prepare breakfast for
+									30</a>
 							</h5>
-							<p>Sed quia non numquam modi tempora indunt ut labore et
-								dolore magnam aliquam quaerat</p>
+							<p>Your family will love these quick breakfast recipes like
+								French toast, pancakes, breakfast casseroles, omelets and more
+								breakfast recipes.</p>
 						</div>
 					</div>
 				</div>
@@ -618,10 +644,12 @@
 								<li><i class="fa fa-comment-o"></i> 5</li>
 							</ul>
 							<h5>
-								<a href="#">Visit the clean farm in the US</a>
+								<a href="blog-details.html">Visit the clean farm in the
+									Australia</a>
 							</h5>
-							<p>Sed quia non numquam modi tempora indunt ut labore et
-								dolore magnam aliquam quaerat</p>
+							<p>We provide a friendly and professional service, together
+								with healthy and clean animals, a feature which has been a
+								strength of the business over the 32 years</p>
 						</div>
 					</div>
 				</div>
@@ -631,84 +659,10 @@
 	<!-- Blog Section End -->
 
 	<!-- Footer Section Begin -->
-	<footer class="footer spad">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-3 col-md-6 col-sm-6">
-					<div class="footer__about">
-						<div class="footer__about__logo">
-							<a href="./Home"><img src="img/logo.png" alt=""></a>
-						</div>
-						<ul>
-							<li>Address: 60-49 Road 11378 New York</li>
-							<li>Phone: +65 11.188.888</li>
-							<li>Email:</li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6 col-sm-6 offset-lg-1">
-					<div class="footer__widget">
-						<h6>Useful Links</h6>
-						<ul>
-							<li><a href="#">About Us</a></li>
-							<li><a href="#">About Our Shop</a></li>
-							<li><a href="#">Secure Shopping</a></li>
-							<li><a href="#">Delivery infomation</a></li>
-							<li><a href="#">Privacy Policy</a></li>
-							<li><a href="#">Our Sitemap</a></li>
-						</ul>
-						<ul>
-							<li><a href="#">Who We Are</a></li>
-							<li><a href="#">Our Services</a></li>
-							<li><a href="#">Projects</a></li>
-							<li><a href="#">Contact</a></li>
-							<li><a href="#">Innovation</a></li>
-							<li><a href="#">Testimonials</a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-12">
-					<div class="footer__widget">
-						<h6>Join Our Newsletter Now</h6>
-						<p>Get E-mail updates about our latest shop and special
-							offers.</p>
-						<form action="#">
-							<input type="text" placeholder="Enter your mail">
-							<button type="submit" class="site-btn">Subscribe</button>
-						</form>
-						<div class="footer__widget__social">
-							<a href="#"><i class="fa fa-facebook"></i></a> <a href="#"><i
-								class="fa fa-instagram"></i></a> <a href="#"><i
-								class="fa fa-twitter"></i></a> <a href="#"><i
-								class="fa fa-pinterest"></i></a>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-lg-12">
-					<div class="footer__copyright">
-						<div class="footer__copyright__text">
-							<p>
-								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-								Copyright &copy;
-								<script>
-									document.write(new Date().getFullYear());
-								</script>
-								All rights reserved | This template is made with <i
-									class="fa fa-heart" aria-hidden="true"></i> by <a
-									href="https://colorlib.com" target="_blank">Colorlib</a>
-								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-							</p>
-						</div>
-						<div class="footer__copyright__payment">
-							<img src="img/payment-item.png" alt="">
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</footer>
+	<jsp:include page="footer.jsp">
+		<jsp:param name="userId" value="${sessionScope.userId}" />
+
+	</jsp:include>
 	<!-- Footer Section End -->
 
 	<!-- Js Plugins -->

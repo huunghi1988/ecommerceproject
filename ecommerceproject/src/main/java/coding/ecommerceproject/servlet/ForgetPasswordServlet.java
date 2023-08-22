@@ -2,10 +2,7 @@ package coding.ecommerceproject.servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,25 +12,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import coding.ecommerceproject.entity.Token;
-import coding.ecommerceproject.entity.User;
+
 import coding.ecommerceproject.service.ForgetPasswordService;
 import coding.ecommerceproject.service.LoginService;
-import coding.ecommerceproject.service.RegistrationService;
+
 import coding.ecommerceproject.service.SendEmailThroughGmail;
 import coding.ecommerceproject.service.UserService;
-import coding.ecommerceproject.service.VerificationToken;
 
 /**
  * Servlet implementation class ActiveAccount
  */
 @WebServlet("/forgetpassword")
-public class ForgetPassword extends HttpServlet {
+public class ForgetPasswordServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public ForgetPassword() {
+	public ForgetPasswordServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

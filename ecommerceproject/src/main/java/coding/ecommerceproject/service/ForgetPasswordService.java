@@ -5,10 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
 import coding.ecommerceproject.db.util.DBUtil;
 
 public class ForgetPasswordService {
+	private final static String SET_FORGET_PASSWORD_TOKEN = "INSERT INTO `sql6631093`.`forgetpassword_token` (`email`, `token`,`expiration`) VALUES (?, ?,?) ON DUPLICATE KEY UPDATE `token` = ? , `expiration`=?  ";
 
 	public static void setForgetPasswordToken(String email) throws SQLException {
 		VerificationToken token = new VerificationToken();
@@ -20,16 +20,13 @@ public class ForgetPasswordService {
 		try {
 			conn = DBUtil.makeConnection();
 
-			ps = conn.prepareStatement(
-					"INSERT INTO `sql6631093`.`forgetpassword_token` (`email`, `token`,`expiration`) VALUES (?, ?,?) ON DUPLICATE KEY UPDATE `token` = ? , `expiration`=?  ",
-					java.sql.Statement.RETURN_GENERATED_KEYS);
+			ps = conn.prepareStatement(SET_FORGET_PASSWORD_TOKEN);
 
 			ps.setString(1, email);
 			ps.setString(2, token.getToken());
 			ps.setTimestamp(3, token.getExpirationDateTime());
 			ps.setString(4, token.getToken());
 			ps.setTimestamp(5, token.getExpirationDateTime());
-
 
 			ps.executeUpdate();
 		} catch (Exception e) {

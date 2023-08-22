@@ -13,19 +13,18 @@ import javax.servlet.http.HttpSession;
 
 import coding.ecommerceproject.entity.User;
 import coding.ecommerceproject.service.LoginService;
-import coding.ecommerceproject.service.SendEmailThroughGmail;
 
 /**
  * Servlet implementation class Login
  */
 @WebServlet("/Login")
-public class Login extends HttpServlet {
+public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public Login() {
+	public LoginServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

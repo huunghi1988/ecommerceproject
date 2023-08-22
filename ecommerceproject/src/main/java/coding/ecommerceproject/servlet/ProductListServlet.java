@@ -21,13 +21,13 @@ import coding.ecommerceproject.service.ProductService;
  * Servlet implementation class Home
  */
 @WebServlet("/ProductList")
-public class ProductList extends HttpServlet {
+public class ProductListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public ProductList() {
+	public ProductListServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

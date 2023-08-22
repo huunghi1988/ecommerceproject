@@ -10,6 +10,7 @@ import coding.ecommerceproject.db.util.DBUtil;
 import coding.ecommerceproject.entity.Category;
 
 public class CategoryService {
+	private final String GET_ALL_CATEGORY = "Select * from `category`";
 
 	public List<Category> getAllCategories() throws SQLException {
 
@@ -20,7 +21,7 @@ public class CategoryService {
 		List<Category> list = new ArrayList<Category>();
 		try {
 			conn = DBUtil.makeConnection();
-			ps = conn.prepareStatement("Select * from `category`");
+			ps = conn.prepareStatement(GET_ALL_CATEGORY);
 			rs = ps.executeQuery();
 
 			while (rs.next()) {
