@@ -6,8 +6,8 @@ import javax.mail.internet.*;
 
 public class SendEmailThroughGmail {
 	public static void SendVerifyEmail(String email, String token) {
-		final String username = "huunghi1988@gmail.com"; // Your Gmail email address
-		final String password = "shqabgyadtggjpkf"; // Your Gmail password or app-specific password
+		final String username = "ntran25021988@gmail.com"; // Your Gmail email address
+		final String password = "hekkuygowmnnaqgs"; // Your Gmail password or app-specific password
 
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
@@ -39,8 +39,8 @@ public class SendEmailThroughGmail {
 	}
 	
 	public static void SendForgetEmail(String email, String token) {
-		final String username = "huunghi1988@gmail.com"; // Your Gmail email address
-		final String password = "shqabgyadtggjpkf"; // Your Gmail password or app-specific password
+		final String username = "ntran25021988@gmail.com"; // Your Gmail email address
+		final String password = "hekkuygowmnnaqgs"; // Your Gmail password or app-specific password
 
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
