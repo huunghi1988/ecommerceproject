@@ -2,8 +2,6 @@ package coding.ecommerceproject.service;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
-import java.util.Date;
-import java.sql.Timestamp;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,10 +10,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import coding.ecommerceproject.db.util.DBUtil;
-import coding.ecommerceproject.entity.Category;
 import coding.ecommerceproject.entity.Product;
 
 public class ProductService {
+
+	private final String GET_PRODUCT_BY_CATEGORY_ID = "SELECT * FROM sql6631093.product join product_image on product.product_id=product_image.product_id join category on product.category_id=category.category_id where product_image.is_primary=1 and category.category_id = ?";
+	private final String GET_PRODUCT_BY_PRODUCT_ID = "SELECT * FROM sql6631093.product join product_image on product.product_id=product_image.product_id join category on product.category_id=category.category_id where product_image.is_primary=1 and product.product_id = ?";
+	private final String GET_ALL_PRODUCTS = "SELECT * FROM sql6631093.product join product_image on product.product_id=product_image.product_id join category on product.category_id=category.category_id where product_image.is_primary=1";
+	private final String GET_DISCOUNT_PRODUCTS = "SELECT * FROM sql6631093.product join product_image on product.product_id=product_image.product_id join category on product.category_id=category.category_id where product_image.is_primary=1 and product.discount_price is not null";
+	private final String GET_PRODUCTS_BY_SEARCH = "SELECT * FROM sql6631093.product join product_image on product.product_id=product_image.product_id join category on product.category_id=category.category_id where product_image.is_primary=1 and product.product_name like ?";
+	private final String GET_MIN_PRICE = "SELECT MIN(price) as minPrice FROM sql6631093.product";
+	private final String GET_MAX_PRICE = "SELECT MAX(price) as maxPrice FROM sql6631093.product";
+	private final String GET_PRODUCTS_BY_MAXMIN = "SELECT * FROM sql6631093.product join product_image on product.product_id=product_image.product_id join category on product.category_id=category.category_id where product_image.is_primary=1 and product.price >= ? and product.price <= ?";
+
 	public List<Product> getProductsByCategoryId(int categoryId) throws SQLException {
 
 		Connection conn = null;
@@ -26,29 +33,26 @@ public class ProductService {
 		try {
 			conn = DBUtil.makeConnection();
 
-			ps = conn.prepareStatement(
-					"SELECT * FROM sql6631093.Products join ProductImages on Products.productId = ProductImages.productId join ProductCategory on Products.productId = ProductCategory.productId join Categories on ProductCategory.categoryId= Categories.categoryId where ProductImages.isPrimary=1 and Categories.categoryId = ?");
+			ps = conn.prepareStatement(GET_PRODUCT_BY_CATEGORY_ID);
 
 			ps.setInt(1, categoryId);
 
 			rs = ps.executeQuery();
 
 			while (rs.next()) {
-				int productId = rs.getInt("productId");
-				String productName = rs.getString("productName");
+				int productId = rs.getInt("product_id");
+				String productName = rs.getString("product_name");
 				String description = rs.getString("description");
 				String dimensions = rs.getString("dimensions");
 				BigDecimal price = rs.getBigDecimal("price");
-				BigDecimal discountPrice = rs.getBigDecimal("discountPrice");
-				int stockQuantity = rs.getInt("stockQuantity");
+				BigDecimal discountPrice = rs.getBigDecimal("discount_price");
+				int stockQuantity = rs.getInt("stock_quantity");
 				String weight = rs.getString("weight");
-				Timestamp createdAt = rs.getTimestamp("createdAt");
-				Timestamp updatedAt = rs.getTimestamp("updatedAt");
-				String imageUrl = rs.getString("imageUrl");
-				String categoryName = rs.getString("categoryName");
+				String imageUrl = rs.getString("image_url");
+				String categoryName = rs.getString("category_name");
 
 				product = new Product(productId, productName, description, dimensions, price, discountPrice,
-						stockQuantity, weight, createdAt, updatedAt, imageUrl, categoryId, categoryName);
+						stockQuantity, weight, imageUrl, categoryId, categoryName);
 				list.add(product);
 			}
 			System.out.println(list.size());
@@ -80,32 +84,27 @@ public class ProductService {
 		try {
 			conn = DBUtil.makeConnection();
 
-			ps = conn.prepareStatement("SELECT * FROM sql6631093.Products \n"
-					+ "join ProductImages on Products.productId = ProductImages.productId \n"
-					+ "join ProductCategory on Products.productId = ProductCategory.productId \n"
-					+ "join Categories on ProductCategory.categoryId= Categories.categoryId \n"
-					+ "where ProductImages.isPrimary=1 and ProductCategory.productId = ?");
+			ps = conn.prepareStatement(GET_PRODUCT_BY_PRODUCT_ID);
 
 			ps.setInt(1, productId);
 
 			rs = ps.executeQuery();
 
 			while (rs.next()) {
-				String productName = rs.getString("productName");
+				String productName = rs.getString("product_name");
 				String description = rs.getString("description");
 				String dimensions = rs.getString("dimensions");
 				BigDecimal price = rs.getBigDecimal("price");
-				BigDecimal discountPrice = rs.getBigDecimal("discountPrice");
-				int stockQuantity = rs.getInt("stockQuantity");
+				BigDecimal discountPrice = rs.getBigDecimal("discount_price");
+				int stockQuantity = rs.getInt("stock_quantity");
 				String weight = rs.getString("weight");
-				Timestamp createdAt = rs.getTimestamp("createdAt");
-				Timestamp updatedAt = rs.getTimestamp("updatedAt");
-				String imageUrl = rs.getString("imageUrl");
-				int categoryId = rs.getInt("categoryId");
-				String categoryName = rs.getString("categoryName");
+
+				String imageUrl = rs.getString("image_url");
+				int categoryId = rs.getInt("category_id");
+				String categoryName = rs.getString("category_name");
 
 				product = new Product(productId, productName, description, dimensions, price, discountPrice,
-						stockQuantity, weight, createdAt, updatedAt, imageUrl, categoryId, categoryName);
+						stockQuantity, weight, imageUrl, categoryId, categoryName);
 				list.add(product);
 			}
 		} catch (Exception e) {
@@ -135,28 +134,26 @@ public class ProductService {
 		try {
 			conn = DBUtil.makeConnection();
 
-			ps = conn.prepareStatement(
-					"SELECT * FROM sql6631093.Products join ProductImages on Products.productId = ProductImages.productId join ProductCategory on Products.productId = ProductCategory.productId join Categories on ProductCategory.categoryId= Categories.categoryId where ProductImages.isPrimary=1");
+			ps = conn.prepareStatement(GET_ALL_PRODUCTS);
 
 			rs = ps.executeQuery();
 
 			while (rs.next()) {
-				int productId = rs.getInt("productId");
-				String productName = rs.getString("productName");
+				int productId = rs.getInt("product_id");
+				String productName = rs.getString("product_name");
 				String description = rs.getString("description");
 				String dimensions = rs.getString("dimensions");
 				BigDecimal price = rs.getBigDecimal("price");
-				BigDecimal discountPrice = rs.getBigDecimal("discountPrice");
-				int stockQuantity = rs.getInt("stockQuantity");
+				BigDecimal discountPrice = rs.getBigDecimal("discount_price");
+				int stockQuantity = rs.getInt("stock_quantity");
 				String weight = rs.getString("weight");
-				Timestamp createdAt = rs.getTimestamp("createdAt");
-				Timestamp updatedAt = rs.getTimestamp("updatedAt");
-				String imageUrl = rs.getString("imageUrl");
-				int categoryId = rs.getInt("categoryId");
-				String categoryName = rs.getString("categoryName");
+
+				String imageUrl = rs.getString("image_url");
+				int categoryId = rs.getInt("category_id");
+				String categoryName = rs.getString("category_name");
 
 				product = new Product(productId, productName, description, dimensions, price, discountPrice,
-						stockQuantity, weight, createdAt, updatedAt, imageUrl, categoryId, categoryName);
+						stockQuantity, weight, imageUrl, categoryId, categoryName);
 				list.add(product);
 			}
 		} catch (Exception e) {
@@ -175,6 +172,7 @@ public class ProductService {
 		}
 		return list;
 	}
+
 	public List<Product> getDiscountProducts() throws SQLException {
 
 		Connection conn = null;
@@ -185,28 +183,26 @@ public class ProductService {
 		try {
 			conn = DBUtil.makeConnection();
 
-			ps = conn.prepareStatement(
-					"SELECT * FROM sql6631093.Products join ProductImages on Products.productId = ProductImages.productId join ProductCategory on Products.productId = ProductCategory.productId join Categories on ProductCategory.categoryId= Categories.categoryId where ProductImages.isPrimary=1 and Products.discountPrice is not null");
+			ps = conn.prepareStatement(GET_DISCOUNT_PRODUCTS);
 
 			rs = ps.executeQuery();
 
 			while (rs.next()) {
-				int productId = rs.getInt("productId");
-				String productName = rs.getString("productName");
+				int productId = rs.getInt("product_id");
+				String productName = rs.getString("product_name");
 				String description = rs.getString("description");
 				String dimensions = rs.getString("dimensions");
 				BigDecimal price = rs.getBigDecimal("price");
-				BigDecimal discountPrice = rs.getBigDecimal("discountPrice");
-				int stockQuantity = rs.getInt("stockQuantity");
+				BigDecimal discountPrice = rs.getBigDecimal("discount_price");
+				int stockQuantity = rs.getInt("stock_quantity");
 				String weight = rs.getString("weight");
-				Timestamp createdAt = rs.getTimestamp("createdAt");
-				Timestamp updatedAt = rs.getTimestamp("updatedAt");
-				String imageUrl = rs.getString("imageUrl");
-				int categoryId = rs.getInt("categoryId");
-				String categoryName = rs.getString("categoryName");
+
+				String imageUrl = rs.getString("image_url");
+				int categoryId = rs.getInt("category_id");
+				String categoryName = rs.getString("category_name");
 
 				product = new Product(productId, productName, description, dimensions, price, discountPrice,
-						stockQuantity, weight, createdAt, updatedAt, imageUrl, categoryId, categoryName);
+						stockQuantity, weight, imageUrl, categoryId, categoryName);
 				list.add(product);
 			}
 		} catch (Exception e) {
@@ -228,7 +224,7 @@ public class ProductService {
 
 	public BigDecimal getMaxPrice() throws SQLException {
 
-		BigDecimal maxPrice = null ;
+		BigDecimal maxPrice = null;
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -236,7 +232,7 @@ public class ProductService {
 		try {
 			conn = DBUtil.makeConnection();
 
-			ps = conn.prepareStatement("SELECT MAX(price) as maxPrice FROM sql6631093.Products ");
+			ps = conn.prepareStatement(GET_MAX_PRICE);
 
 			rs = ps.executeQuery();
 
@@ -262,7 +258,7 @@ public class ProductService {
 
 	public BigDecimal getMinPrice() throws SQLException {
 
-		BigDecimal minPrice = null ;
+		BigDecimal minPrice = null;
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -270,7 +266,7 @@ public class ProductService {
 		try {
 			conn = DBUtil.makeConnection();
 
-			ps = conn.prepareStatement("SELECT MIN(price) as minPrice FROM sql6631093.Products ");
+			ps = conn.prepareStatement(GET_MIN_PRICE);
 
 			rs = ps.executeQuery();
 
@@ -304,30 +300,28 @@ public class ProductService {
 		try {
 			conn = DBUtil.makeConnection();
 
-			ps = conn.prepareStatement(
-					"SELECT * FROM sql6631093.Products join ProductImages on Products.productId = ProductImages.productId join ProductCategory on Products.productId = ProductCategory.productId join Categories on ProductCategory.categoryId= Categories.categoryId  where ProductImages.isPrimary=1 and Products.productName like ?");
+			ps = conn.prepareStatement(GET_PRODUCTS_BY_SEARCH);
 
 			ps.setString(1, "%" + keyword + "%");
 
 			rs = ps.executeQuery();
 
 			while (rs.next()) {
-				int productId = rs.getInt("productId");
-				String productName = rs.getString("productName");
+				int productId = rs.getInt("product_id");
+				String productName = rs.getString("product_name");
 				String description = rs.getString("description");
 				String dimensions = rs.getString("dimensions");
 				BigDecimal price = rs.getBigDecimal("price");
-				BigDecimal discountPrice = rs.getBigDecimal("discountPrice");
-				int stockQuantity = rs.getInt("stockQuantity");
+				BigDecimal discountPrice = rs.getBigDecimal("discount_price");
+				int stockQuantity = rs.getInt("stock_quantity");
 				String weight = rs.getString("weight");
-				Timestamp createdAt = rs.getTimestamp("createdAt");
-				Timestamp updatedAt = rs.getTimestamp("updatedAt");
-				String imageUrl = rs.getString("imageUrl");
-				int categoryId = rs.getInt("categoryId");
-				String categoryName = rs.getString("categoryName");
+
+				String imageUrl = rs.getString("image_url");
+				int categoryId = rs.getInt("category_id");
+				String categoryName = rs.getString("category_name");
 
 				product = new Product(productId, productName, description, dimensions, price, discountPrice,
-						stockQuantity, weight, createdAt, updatedAt, imageUrl, categoryId, categoryName);
+						stockQuantity, weight, imageUrl, categoryId, categoryName);
 				list.add(product);
 
 			}
@@ -347,7 +341,8 @@ public class ProductService {
 		}
 		return list;
 	}
-	public List<Product> getProductsByMaxMin(String maxValue,String minValue) throws SQLException {
+
+	public List<Product> getProductsByMaxMin(String maxValue, String minValue) throws SQLException {
 
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -357,8 +352,7 @@ public class ProductService {
 		try {
 			conn = DBUtil.makeConnection();
 
-			ps = conn.prepareStatement(
-					"SELECT * FROM sql6631093.Products join ProductImages on Products.productId = ProductImages.productId join ProductCategory on Products.productId = ProductCategory.productId join Categories on ProductCategory.categoryId= Categories.categoryId  where ProductImages.isPrimary=1 and Products.price >= ? and Products.price <= ?");
+			ps = conn.prepareStatement(GET_PRODUCTS_BY_MAXMIN);
 
 			ps.setBigDecimal(1, getMinPrice());
 			ps.setBigDecimal(1, getMaxPrice());
@@ -366,22 +360,23 @@ public class ProductService {
 			rs = ps.executeQuery();
 
 			while (rs.next()) {
-				int productId = rs.getInt("productId");
-				String productName = rs.getString("productName");
+				int productId = rs.getInt("product_id");
+				String productName = rs.getString("product_name");
 				String description = rs.getString("description");
 				String dimensions = rs.getString("dimensions");
 				BigDecimal price = rs.getBigDecimal("price");
-				BigDecimal discountPrice = rs.getBigDecimal("discountPrice");
-				int stockQuantity = rs.getInt("stockQuantity");
+				BigDecimal discountPrice = rs.getBigDecimal("discount_price");
+				int stockQuantity = rs.getInt("stock_quantity");
 				String weight = rs.getString("weight");
-				Timestamp createdAt = rs.getTimestamp("createdAt");
-				Timestamp updatedAt = rs.getTimestamp("updatedAt");
-				String imageUrl = rs.getString("imageUrl");
-				int categoryId = rs.getInt("categoryId");
-				String categoryName = rs.getString("categoryName");
+
+				String imageUrl = rs.getString("image_url");
+				int categoryId = rs.getInt("category_id");
+				String categoryName = rs.getString("category_name");
 
 				product = new Product(productId, productName, description, dimensions, price, discountPrice,
-						stockQuantity, weight, createdAt, updatedAt, imageUrl, categoryId, categoryName);
+						stockQuantity, weight, imageUrl, categoryId, categoryName);
+				list.add(product);
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

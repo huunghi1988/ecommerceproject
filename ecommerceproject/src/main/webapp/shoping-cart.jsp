@@ -348,7 +348,7 @@
 							<li>Subtotal <span id="totalCartPrice">${sessionScope.totalCartPrice}</span></li>
 							<li>Total <span id="totalCartPrice">${sessionScope.totalCartPrice}</span></li>
 						</ul>
-						<a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
+						<a href="checkout.jsp" class="primary-btn">PROCEED TO CHECKOUT</a>
 					</div>
 				</div>
 			</div>

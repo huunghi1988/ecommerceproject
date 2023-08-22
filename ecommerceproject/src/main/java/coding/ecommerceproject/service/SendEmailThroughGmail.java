@@ -1,56 +1,73 @@
 package coding.ecommerceproject.service;
 
-import java.util.*;  
-import javax.mail.*;  
-import javax.mail.internet.*;  
-/** 
- *
- */ 
-public class SendEmailThroughGmail { 
-final String senderEmailId = "huunghi1988@gmail.com";
-final String senderPassword = "L@ngtu2502";
-final String emailSMTPserver = "smtp.gmail.com";
-final String emailSMTPPort = "587";
-    
-public void  SendEmail (String receiverEmail, 
-		String subject, String messageText) {		
-	Properties props = new Properties(); 
-	props.put("mail.smtp.auth", "true"); 
-	props.put("mail.smtp.starttls.enable", "true"); 
-	props.put("mail.smtp.host", emailSMTPserver); 
-	props.put("mail.smtp.port", emailSMTPPort); 
- 
- try { 			
-	Authenticator auth = new SMTPAuthenticator();
-    Session session = Session.getInstance(props, auth);
-	Message message = new MimeMessage(session);
-	message.setFrom(new InternetAddress(senderEmailId));
-	message.setRecipients(Message.RecipientType.TO, 
-			InternetAddress.parse(receiverEmail));
-	message.setSubject(subject);
-	message.setText(messageText);
-			  
-	Transport.send(message); 
-	System.out.println("Email send successfully."); 
- } catch (Exception e) {
-	e.printStackTrace();
-    System.err.println("Error in sending email.");
-  }
-}
+import java.util.Properties;
+import javax.mail.*;
+import javax.mail.internet.*;
 
-private class SMTPAuthenticator extends 
-  javax.mail.Authenticator {
-    public PasswordAuthentication 
-      getPasswordAuthentication() {
-        return new PasswordAuthentication(senderEmailId, 
-        		senderPassword);
-    }
-}
+public class SendEmailThroughGmail {
+	public static void SendVerifyEmail(String email, String token) {
+		final String username = "huunghi1988@gmail.com"; // Your Gmail email address
+		final String password = "shqabgyadtggjpkf"; // Your Gmail password or app-specific password
 
-/*
- * public static void main(String[] args) { new SendEmailThroughGmail
- * ("jaisingh@javawithease.com", "Test Email",
- * "Hi,\n\n This is a test email via " + "Gmail server using TLS connection.");
- * }
- */
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+
+		Session session = Session.getInstance(props, new Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		});
+
+		try {
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(username));
+			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email)); // Recipient's email address
+			message.setSubject("Registration verification");
+			String activationLink = "http://localhost:8080/ecommerceproject/activate?token=" + token+"&email="+email;
+			String emailContent = "Click the following link to activate your account:\n" + activationLink;
+			message.setText(emailContent);
+
+			Transport.send(message);
+
+			System.out.println("Email sent successfully.");
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void SendForgetEmail(String email, String token) {
+		final String username = "huunghi1988@gmail.com"; // Your Gmail email address
+		final String password = "shqabgyadtggjpkf"; // Your Gmail password or app-specific password
+
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+
+		Session session = Session.getInstance(props, new Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		});
+
+		try {
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(username));
+			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email)); // Recipient's email address
+			message.setSubject("Forget Password verification");
+			String activationLink = "http://localhost:8080/ecommerceproject/UpdatePassword?token=" + token+"&email="+email;
+			String emailContent = "Click the following link to set new password :\n" + activationLink;
+			message.setText(emailContent);
+
+			Transport.send(message);
+
+			System.out.println("Email sent successfully.");
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+	}
 }

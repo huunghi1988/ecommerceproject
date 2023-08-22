@@ -1,7 +1,6 @@
 package coding.ecommerceproject.service;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,14 +20,13 @@ public class CategoryService {
 		List<Category> list = new ArrayList<Category>();
 		try {
 			conn = DBUtil.makeConnection();
-
-			ps = conn.prepareStatement("Select * from `Categories`");
+			ps = conn.prepareStatement("Select * from `category`");
 			rs = ps.executeQuery();
 
 			while (rs.next()) {
-				int categoryId = rs.getInt("categoryId");
-				String categoryName = rs.getString("categoryName");
-				String imageUrl = rs.getString("imageUrl");
+				int categoryId = rs.getInt("category_id");
+				String categoryName = rs.getString("category_name");
+				String imageUrl = rs.getString("image_url");
 
 				category = new Category(categoryId, categoryName,imageUrl);
 				

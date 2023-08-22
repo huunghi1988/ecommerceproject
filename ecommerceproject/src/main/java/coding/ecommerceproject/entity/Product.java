@@ -1,8 +1,6 @@
 package coding.ecommerceproject.entity;
 
-import java.util.Date;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 public class Product {
 
 	private int productId;
@@ -13,29 +11,12 @@ public class Product {
 	private BigDecimal discountPrice;
 	private int stockQuantity;
 	private String weight;
-	private Timestamp createdAt;
-	private Timestamp updatedAt;
 	private String imageUrl;
 	private int categoryId;
 	private String categoryName;
-	public Product(int productId, String productName, String description, String dimensions, BigDecimal price,
-			BigDecimal discountPrice, int stockQuantity, String weight, Timestamp createdAt, Timestamp updatedAt,
-			String imageUrl, int categoryId, String categoryName) {
-		super();
-		this.productId = productId;
-		this.productName = productName;
-		this.description = description;
-		this.dimensions = dimensions;
-		this.price = price;
-		this.discountPrice = discountPrice;
-		this.stockQuantity = stockQuantity;
-		this.weight = weight;
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
-		this.imageUrl = imageUrl;
-		this.categoryId = categoryId;
-		this.categoryName = categoryName;
-	}
+	
+	
+	
 	public int getProductId() {
 		return productId;
 	}
@@ -84,18 +65,6 @@ public class Product {
 	public void setWeight(String weight) {
 		this.weight = weight;
 	}
-	public Timestamp getCreatedAt() {
-		return createdAt;
-	}
-	public void setCreatedAt(Timestamp createdAt) {
-		this.createdAt = createdAt;
-	}
-	public Timestamp getUpdatedAt() {
-		return updatedAt;
-	}
-	public void setUpdatedAt(Timestamp updatedAt) {
-		this.updatedAt = updatedAt;
-	}
 	public String getImageUrl() {
 		return imageUrl;
 	}
@@ -114,7 +83,22 @@ public class Product {
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
 	}
-	
+	public Product(int productId, String productName, String description, String dimensions, BigDecimal price,
+			BigDecimal discountPrice, int stockQuantity, String weight, String imageUrl, int categoryId,
+			String categoryName) {
+		super();
+		this.productId = productId;
+		this.productName = productName;
+		this.description = description;
+		this.dimensions = dimensions;
+		this.price = price;
+		this.discountPrice = discountPrice;
+		this.stockQuantity = stockQuantity;
+		this.weight = weight;
+		this.imageUrl = imageUrl;
+		this.categoryId = categoryId;
+		this.categoryName = categoryName;
+	}
 	
 	
 }

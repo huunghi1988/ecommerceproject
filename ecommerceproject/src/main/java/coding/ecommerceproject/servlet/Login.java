@@ -63,9 +63,17 @@ public class Login extends HttpServlet {
 				RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
 				rd.forward(request, response);
 
-			} else {
-				SendEmailThroughGmail sendEmail= new SendEmailThroughGmail();
-				sendEmail.SendEmail("huunghi1988@gmail.com", "abc", "abc");
+			} else if(user.getIsActive()==0){
+				String errorMessage = "Account is not active, please active before login";
+				request.setAttribute("errorMessage", errorMessage);
+				request.setAttribute("email", email);
+				RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+				rd.forward(request, response);
+				
+			}
+			
+			else {
+				
 				HttpSession session = request.getSession(false);
 				session.setAttribute("name", user.getFirstName() + " " + user.getLastName());
 				session.setAttribute("userId", user.getUserId());

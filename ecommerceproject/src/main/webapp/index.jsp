@@ -30,8 +30,6 @@
 <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
 <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
 <link rel="stylesheet" href="css/style.css" type="text/css">
-
-
 </head>
 
 <body>
@@ -232,9 +230,11 @@
 				<div class="col-lg-9">
 					<div class="hero__search">
 						<div class="hero__search__form">
-							<form action="ProductList">
+							<form action="Home?command=SEARCH">
 							
 								<div class="searchInput">
+									<input name="Command" hidden=true value="SEARCH"></input>
+								
 									<input type="text" name="keyword" id="searchTxt"
 										placeholder="What do you need?" value="${keyword}">
 

@@ -93,7 +93,7 @@
 						<span class="txt1">
 							Forgot
 						</span>
-						<a class="txt2" href="#">
+						<a class="txt2" href="forgetpassword.jsp">
 							Username / Password?
 						</a>
 					</div>

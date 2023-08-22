@@ -4,11 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.apache.coyote.http11.upgrade.UpgradeServletOutputStream;
+
 
 import coding.ecommerceproject.db.util.DBUtil;
 import coding.ecommerceproject.entity.User;
@@ -23,26 +20,27 @@ public class LoginService {
 		try {
 			conn = DBUtil.makeConnection();
 
-			ps = conn.prepareStatement("SELECT * FROM sql6631093.Users where email  =? and password = ?");
+			ps = conn.prepareStatement("SELECT * FROM sql6631093.user where email  =? and password = ?");
 
 			ps.setString(1, email);
 			ps.setString(2, password);
 			rs = ps.executeQuery();
 			System.out.println(ps);
 			if (rs.next()) {
-				int userId = rs.getInt("userId");
+				int userId = rs.getInt("user_id");
 				String userName = rs.getString("username");
-				String firstName = rs.getString("firstName");
-				String lastName = rs.getString("lastName");
+				String firstName = rs.getString("first_name");
+				String lastName = rs.getString("last_name");
 				String address = rs.getString("address");
-				String city = rs.getString("city");
+				String city = rs.getString("suburb");
 				String state = rs.getString("state");
 				String postcode = rs.getString("postcode");
-				String phoneNumber = rs.getString("phoneNumber");
-				Timestamp createdAt = rs.getTimestamp("createdAt");
+				String phoneNumber = rs.getString("phone_number");
+				int isActive = rs.getInt("is_active");
+				int forgetPassword = rs.getInt("forget_password");
 
-				user = new User(userId, userName, email, password, firstName, lastName, address, city, state, postcode,
-						phoneNumber, createdAt);
+				user = new User(userId, userName, email, password, firstName, lastName, address, city, state, postcode,isActive,forgetPassword,
+						phoneNumber);
 				System.out.println(user.toString());
 			}
 		} catch (Exception e) {
@@ -71,7 +69,7 @@ public class LoginService {
 		try {
 			conn = DBUtil.makeConnection();
 
-			ps = conn.prepareStatement("SELECT email FROM sql6631093.Users where email  =? ");
+			ps = conn.prepareStatement("SELECT email FROM sql6631093.user where email  =? ");
 
 			ps.setString(1, email);
 			rs = ps.executeQuery();
