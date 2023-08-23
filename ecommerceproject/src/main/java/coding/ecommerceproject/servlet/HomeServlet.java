@@ -22,8 +22,8 @@ import coding.ecommerceproject.service.ProductService;
 @WebServlet("/Home")
 public class HomeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private final String REQUEST_FROM_CATEGORYID = "GetProductsByCategoryId";
-	private final String REQUEST_FROM_SEARCH = "SEARCH";
+	//private final String RENDER_HOME_PAGE = "getProductsAndCategoriesForHomePage";
+	//private final String REQUEST_FROM_SEARCH = "SEARCH";
 	// private final String REQUEST_FROM_PAGE = "PAGE";
 
 	/**
@@ -43,96 +43,100 @@ public class HomeServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		try {
 			String categoryId = request.getParameter("categoryId");
-			String command = request.getParameter("Command");
-			String keyword = request.getParameter("keyword");
-			// String page = request.getParameter("page");
-			if (command != null) {
-				switch (command) {
-				case REQUEST_FROM_CATEGORYID: {
-					getProductsByCategoryId(categoryId, request, response);
-					return;
-				}
-				case REQUEST_FROM_SEARCH: {
-					getProductsBySearch(keyword, request, response);
-					return;
-				}
-				/*
-				 * case REQUEST_FROM_PAGE: { getProductsByPage(page, request, response);
-				 * 
-				 * }
-				 */
-				default: {
-					getProductsByCategoryId(categoryId, request, response);
-
-				}
-
-				}
-			} else {
-				getProductsByCategoryId(categoryId, request, response);
-
-			}
-
-		}
-
-		catch (NumberFormatException e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	public void getProductsByCategoryId(String categoryId, HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-		try {
 			CategoryService service = new CategoryService();
 			ProductService productService = new ProductService();
+			
 			List<Category> categoryList = service.getAllCategories();
 			List<Product> productListByCategoryId = new ArrayList<Product>();
-			List<Product> lastest10ProductList= new ArrayList<Product>();
-			lastest10ProductList=productService.getLastestProduct();
-
+			
 			if (categoryId == null) {
+				//GET ALL PRODUCTS 
 				productListByCategoryId = productService.getAllProducts();
-				System.out.println(productListByCategoryId.size());
 
 			} else {
+				//GET PRODUCTS BY CATEGORY
+
 				productListByCategoryId = productService.getProductsByCategoryId(Integer.parseInt(categoryId));
 			}
+			
+			
+			//GET LASTEST 10 PRODUCT FOR HOME PAGE
+			List<Product> lastest10ProductList= new ArrayList<Product>();
+			lastest10ProductList=productService.getLastestProduct();
+			
+			//GET LASTEST DISCOUNT PRODUCT FOR HOME PAGE
+			List<Product> discountProductsList= new ArrayList<Product>();
+			discountProductsList=productService.getDiscountProducts();
 			
 			
 			RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
 			request.setAttribute("categoryList", categoryList);
 			request.setAttribute("lastest10ProductList", lastest10ProductList);
+			request.setAttribute("discountProductsList", discountProductsList);
 
 			request.setAttribute("productListByCategoryId", productListByCategoryId);
 			rd.forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 	}
 
-	public void getProductsBySearch(String keyword, HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		try {
-			ProductService productService = new ProductService();
-			CategoryService service = new CategoryService();
-
-			List<Category> categoryList = service.getAllCategories();
-			List<Product> productList = new ArrayList<Product>();
-			if (keyword != null && !keyword.isEmpty()) {
-				productList = productService.getProductsBySearch(keyword);
-			}
-			RequestDispatcher rd = request.getRequestDispatcher("shop-grid.jsp");
-			request.setAttribute("categoryList", categoryList);
-			request.setAttribute("productListByCategoryId", productList);
-			request.setAttribute("productListBySearch", productList);
-			rd.forward(request, response);
-			System.out.println(keyword + " ");
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	/*
+	 * public void getProductsAndCategoriesForHomePage(String categoryId,
+	 * HttpServletRequest request, HttpServletResponse response) throws
+	 * ServletException, IOException {
+	 * 
+	 * try { CategoryService service = new CategoryService(); ProductService
+	 * productService = new ProductService(); List<Category> categoryList =
+	 * service.getAllCategories(); List<Product> productListByCategoryId = new
+	 * ArrayList<Product>(); List<Product> lastest10ProductList= new
+	 * ArrayList<Product>(); List<Product> discountProductsList= new
+	 * ArrayList<Product>();
+	 * 
+	 * lastest10ProductList=productService.getLastestProduct();
+	 * discountProductsList=productService.getDiscountProducts();
+	 * 
+	 * if (categoryId == null) { productListByCategoryId =
+	 * productService.getAllProducts();
+	 * System.out.println(productListByCategoryId.size());
+	 * 
+	 * } else { productListByCategoryId =
+	 * productService.getProductsByCategoryId(Integer.parseInt(categoryId)); }
+	 * 
+	 * 
+	 * RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+	 * request.setAttribute("categoryList", categoryList);
+	 * request.setAttribute("lastest10ProductList", lastest10ProductList);
+	 * request.setAttribute("discountProductsList", discountProductsList);
+	 * 
+	 * request.setAttribute("productListByCategoryId", productListByCategoryId);
+	 * rd.forward(request, response); } catch (Exception e) { e.printStackTrace(); }
+	 * }
+	 */
+//no need, use ProductListService
+	/*
+	 * public void getProductsBySearch(String keyword, HttpServletRequest request,
+	 * HttpServletResponse response) throws ServletException, IOException { try {
+	 * ProductService productService = new ProductService(); CategoryService service
+	 * = new CategoryService();
+	 * 
+	 * List<Category> categoryList = service.getAllCategories(); List<Product>
+	 * productList = new ArrayList<Product>(); if (keyword != null &&
+	 * !keyword.isEmpty()) { productList =
+	 * productService.getProductsBySearch(keyword); } RequestDispatcher rd =
+	 * request.getRequestDispatcher("shop-grid.jsp");
+	 * request.setAttribute("categoryList", categoryList);
+	 * request.setAttribute("productListByCategoryId", productList);
+	 * request.setAttribute("productListBySearch", productList); rd.forward(request,
+	 * response); System.out.println(keyword + " ");
+	 * 
+	 * } catch (Exception e) { e.printStackTrace(); } }
+	 */
+	
+	
+	
+	
 	/*
 	 * public void getProductsByPage(String page,HttpServletRequest request,
 	 * HttpServletResponse response )throws ServletException, IOException { try {

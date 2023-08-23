@@ -32,25 +32,48 @@
 			e.preventDefault();
 		}
 	}
-</script>
-<script>
-	let temp = $
-	{
-		sessionScope.totalCartPrice
-	};
-	let totalCartPrice = temp.toFixed(2);
+	
+	
+	function updateSubtotal(inputElement, price){
+		//Get the quantity value from input
 
-	document.getElementById("TotalCartPrice").innerHTML = totalCartPrice;
-</script>
+		let amount = parseInt(inputElement.value);
+		 console.log("Amount:", amount);
+		
+		//Calculate the new subtotal
+		let subtotal = amount * price;
+		
+		//Update subtotal in the corresponding cell
+		let subtotalCell = inputElement.parentNode.nextElementSibling;
+		subtotalCell.innerHTML = subtotal.toFixed(2);
+		
+		// Call the function to update the total price
+	    updateTotalPrice();
+		
+	   
+		
+	}
 
-<script>
-	function onChange() {
-		var x = document.getElementById("quantity").value;
-		var y = document.getElementById("productPrice").value;
+	function updateTotalPrice() {
+	    // Calculate the total price again and update it
+	    var total = 0;
+	    var subtotalCells = document.getElementsByClassName("shoping__cart__total");
+	    for (var i = 0; i < subtotalCells.length; i++) {
+	    	var subtotalValue = parseFloat(subtotalCells[i].innerHTML);
+	        
+	        if (!isNaN(subtotalValue)) {
+	            total += subtotalValue;
+	        }
+	    }
 
-		document.getElementById("totalPrice").innerHTML = "You selected: " + x;
+	    // Update the total price in the element with ID "totalPrice"
+	    document.getElementById("totalCartPrice").innerHTML = total.toFixed(2);
+	    console.log("Total" + total);
+
+	   
 	}
 </script>
+
 
 <body>
 	<!-- Page Preloder -->
@@ -271,8 +294,8 @@
 
 	<!-- Shoping Cart Section Begin -->
 	<section class="shoping-cart spad">
-		<form action="UpdateCartServlet">
-		
+		<form action="CartServlet">
+		<input name="command" hidden=true value="UPDATE"></input>
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
@@ -301,12 +324,12 @@
 												<div class="pro-qty">
 													<input type="text" name="quantity_${productInCart.getProduct().productId}" id="quantity"
 														value="${productInCart.getQuantity()}"
-														onchange="myFunction()">
+														oninput="updateSubtotal(this, ${productInCart.getProduct().price})">
 												</div>
 											</div>
 										</td>
 
-										<td class="shoping__cart__total">${productInCart.getTotalPrice()}</td>
+										<td class="shoping__cart__total">${productInCart.getSubTotalPrice()}</td>
 										<td class="shoping__cart__item__close"><a
 											href="CartServlet?command=REMOVE&productId=${productInCart.getProduct().productId}"
 											onclick="clicked(event)">X</a></td>
@@ -345,8 +368,8 @@
 					<div class="shoping__checkout">
 						<h5>Cart Total</h5>
 						<ul>
-							<li>Subtotal <span id="totalCartPrice">${sessionScope.totalCartPrice}</span></li>
-							<li>Total <span id="totalCartPrice">${sessionScope.totalCartPrice}</span></li>
+							<li>Subtotal <span id="totalCartPrice">${totalPrice}</span></li>
+							<li>Total <span id="totalCartPrice">${totalPrice}</span></li>
 						</ul>
 						<a href="checkout.jsp" class="primary-btn">PROCEED TO CHECKOUT</a>
 					</div>
@@ -358,84 +381,10 @@
 	<!-- Shoping Cart Section End -->
 
 	<!-- Footer Section Begin -->
-	<footer class="footer spad">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-3 col-md-6 col-sm-6">
-					<div class="footer__about">
-						<div class="footer__about__logo">
-							<a href="./index.html"><img src="img/logo.png" alt=""></a>
-						</div>
-						<ul>
-							<li>Address: 60-49 Road 11378 New York</li>
-							<li>Phone: +65 11.188.888</li>
-							<li>Email: hello@colorlib.com</li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6 col-sm-6 offset-lg-1">
-					<div class="footer__widget">
-						<h6>Useful Links</h6>
-						<ul>
-							<li><a href="#">About Us</a></li>
-							<li><a href="#">About Our Shop</a></li>
-							<li><a href="#">Secure Shopping</a></li>
-							<li><a href="#">Delivery infomation</a></li>
-							<li><a href="#">Privacy Policy</a></li>
-							<li><a href="#">Our Sitemap</a></li>
-						</ul>
-						<ul>
-							<li><a href="#">Who We Are</a></li>
-							<li><a href="#">Our Services</a></li>
-							<li><a href="#">Projects</a></li>
-							<li><a href="#">Contact</a></li>
-							<li><a href="#">Innovation</a></li>
-							<li><a href="#">Testimonials</a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-12">
-					<div class="footer__widget">
-						<h6>Join Our Newsletter Now</h6>
-						<p>Get E-mail updates about our latest shop and special
-							offers.</p>
-						<form action="#">
-							<input type="text" placeholder="Enter your mail">
-							<button type="submit" class="site-btn">Subscribe</button>
-						</form>
-						<div class="footer__widget__social">
-							<a href="#"><i class="fa fa-facebook"></i></a> <a href="#"><i
-								class="fa fa-instagram"></i></a> <a href="#"><i
-								class="fa fa-twitter"></i></a> <a href="#"><i
-								class="fa fa-pinterest"></i></a>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-lg-12">
-					<div class="footer__copyright">
-						<div class="footer__copyright__text">
-							<p>
-								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-								Copyright &copy;
-								<script>
-									document.write(new Date().getFullYear());
-								</script>
-								All rights reserved | This template is made with <i
-									class="fa fa-heart" aria-hidden="true"></i> by <a
-									href="https://colorlib.com" target="_blank">Colorlib</a>
-								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-							</p>
-						</div>
-						<div class="footer__copyright__payment">
-							<img src="img/payment-item.png" alt="">
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</footer>
+		<jsp:include page="footer.jsp">
+		<jsp:param name="userId" value="${sessionScope.userId}" />
+
+	</jsp:include>
 	<!-- Footer Section End -->
 
 	<!-- Js Plugins -->

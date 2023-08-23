@@ -1,12 +1,11 @@
 package coding.ecommerceproject.entity;
 
-import java.math.BigDecimal;
 
 public class ProductInCart {
 	private Product product;
 	private int quantity;
-	private BigDecimal subTotalPrice;
-	public ProductInCart(Product product, int quantity, BigDecimal subTotalPrice) {
+	private double subTotalPrice;
+	public ProductInCart(Product product, int quantity, double subTotalPrice) {
 		super();
 		this.product = product;
 		this.quantity = quantity;
@@ -24,10 +23,10 @@ public class ProductInCart {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	public BigDecimal getSubTotalPrice() {
+	public double getSubTotalPrice() {
 		return subTotalPrice;
 	}
-	public void setSubTotalPrice(BigDecimal subTotalPrice) {
+	public void setSubTotalPrice(double subTotalPrice) {
 		this.subTotalPrice = subTotalPrice;
 	}
 	

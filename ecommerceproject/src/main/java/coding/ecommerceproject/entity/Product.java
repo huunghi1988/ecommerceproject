@@ -1,14 +1,13 @@
 package coding.ecommerceproject.entity;
 
-import java.math.BigDecimal;
 public class Product {
 
 	private int productId;
 	private String productName;
 	private String description;
 	private String dimensions;
-	private BigDecimal price;
-	private BigDecimal discountPrice;
+	private double price;
+	private double discountPrice;
 	private int stockQuantity;
 	private String weight;
 	private String imageUrl;
@@ -41,16 +40,16 @@ public class Product {
 	public void setDimensions(String dimensions) {
 		this.dimensions = dimensions;
 	}
-	public BigDecimal getPrice() {
+	public double getPrice() {
 		return price;
 	}
-	public void setPrice(BigDecimal price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
-	public BigDecimal getDiscountPrice() {
+	public double getDiscountPrice() {
 		return discountPrice;
 	}
-	public void setDiscountPrice(BigDecimal discountPrice) {
+	public void setDiscountPrice(double discountPrice) {
 		this.discountPrice = discountPrice;
 	}
 	public int getStockQuantity() {
@@ -83,8 +82,8 @@ public class Product {
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
 	}
-	public Product(int productId, String productName, String description, String dimensions, BigDecimal price,
-			BigDecimal discountPrice, int stockQuantity, String weight, String imageUrl, int categoryId,
+	public Product(int productId, String productName, String description, String dimensions, double price,
+			double discountPrice, int stockQuantity, String weight, String imageUrl, int categoryId,
 			String categoryName) {
 		super();
 		this.productId = productId;

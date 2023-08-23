@@ -1,9 +1,10 @@
 package coding.ecommerceproject.servlet;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.BigInteger;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.HashMap;
+
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -14,9 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.catalina.filters.ExpiresFilter.XServletOutputStream;
-
-import coding.ecommerceproject.entity.CartSession;
 import coding.ecommerceproject.entity.Product;
 import coding.ecommerceproject.entity.ProductInCart;
 import coding.ecommerceproject.service.ProductService;
@@ -27,6 +25,11 @@ import coding.ecommerceproject.service.ProductService;
 @WebServlet("/CartServlet")
 public class CartServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private final String ADD_PRODUCT_TO_CART = "ADD_TO_CART";
+	private final String VIEW_CART = "VIEW_CART";
+	private final String SUBMIT = "SUBMIT";
+	private final String REMOVE = "REMOVE";
+	private final String UPDATE = "UPDATE";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -43,17 +46,16 @@ public class CartServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		ProductService productService = new ProductService();
 
 		try {
+			ProductService productService = new ProductService();
+			int productId;
+			int quantity;
 			String command = request.getParameter("command");
 
-			int productId = 0;
-			int quantity = 1;
-			BigDecimal subTotalPrice = new BigDecimal(BigInteger.ZERO, 2);
+			double subTotalPrice = 0;
 
-			BigDecimal totalPrice = new BigDecimal(BigInteger.ZERO, 2);
-			BigDecimal oldTotalPrice= new BigDecimal(BigInteger.ZERO, 2);
+			double totalPrice = 0;
 
 			HttpSession session = request.getSession();
 
@@ -61,140 +63,165 @@ public class CartServlet extends HttpServlet {
 
 			if (request.getParameter("quantity") != null && !request.getParameter("quantity").isEmpty()) {
 				quantity = Integer.parseInt(request.getParameter("quantity"));
+			} else {
+				quantity = 1;
 			}
-			
+
 			if (request.getParameter("productId") != null && !request.getParameter("productId").isEmpty()) {
 				productId = Integer.parseInt(request.getParameter("productId"));
+			} else {
+				productId = 0;
 			}
 
-			if (command != null && command.equals("ADD_TO_CART")) {
-
-				if (cart == null) {
-					cart = new HashMap<Integer, ProductInCart>();
-				}
-				if (cart.containsKey(productId)) {
-
-					ProductInCart productInCart = cart.get(productId);
-
-					productInCart.setQuantity(productInCart.getQuantity() + quantity);
-
-					productInCart.setSubTotalPrice(productInCart.getProduct().getPrice()
-							.multiply(BigDecimal.valueOf(productInCart.getQuantity())));
-
-					totalPrice = totalPrice.add(productInCart.getSubTotalPrice());
-
-					request.setAttribute("productInCart", productInCart);
-				}
-
-				else {
-					Product product = productService.getProductsByProductId(productId);
-					subTotalPrice = product.getPrice().multiply(BigDecimal.valueOf(quantity));
-					ProductInCart newProductInCart = new ProductInCart(product, quantity, subTotalPrice);
-					cart.put(productId, newProductInCart);
-
-					if (session.getAttribute("totalPrice") == null)
-						totalPrice = newProductInCart.getSubTotalPrice();
-					else
-						System.out.println(BigDecimal.valueOf((double)session.getAttribute("totalPrice")));
-					System.out.println(newProductInCart.getSubTotalPrice());
-						
-						totalPrice = newProductInCart.getSubTotalPrice();
-
-					request.setAttribute("productInCart", newProductInCart);
-
-				}
-				session.setAttribute("totalPrice", totalPrice);
-
-				session.setAttribute("cart", cart);
-
-				response.sendRedirect(request.getHeader("referer"));
-
-			} else if (command != null && command.equals("VIEW_CART")) {
-
-				RequestDispatcher rd = request.getRequestDispatcher("shoping-cart.jsp");
-
-				rd.forward(request, response);
-
-			} else if (command != null && command.equals("REMOVE")) {
-				productId = Integer.parseInt(request.getParameter("productId"));
-				totalPrice = BigDecimal.valueOf((Double) session.getAttribute("totalPrice"))
-						.subtract(cart.get(productId).getSubTotalPrice());
-				session.setAttribute("totalPrice", totalPrice);
-
-				cart.remove(productId);
-				response.sendRedirect(request.getHeader("referer"));
-
-			} else if (command != null && command.equals("SUBMIT")) {
-				productId = Integer.parseInt(request.getParameter("productId"));
-				cart.remove(productId);
-				response.sendRedirect(request.getHeader("referer"));
-
+			switch (command) {
+			case ADD_PRODUCT_TO_CART: {
+				addProductToCart(cart, productId, quantity, productService, totalPrice, session, subTotalPrice, request,
+						response);
+				return;
+			}
+			case VIEW_CART: {
+				showCartDetail(cart, session, request, response);
+				return;
+			}
+			case REMOVE: {
+				removeItemFromCart(cart, productId, quantity, totalPrice, session, request, response);
+				return;
+			}
+			case SUBMIT: {
+				submitCart(cart, productId, quantity, totalPrice, session, request, response);
+				return;
+			}
+			case UPDATE: {
+				updateCart(cart, session, request, response);
+				return;
 			}
 
-			// add from item detail
-
-			else if (command == null && quantity >= 1) {
-				if (cart == null) {
-					cart = new HashMap<Integer, ProductInCart>();
-				}
-				if (cart.containsKey(productId)) {
-
-					ProductInCart productInCart = cart.get(productId);
-
-					productInCart.setQuantity(productInCart.getQuantity() + quantity);
-
-					productInCart.setSubTotalPrice(productInCart.getProduct().getPrice()
-							.multiply(BigDecimal.valueOf(productInCart.getQuantity())));
-
-					totalPrice = totalPrice.add(productInCart.getSubTotalPrice());
-
-					request.setAttribute("productInCart", productInCart);
-				}
-
-				else {
-					Product product = productService.getProductsByProductId(productId);
-					subTotalPrice = product.getPrice().multiply(BigDecimal.valueOf(quantity));
-					ProductInCart newProductInCart = new ProductInCart(product, quantity, subTotalPrice);
-					cart.put(productId, newProductInCart);
-
-					if (session.getAttribute("totalPrice") == null)
-						totalPrice = newProductInCart.getSubTotalPrice();
-					else
-						oldTotalPrice = BigDecimal.valueOf((Double) session.getAttribute("totalCartPrice"));
-						totalPrice = newProductInCart.getSubTotalPrice()
-								.add(oldTotalPrice);
-
-					request.setAttribute("productInCart", newProductInCart);
-
-				}
-				session.setAttribute("totalPrice", totalPrice);
-
-				session.setAttribute("cart", cart);
-
-				response.sendRedirect(request.getHeader("referer"));
 			}
-
-			if (cart != null) {
-				// Iterate through the request parameters to update quantities
-				for (Integer cartProductId : cart.keySet()) {
-					String updatedQuantityStr = request.getParameter("quantity_" + cartProductId);
-					int updatedQuantity = 0;
-					updatedQuantity = Integer.parseInt(updatedQuantityStr);
-					ProductInCart productInCart = cart.get(cartProductId);
-					productInCart.setQuantity(updatedQuantity);
-
-					cart.put(cartProductId, productInCart);
-
-				}
-				session.setAttribute("cart", cart);
-				response.sendRedirect(request.getHeader("referer"));
-
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
 
 		}
+
+		catch (NumberFormatException e) {
+			e.printStackTrace();
+		}
+
+		
+	}
+
+	public void addProductToCart(Map<Integer, ProductInCart> cart, int productId, int quantity,
+			ProductService productService, double totalPrice, HttpSession session, double subTotalPrice,
+			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+			if (cart == null) {
+				cart = new HashMap<Integer, ProductInCart>();
+			}
+			if (cart.containsKey(productId)) {
+
+				ProductInCart productInCart = cart.get(productId);
+
+				productInCart.setQuantity(productInCart.getQuantity() + quantity);
+
+				productInCart.setSubTotalPrice(productInCart.getProduct().getPrice() * productInCart.getQuantity());
+
+				totalPrice = (double) session.getAttribute("totalPrice")
+						+ productInCart.getProduct().getPrice() * quantity;
+				totalPrice=Math.round(totalPrice*100.0)/100.0;
+
+				request.setAttribute("productInCart", productInCart);
+			} else {
+				Product product = productService.getProductsByProductId(productId);
+				subTotalPrice = product.getPrice() * quantity;
+				subTotalPrice=Math.round(subTotalPrice*100.0)/100.0;
+
+				ProductInCart newProductInCart = new ProductInCart(product, quantity, subTotalPrice);
+				cart.put(productId, newProductInCart);
+
+				if (session.getAttribute("totalPrice") == null) {
+					totalPrice = newProductInCart.getSubTotalPrice();
+					totalPrice=Math.round(totalPrice*100.0)/100.0;
+
+				} else {
+
+					totalPrice = newProductInCart.getProduct().getPrice() * quantity
+							+ (double) session.getAttribute("totalPrice");
+					totalPrice=Math.round(totalPrice*100.0)/100.0;
+
+				}
+
+				request.setAttribute("productInCart", newProductInCart);
+
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.setAttribute("totalPrice", totalPrice);
+
+		session.setAttribute("cart", cart);
+
+		response.sendRedirect(request.getHeader("referer"));
+
+	}
+
+	public void showCartDetail(Map<Integer, ProductInCart> cart, HttpSession session, HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
+		RequestDispatcher rd = request.getRequestDispatcher("shoping-cart.jsp");
+		request.setAttribute("cart", cart);
+
+
+		rd.forward(request, response);
+
+	}
+
+	public void removeItemFromCart(Map<Integer, ProductInCart> cart, int productId, int quantity, double totalPrice,
+			HttpSession session, HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		productId = Integer.parseInt(request.getParameter("productId"));
+		totalPrice = (Double) session.getAttribute("totalPrice") - cart.get(productId).getSubTotalPrice();
+		totalPrice=Math.round(totalPrice*100.0)/100.0;
+
+		session.setAttribute("totalPrice", totalPrice);
+
+		cart.remove(productId);
+		response.sendRedirect(request.getHeader("referer"));
+
+	}
+
+	public void submitCart(Map<Integer, ProductInCart> cart, int productId, int quantity, double totalPrice,
+			HttpSession session, HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		productId = Integer.parseInt(request.getParameter("productId"));
+		totalPrice = (Double) session.getAttribute("totalPrice") - cart.get(productId).getSubTotalPrice();
+		totalPrice=Math.round(totalPrice*100.0)/100.0;
+
+		session.setAttribute("totalPrice", totalPrice);
+
+		cart.remove(productId);
+		response.sendRedirect(request.getHeader("referer"));
+
+	}
+
+	public void updateCart(Map<Integer, ProductInCart> cart, HttpSession session, HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		double totalPrice=0;
+		for (Integer cartProductId : cart.keySet()) {
+			String updatedQuantityStr = request.getParameter("quantity_" + cartProductId);
+			int updatedQuantity = 0;
+			updatedQuantity = Integer.parseInt(updatedQuantityStr);
+			ProductInCart productInCart = cart.get(cartProductId);
+			 productInCart.setQuantity(updatedQuantity);
+             productInCart.setSubTotalPrice(productInCart.getProduct().getPrice()*productInCart.getQuantity());
+             totalPrice=totalPrice+  productInCart.getSubTotalPrice();
+				totalPrice=Math.round(totalPrice*100.0)/100.0;
+
+
+			cart.put(cartProductId, productInCart);
+
+		}
+		session.setAttribute("totalPrice", totalPrice);
+		session.setAttribute("cart", cart);
+		response.sendRedirect(request.getHeader("referer"));
+
 	}
 
 	/**
