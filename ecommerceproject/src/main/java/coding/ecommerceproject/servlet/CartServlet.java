@@ -17,7 +17,9 @@ import javax.servlet.http.HttpSession;
 
 import coding.ecommerceproject.entity.Product;
 import coding.ecommerceproject.entity.ProductInCart;
+import coding.ecommerceproject.entity.User;
 import coding.ecommerceproject.service.ProductService;
+import coding.ecommerceproject.service.UserService;
 
 /**
  * Servlet implementation class CartServlet
@@ -30,6 +32,7 @@ public class CartServlet extends HttpServlet {
 	private final String SUBMIT = "SUBMIT";
 	private final String REMOVE = "REMOVE";
 	private final String UPDATE = "UPDATE";
+	private final String CHECKOUT = "CHECKOUT";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -93,6 +96,10 @@ public class CartServlet extends HttpServlet {
 			}
 			case UPDATE: {
 				updateCart(cart, session, request, response);
+				return;
+			}
+			case CHECKOUT: {
+				checkoutCart(cart, session, request, response);
 				return;
 			}
 
@@ -198,6 +205,25 @@ public class CartServlet extends HttpServlet {
 
 		cart.remove(productId);
 		response.sendRedirect(request.getHeader("referer"));
+
+	}
+	
+	public void checkoutCart(Map<Integer, ProductInCart> cart, HttpSession session, HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		try {
+			UserService userService = new UserService();
+			User user = userService.getUserDetail((int)session.getAttribute("userId"));
+			RequestDispatcher rd = request.getRequestDispatcher("checkout.jsp");
+			request.setAttribute("cart", cart);
+			request.setAttribute("user", user);
+			rd.forward(request, response);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 
 	}
 

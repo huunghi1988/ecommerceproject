@@ -14,6 +14,7 @@ import coding.ecommerceproject.entity.User;
 
 public class UserService {
 	private final static String GET_ALL_USERS = "SELECT * FROM sql6631093.user";
+	private final static String GET_USER_DETAIL = "SELECT * FROM sql6631093.user where user_id = ?";
 	private final static String CHECK_DUPLICATE_USER = "SELECT email FROM sql6631093.user where email  =? ";
 	private final static String GET_TOKEN = "SELECT * FROM sql6631093.verification_token where email  =? ";
 	private final static String SET_USER_ACTIVE = "UPDATE `sql6631093`.`user` SET `is_active` = 1 WHERE (`email` = ?)`";
@@ -68,6 +69,57 @@ public class UserService {
 			}
 		}
 		return list;
+	}
+
+	
+	public User getUserDetail(int userId) throws SQLException {
+
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		User user = null;
+		try {
+			conn = DBUtil.makeConnection();
+
+			ps = conn.prepareStatement(GET_USER_DETAIL);
+			ps.setInt(1, userId);
+
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				
+				String userName = rs.getString("username");
+				String email = rs.getString("email");
+				String password = rs.getString("password");
+
+				String firstName = rs.getString("first_name");
+				String lastName = rs.getString("last_name");
+				String address = rs.getString("address");
+				String city = rs.getString("suburb");
+				String state = rs.getString("state");
+				String postcode = rs.getString("postcode");
+				String phoneNumber = rs.getString("phone_number");
+				int isActive = rs.getInt("is_active");
+				int forgetPassword = rs.getInt("forget_password");
+
+				user = new User(userId, userName, email, password, firstName, lastName, address, city, state, postcode,
+						isActive, forgetPassword, phoneNumber);
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		} finally {
+			if (rs != null) {
+				rs.close();
+			}
+			if (ps != null) {
+				ps.close();
+			}
+			if (conn != null) {
+				conn.close();
+			}
+		}
+		return user;
 	}
 
 	public static int checkDuplicateUser(String email) throws SQLException {

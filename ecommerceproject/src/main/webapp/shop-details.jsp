@@ -131,7 +131,7 @@
 								<div>English</div>
 								<span class="arrow_carrot-down"></span>
 								<ul>
-									<li><a href="#">Spanis</a></li>
+									<li><a href="#">Spanish</a></li>
 									<li><a href="#">English</a></li>
 								</ul>
 							</div>
@@ -186,13 +186,14 @@
 				<div class="col-lg-3">
 					<div class="header__cart">
 						<ul>
-							<li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
+							<li><a href="#"><i class="fa fa-heart"></i> <span>0</span></a></li>
 							<li><a href="CartServlet?command=VIEW_CART"><i
 									class="fa fa-shopping-bag"></i> <span>${empty sessionScope.cart? 0 : sessionScope.cart.size()}</span></a></li>
 						</ul>
 						<div class="header__cart__price">
-							item: <span>$${sessionScope.totalCartPrice}</span>
+							item: <span>$<c:if test="${sessionScope.totalPrice == 0 }"></c:if>${sessionScope.totalPrice}</span>
 						</div>
+
 					</div>
 				</div>
 			</div>
@@ -204,13 +205,14 @@
 	<!-- Header Section End -->
 
 	<!-- Hero Section Begin -->
-	<section class="hero">
+	<section class="hero hero-normal">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="hero__categories">
 						<div class="hero__categories__all">
-							<i class="fa fa-bars"></i> <span>All departments</span>
+							<i class="fa fa-bars"></i> 
+							<span>All departments</span>
 						</div>
 						<ul>
 
@@ -221,16 +223,24 @@
 						</ul>
 					</div>
 				</div>
+
 				<div class="col-lg-9">
 					<div class="hero__search">
 						<div class="hero__search__form">
-							<form action="ProductList">
-								<div class="hero__search__categories">
-									All Categories <span class="arrow_carrot-down"> </span>
+							<form action="ProductList?command=SEARCH">
 
+								<div class="searchInput">
+									<input name="Command" hidden=true value="SEARCH"></input> <input
+										type="text" name="keyword" id="searchTxt"
+										placeholder="What do you need?" value="${keyword}">
+
+									<div class="resultBox">
+										<!-- here list are inserted from javascript -->
+									</div>
+									<div class="icon">
+										<i class="fas fa-search"></i>
+									</div>
 								</div>
-								<input type="text" name="keyword"
-									placeholder="What do you need?" value="${keyword}">
 								<button type="submit" class="site-btn">SEARCH</button>
 							</form>
 						</div>
@@ -239,12 +249,12 @@
 								<i class="fa fa-phone"></i>
 							</div>
 							<div class="hero__search__phone__text">
-								<h5>+65 11.188.888</h5>
+								<h5>+61 402 502 880</h5>
 								<span>support 24/7 time</span>
 							</div>
 						</div>
 					</div>
-
+					
 				</div>
 			</div>
 		</div>
