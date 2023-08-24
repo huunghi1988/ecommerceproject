@@ -5,6 +5,7 @@ public class ProductInCart {
 	private Product product;
 	private int quantity;
 	private double subTotalPrice;
+	
 	public ProductInCart(Product product, int quantity, double subTotalPrice) {
 		super();
 		this.product = product;

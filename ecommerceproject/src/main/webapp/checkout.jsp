@@ -302,7 +302,7 @@
 										<p>
 											First Name<span>*</span>
 										</p>
-										<input type="text" value="${user.firstName}">
+										<input type="text" name="firstName" value="${user.firstName}">
 									</div>
 								</div>
 								<div class="col-lg-6">
@@ -310,7 +310,7 @@
 										<p>
 											Last Name<span>*</span>
 										</p>
-										<input type="text" value="${user.lastName}">
+										<input type="text" name="lastName" value="${user.lastName}">
 									</div>
 								</div>
 							</div>
@@ -320,7 +320,7 @@
 									Address<span>*</span>
 								</p>
 								<input type="text" placeholder="Street Address"
-									class="checkout__input__add" value="${user.address}"> <input
+									class="checkout__input__add" name="address" value="${user.address}"> <input
 									type="text"
 									placeholder="Apartment, suite, unite ect (optional)">
 							</div>
@@ -328,19 +328,19 @@
 								<p>
 									Suburb<span>*</span>
 								</p>
-								<input type="text" value="${user.city}">
+								<input type="text" name="city" value="${user.city}">
 							</div>
 							<div class="checkout__input">
 								<p>
 									State<span>*</span>
 								</p>
-								<input type="text" value="${user.state}">
+								<input type="text" name="state" value="${user.state}">
 							</div>
 							<div class="checkout__input">
 								<p>
 									Postcode <span>*</span>
 								</p>
-								<input type="text" value="${user.postcode}">
+								<input type="text" name="postcode" value="${user.postcode}">
 							</div>
 							<div class="row">
 								<div class="col-lg-6">
@@ -348,7 +348,7 @@
 										<p>
 											Phone<span>*</span>
 										</p>
-										<input type="text" value="${user.phoneNumber}">
+										<input type="text" name="phoneNumber" value="${user.phoneNumber}">
 									</div>
 								</div>
 								<div class="col-lg-6">
@@ -356,7 +356,7 @@
 										<p>
 											Email<span>*</span>
 										</p>
-										<input type="text" value="${user.password}">
+										<input type="text" name="email" value="${user.password}">
 									</div>
 								</div>
 							</div>
@@ -387,7 +387,7 @@
 								<p>
 									Order notes<span>*</span>
 								</p>
-								<input type="text"
+								<input type="text" name="note" 
 									placeholder="Notes about your order, e.g. special notes for delivery.">
 							</div>
 						</div>
@@ -426,7 +426,7 @@
 								</div>
 								<div class="checkout__input__checkbox">
 									<label for="paypal"> Paypal <input type="checkbox"
-										id="paypal"> <span class="checkmark"></span>
+										id="paypal" name="paypal" > <span class="checkmark"></span>
 									</label>
 								</div>
 								<button type="submit" class="site-btn">PLACE ORDER</button>

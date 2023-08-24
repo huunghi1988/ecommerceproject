@@ -3,6 +3,7 @@ package coding.ecommerceproject.servlet;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 import java.util.Map;
@@ -15,9 +16,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import coding.ecommerceproject.entity.Order;
+import coding.ecommerceproject.entity.OrderDetail;
 import coding.ecommerceproject.entity.Product;
 import coding.ecommerceproject.entity.ProductInCart;
 import coding.ecommerceproject.entity.User;
+import coding.ecommerceproject.service.OrderService;
 import coding.ecommerceproject.service.ProductService;
 import coding.ecommerceproject.service.UserService;
 
@@ -91,7 +95,7 @@ public class CartServlet extends HttpServlet {
 				return;
 			}
 			case SUBMIT: {
-				submitCart(cart, productId, quantity, totalPrice, session, request, response);
+				submitCart(cart, session,request, response);
 				return;
 			}
 			case UPDATE: {
@@ -194,18 +198,40 @@ public class CartServlet extends HttpServlet {
 
 	}
 
-	public void submitCart(Map<Integer, ProductInCart> cart, int productId, int quantity, double totalPrice,
+	public void submitCart(Map<Integer, ProductInCart> cart, 
 			HttpSession session, HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		productId = Integer.parseInt(request.getParameter("productId"));
-		totalPrice = (Double) session.getAttribute("totalPrice") - cart.get(productId).getSubTotalPrice();
-		totalPrice=Math.round(totalPrice*100.0)/100.0;
+		try {
+			int userId= (int)session.getAttribute("userId");
+			
+			String address= (String) request.getParameter("address");
+			String city= (String) request.getParameter("city");
+			String state= (String) request.getParameter("state");
+			String postcode= (String) request.getParameter("postcode");
+			String email= (String) request.getParameter("email");
+			double totalAmount = (double)session.getAttribute("totalPrice");
 
-		session.setAttribute("totalPrice", totalPrice);
-
-		cart.remove(productId);
-		response.sendRedirect(request.getHeader("referer"));
-
+			
+			Order order= new Order(userId,totalAmount,address,city,state,postcode,email);
+			OrderService orderService = new OrderService();
+			int orderId=orderService.createNewOrder(order);
+			
+			for(Map.Entry<Integer, ProductInCart> entry : cart.entrySet()) {
+	            ProductInCart productInCart = entry.getValue();
+	            
+				OrderDetail orderDetail = new OrderDetail(orderId,productInCart.getProduct().getProductId(),productInCart.getQuantity(),productInCart.getProduct().getPrice());
+				orderService.createNewOrderDetail(orderDetail);
+			}
+			session.removeAttribute("cart");
+			session.removeAttribute("totalPrice");
+			response.sendRedirect("Home");
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	
 	}
 	
 	public void checkoutCart(Map<Integer, ProductInCart> cart, HttpSession session, HttpServletRequest request,
