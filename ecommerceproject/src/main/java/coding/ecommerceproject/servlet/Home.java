@@ -45,6 +45,7 @@ public class Home extends HttpServlet {
 			String categoryId = request.getParameter("categoryId");
 			String command = request.getParameter("Command");
 			String keyword = request.getParameter("keyword");
+			String page = request.getParameter("page");
 			// String page = request.getParameter("page");
 			if (command != null) {
 				switch (command) {
@@ -62,7 +63,7 @@ public class Home extends HttpServlet {
 				 * }
 				 */
 				default: {
-					getProductsByCategoryId(categoryId, request, response);
+					getProductsByPage(page, request, response);
 
 				}
 
@@ -126,6 +127,34 @@ public class Home extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
+		public void getProductsByPage(String page,HttpServletRequest request, HttpServletResponse response )throws ServletException, IOException {
+			try {
+				int currentPage =1;
+				if(request.getParameter("page") !=null) {
+					currentPage = Integer.parseInt(request.getParameter("page"));
+				}
+				CategoryService service = new CategoryService();
+				ProductService productService  = new ProductService();
+				List<Category> categoryList = service.getAllCategories();
+				
+				List<Product> productList  = new ArrayList<Product>();
+				productList= productService.getProductsByPage(currentPage); 
+				
+				RequestDispatcher rd = request.getRequestDispatcher("shop-grid.jsp");
+				RequestDispatcher rd1 = request.getRequestDispatcher("index.jsp");
+				request.setAttribute("categoryList", categoryList);
+				request.setAttribute("productListByCategoryId", productList);
+				request.setAttribute("productListBySearch", productList);
+				request.setAttribute("totalPage", productService.getTotalPage());
+				request.setAttribute("currentPage", currentPage);
+				rd.forward(request, response);
+				rd1.forward(request,response);
+			}
+			 catch (Exception e) {
+			e.printStackTrace();
+		}
+		}
+	
 	/*
 	 * public void getProductsByPage(String page,HttpServletRequest request,
 	 * HttpServletResponse response )throws ServletException, IOException { try {

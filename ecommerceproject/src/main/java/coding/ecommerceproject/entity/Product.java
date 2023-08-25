@@ -100,5 +100,19 @@ public class Product {
 		this.categoryName = categoryName;
 	}
 	
-	
+	public Product(int productId, String productName, String description, String dimensions, BigDecimal price,
+			BigDecimal discountPrice, int stockQuantity, String weight, String imageUrl,
+			String categoryName) {
+		super();
+		this.productId = productId;
+		this.productName = productName;
+		this.description = description;
+		this.dimensions = dimensions;
+		this.price = price;
+		this.discountPrice = discountPrice;
+		this.stockQuantity = stockQuantity;
+		this.weight = weight;
+		this.imageUrl = imageUrl;
+		this.categoryName = categoryName;
+	}
 }

@@ -1,4 +1,3 @@
-
 <%@page import="coding.ecommerceproject.service.ProductService"%>
 <%@page import="coding.ecommerceproject.entity.Product"%>
 <%@page import="coding.ecommerceproject.entity.Category"%>
@@ -9,12 +8,16 @@
 <html lang="zxx">
 
 <head>
+<style>
+p {text-align: center;}
+
+</style>
 <meta charset="UTF-8">
 <meta name="description" content="Ogani Template">
 <meta name="keywords" content="Ogani, unica, creative, html">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>Ecommerce Website BE4</title>
+<title>Ogani | Template</title>
 
 <!-- Google Font -->
 <link
@@ -22,6 +25,10 @@
 	rel="stylesheet">
 
 <!-- Css Styles -->
+<style>
+.center{
+text-align: center;}
+</style>
 <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
 <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
 <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
@@ -47,11 +54,10 @@
 		<div class="humberger__menu__cart">
 			<ul>
 				<li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-				<li><a href="CartServlet?command=VIEW_CART"><i
-						class="fa fa-shopping-bag"></i> <span>Cart(${empty sessionScope.cart? 0 : sessionScope.cart.size()})</span></a></li>
+				<li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
 			</ul>
 			<div class="header__cart__price">
-				item: <span>S${sessionScope.totalCartPrice}</span>
+				item: <span>$150.00</span>
 			</div>
 		</div>
 		<div class="humberger__menu__widget">
@@ -64,26 +70,24 @@
 					<li><a href="#">English</a></li>
 				</ul>
 			</div>
-			<c:if test="${sessionScope.name != null }">
-				<div class="header__top__right__auth">
-					<div>
-						<a href="#"><i class="fa fa-user"></i> ${sessionScope.name}</a>
-					</div>
-					<span class="arrow_carrot-down"></span>
-					<li><a href="logout">Logout</a></li>
-				</div>
-			</c:if>
-			<c:if test="${sessionScope.name == null }">
-				<div class="header__top__right__auth">
-					<a href="login.jsp"><i class="fa fa-user"></i> Login</a>
-				</div>
-			</c:if>
-
+			<div class="header__top__right__auth">
+					<c:if test="${sessionScope.name != null }">
+							<div class="header__top__right__auth">
+								<a href="#"><i class="fa fa-user"></i> ${sessionScope.name} </a>
+								<a href="Logout"><i class="fa fa-user"></i> Logout </a>
+							</div>
+							</c:if>
+								<c:if test="${sessionScope.name == null }">
+							<div class="header__top__right__auth">
+								<a href="login.jsp"><i class="fa fa-user"></i> Login</a>
+							</div>
+							</c:if>
+			</div>
 		</div>
 		<nav class="humberger__menu__nav mobile-menu">
 			<ul>
-				<li class="active"><a href="./Home">Home</a></li>
-				<li><a href="./shop-grid.jsp">Shop</a></li>
+				<li class="active"><a href="./home">Home</a></li>
+				<li><a href="./shop-grid.html">Shop</a></li>
 				<li><a href="#">Pages</a>
 					<ul class="header__menu__dropdown">
 						<li><a href="./shop-details.html">Shop Details</a></li>
@@ -103,7 +107,7 @@
 		</div>
 		<div class="humberger__menu__contact">
 			<ul>
-				<li><i class="fa fa-envelope"></i></li>
+				<li><i class="fa fa-envelope"></i> </li>
 				<li>Free Shipping for all Order of $99</li>
 			</ul>
 		</div>
@@ -118,7 +122,7 @@
 					<div class="col-lg-6 col-md-6">
 						<div class="header__top__left">
 							<ul>
-								<li><i class="fa fa-envelope"></i></li>
+								<li><i class="fa fa-envelope"></i> </li>
 								<li>Free Shipping for all Order of $99</li>
 							</ul>
 						</div>
@@ -140,25 +144,20 @@
 									<li><a href="#">English</a></li>
 								</ul>
 							</div>
-
+							
 							<c:if test="${sessionScope.name != null }">
-								<div class="header__top__right__auth">
-									<div>
-										<a href="#"><i class="fa fa-user"></i>
-											${sessionScope.name}</a>
-									</div>
-									<span class="arrow_carrot-down"></span>
-									<li><a href="logout">Logout</a></li>
-
-								</div>
+							<div class="header__top__right__auth">
+								<a href="#"><i class="fa fa-user"></i> ${sessionScope.name} </a>
+								<a href="Logout"><i class="fa fa-user"></i> Logout </a>
+							</div>
 							</c:if>
-							<c:if test="${sessionScope.name == null }">
-								<div class="header__top__right__auth">
-									<a href="login.jsp"><i class="fa fa-user"></i> Login</a>
-								</div>
+								<c:if test="${sessionScope.name == null }">
+							<div class="header__top__right__auth">
+								<a href="login.jsp"><i class="fa fa-user"></i> Login</a>
+							</div>
 							</c:if>
-
-
+							
+							
 						</div>
 					</div>
 				</div>
@@ -168,14 +167,14 @@
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="header__logo">
-						<a href="./Home"><img src="img/logo.png" alt=""></a>
+						<a href="./home"><img src="img/logo.png" alt=""></a>
 					</div>
 				</div>
 				<div class="col-lg-6">
 					<nav class="header__menu">
 						<ul>
-							<li class="active"><a href="./Home">Home</a></li>
-							<li><a href="./ProductList">Shop</a></li>
+							<li class="active"><a href="./home">Home</a></li>
+							<li><a href="./shop-grid.html">Shop</a></li>
 							<li><a href="#">Pages</a>
 								<ul class="header__menu__dropdown">
 									<li><a href="./shop-details.html">Shop Details</a></li>
@@ -183,8 +182,8 @@
 									<li><a href="./checkout.html">Check Out</a></li>
 									<li><a href="./blog-details.html">Blog Details</a></li>
 								</ul></li>
-							<!-- 							<li><a href="./blog.html">Blog</a></li> -->
-							<!-- 							<li><a href="./contact.html">Contact</a></li> -->
+<!-- 							<li><a href="./blog.html">Blog</a></li> -->
+<!-- 							<li><a href="./contact.html">Contact</a></li> -->
 						</ul>
 					</nav>
 				</div>
@@ -192,11 +191,10 @@
 					<div class="header__cart">
 						<ul>
 							<li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-							<li><a href="CartServlet?command=VIEW_CART"><i
-									class="fa fa-shopping-bag"></i> <span>${empty sessionScope.cart? 0 : sessionScope.cart.size()}</span></a></li>
+							<li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
 						</ul>
 						<div class="header__cart__price">
-							item: <span>$${sessionScope.totalPrice}</span>
+							item: <span>$150.00</span>
 						</div>
 					</div>
 				</div>
@@ -226,25 +224,15 @@
 						</ul>
 					</div>
 				</div>
-
 				<div class="col-lg-9">
 					<div class="hero__search">
 						<div class="hero__search__form">
-							<form action="Home?command=SEARCH">
-							
-								<div class="searchInput">
-									<input name="Command" hidden=true value="SEARCH"></input>
-								
-									<input type="text" name="keyword" id="searchTxt"
-										placeholder="What do you need?" value="${keyword}">
+							<form action="home?searchBookInput=${book.name}">
+								<div class="hero__search__categories">
+									All Categories <span class="arrow_carrot-down"> </span>
 
-									<div class="resultBox">
-										<!-- here list are inserted from javascript -->
-									</div>
-									<div class="icon">
-										<i class="fas fa-search"></i>
-									</div>
 								</div>
+								<input type="text" placeholder="What do yo u need?">
 								<button type="submit" class="site-btn">SEARCH</button>
 							</form>
 						</div>
@@ -273,8 +261,7 @@
 		</div>
 	</section>
 	<!-- Hero Section End -->
-	<!-- bat dau cua body -->
-	>
+
 	<!-- Categories Section Begin -->
 	<section class="categories">
 		<div class="container">
@@ -285,7 +272,7 @@
 							<div class="categories__item set-bg"
 								data-setbg="${category.imageUrl}">
 								<h5>
-									<a href="ProductList?categoryId=${category.categoryId}">${category.categoryName}</a>
+									<a href="productList?categoryId=${category.categoryId}">${category.categoryName}</a>
 								</h5>
 							</div>
 						</div>
@@ -328,15 +315,13 @@
 								data-setbg="${product.imageUrl}">
 								<ul class="featured__item__pic__hover">
 									<li><a href="#"><i class="fa fa-heart"></i></a></li>
-
 									<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-									<li><button type="submit" class="fa fa-shopping-cart"
-											onclick="window.location.href='CartServlet?command=ADD_TO_CART&productId=${product.productId}'"></button></li>
+									<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
 								</ul>
 							</div>
 							<div class="featured__item__text">
 								<h6>
-									<a href="ProductDetailServlet?productId=${product.productId}">${product.productName}</a>
+									<a href="#">${product.productName}</a>
 								</h6>
 								<h5>$${product.price}</h5>
 							</div>
@@ -348,6 +333,19 @@
 		</div>
 	</section>
 	<!-- Featured Section End -->
+	
+	
+	<div class="product__pagination">
+						<div class="list-page">
+							<p> Items </p>
+						</div>
+						<div class ="page-number">
+							<c:forEach var ="pageNumber" begin="1" end="${totalPage}">
+							<a href="Paging?page=${pageNumber}" 
+							class ="btn" ${pageNumber == currentPage ? 'btn-success' : '' }> ${pageNumber}</a>
+							</c:forEach>
+						</div>
+					</div>
 
 	<!-- Banner Begin -->
 	<div class="banner">
@@ -637,12 +635,12 @@
 				<div class="col-lg-3 col-md-6 col-sm-6">
 					<div class="footer__about">
 						<div class="footer__about__logo">
-							<a href="./Home"><img src="img/logo.png" alt=""></a>
+							<a href="./home"><img src="img/logo.png" alt=""></a>
 						</div>
 						<ul>
 							<li>Address: 60-49 Road 11378 New York</li>
 							<li>Phone: +65 11.188.888</li>
-							<li>Email:</li>
+							<li>Email: </li>
 						</ul>
 					</div>
 				</div>
@@ -692,9 +690,7 @@
 							<p>
 								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 								Copyright &copy;
-								<script>
-									document.write(new Date().getFullYear());
-								</script>
+								<script>document.write(new Date().getFullYear());</script>
 								All rights reserved | This template is made with <i
 									class="fa fa-heart" aria-hidden="true"></i> by <a
 									href="https://colorlib.com" target="_blank">Colorlib</a>
@@ -720,8 +716,6 @@
 	<script src="js/mixitup.min.js"></script>
 	<script src="js/owl.carousel.min.js"></script>
 	<script src="js/main.js"></script>
-	<script src="js/Search.js"></script>
-
 
 
 

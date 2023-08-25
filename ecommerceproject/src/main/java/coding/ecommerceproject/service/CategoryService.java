@@ -20,7 +20,7 @@ public class CategoryService {
 		List<Category> list = new ArrayList<Category>();
 		try {
 			conn = DBUtil.makeConnection();
-			ps = conn.prepareStatement("Select * from `category`");
+			ps = conn.prepareStatement("Select * from sql6631093.category");
 			rs = ps.executeQuery();
 
 			while (rs.next()) {

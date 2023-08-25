@@ -26,6 +26,11 @@
 	rel="stylesheet">
 
 <!-- Css Styles -->
+<style>
+p.thick {
+  font-weight: bold;
+}
+</style>
 <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
 <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
 <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
@@ -36,10 +41,10 @@
 <link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
 <script type="text/javascript">
-document.getElementById('paging').itemsPerPage.onchange = function() {
-    var newaction = document.getElementById('paging').action + this.value;
-    document.getElementById('itemsPerPage').action = newaction;
-};
+//document.getElementById('paging').itemsPerPage.onchange = function() {
+    //var newaction = document.getElementById('paging').action + this.value;
+    //document.getElementById('itemsPerPage').action = newaction;
+//};
 </script>
 <body>
 	<!-- Page Preloder -->
@@ -445,7 +450,7 @@ document.getElementById('paging').itemsPerPage.onchange = function() {
 									</h6>
 								</div>
 							</div>
-							<form name="paging" id="paging" action="Paging?itemsPerPage=">
+							<form name="paging" id="paging" action="Paging?page=${pageNumber}">
 								<div class="filter__sort">
 									<span>Items per page : </span> <select id="itemsPerPage">
 										<option value="10">10</option>
@@ -509,8 +514,15 @@ document.getElementById('paging').itemsPerPage.onchange = function() {
 						</c:if>
 					</div>
 					<div class="product__pagination">
-						<a href="#">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#"><i
-							class="fa fa-long-arrow-right"></i></a>
+						<div class="list-page">
+							<p> Items</p>
+						</div>
+						<div class ="page-number">
+							<c:forEach var ="pageNumber" begin="1" end="${totalPage}">
+							<a href="Paging?page=${pageNumber}" 
+							class ="btn" ${pageNumber == currentPage ? 'btn-success' : '' }"> ${pageNumber}</a>
+							</c:forEach>
+						</div>
 					</div>
 				</div>
 			</div>
