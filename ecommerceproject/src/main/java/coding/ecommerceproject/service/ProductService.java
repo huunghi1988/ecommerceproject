@@ -22,7 +22,9 @@ public class ProductService {
 	private final String GET_MAX_PRICE = "SELECT MAX(price) as maxPrice FROM sql6631093.product";
 	private final String GET_PRODUCTS_BY_MAXMIN = "SELECT * FROM sql6631093.product join product_image on product.product_id=product_image.product_id join category on product.category_id=category.category_id where product_image.is_primary=1 and product.price >= ? and product.price <= ?";
 	private final String GET_LASTEST_10_PRODUCTS = "SELECT * FROM sql6631093.product join product_image on product.product_id=product_image.product_id join category on product.category_id=category.category_id where product_image.is_primary=1 ORDER BY created_at DESC LIMIT 10";
-
+	private final static String GET_TOTAL_PAGES = "SELECT count(*) as total_product FROM sql6631093.product join product_image on product.product_id=product_image.product_id join category on product.category_id=category.category_id where product_image.is_primary=1";
+	private final String GET_PRODUCTS_BY_PAGE ="SELECT * FROM sql6631093.product join product_image on product.product_id=product_image.product_id join category on product.category_id=category.category_id where product_image.is_primary=1 LIMIT ?,?";
+	
 	public List<Product> getProductsByCategoryId(int categoryId) throws SQLException {
 
 		Connection conn = null;
@@ -476,5 +478,89 @@ public class ProductService {
 		}
 		return list;
 	}
+	public static int getTotalPage() throws SQLException{
+		Connection conn = null;
+		PreparedStatement ps = null; 
+		ResultSet rs = null;
+
+
+		try {
+			conn = DBUtil.makeConnection();
+
+			ps = conn.prepareStatement(GET_TOTAL_PAGES);
+
+			rs = ps.executeQuery();
+
+			if(rs.next()) {
+				int totalProduct =rs.getInt("total_product");
+				return(int) Math.ceil((double) totalProduct/9);
+			}
+			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		} finally {
+			if (rs != null) {
+				rs.close();
+			}
+			if (ps != null) {
+				ps.close();
+			}
+			if (conn != null) {
+				conn.close();
+			}
+		}
+		return 0;
+	}
+	
+	public List<Product> getProductsByPage(int page) throws SQLException{
+			
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs= null;
+		Product product = null;
+		List<Product> list = new ArrayList<Product>();
+		try {
+			conn = DBUtil.makeConnection();
+			ps= conn.prepareStatement(GET_PRODUCTS_BY_PAGE);
+			ps.setInt(1, (page-1)*9);
+			ps.setInt(2,9);
+			
+			rs = ps.executeQuery();
+			while (rs.next()){
+				int productId = rs.getInt("product_id");
+				String productName = rs.getString("product_name");
+				String description = rs.getString("description");
+				String dimensions = rs.getString("dimensions");
+				 double price = rs.getDouble("price");
+				 double discountPrice = rs.getDouble("discount_price");
+				int stockQuantity = rs.getInt("stock_quantity");
+				String weight = rs.getString("weight");
+
+				String imageUrl = rs.getString("image_url");
+				int categoryId = rs.getInt("category_id");
+				String categoryName = rs.getString("category_name");
+
+				product = new Product(productId, productName, description, dimensions, price, discountPrice,
+						stockQuantity, weight, imageUrl, categoryId, categoryName);
+				list.add(product);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			if (rs != null) {
+				rs.close();
+			}
+			if (ps != null) {
+				ps.close();
+			}
+			if (conn != null) {
+				conn.close();
+			}
+		}
+		return list;
+	}
+		
 
 }

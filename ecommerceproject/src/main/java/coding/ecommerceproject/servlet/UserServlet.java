@@ -74,9 +74,12 @@ public class UserServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		try {
 			UserService userService = new UserService();
-			User user = userService.getUserDetail((int) session.getAttribute("userId"));
+			if(session.getAttribute("userId") !=null) {
+				User user = userService.getUserDetail((int) session.getAttribute("userId"));
+				request.setAttribute("user", user);
+
+			}
 			RequestDispatcher rd = request.getRequestDispatcher("UserDetail.jsp");
-			request.setAttribute("user", user);
 			rd.forward(request, response);
 
 		} catch (SQLException e) {

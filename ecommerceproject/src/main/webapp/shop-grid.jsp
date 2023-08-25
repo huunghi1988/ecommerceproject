@@ -60,7 +60,7 @@
 						class="fa fa-shopping-bag"></i> <span>Cart(${empty sessionScope.cart? 0 : sessionScope.cart.size()})</span></a></li>
 			</ul>
 			<div class="header__cart__price">
-				item: <span>S${sessionScope.totalCartPrice}</span>
+				item: <span>$<c:if test="${empty sessionScope.cart}"></c:if>${sessionScope.totalPrice}</span>
 			</div>
 		</div>
 		<div class="humberger__menu__widget">
@@ -76,10 +76,9 @@
 			<c:if test="${sessionScope.name != null }">
 				<div class="header__top__right__auth">
 					<div>
-						<a href="#"><i class="fa fa-user"></i> ${sessionScope.name}</a>
+					<a href="#"><i class="fa fa-user"></i>${sessionScope.name} /</a> <i><a href="logout"> Logout</a></i>
 					</div>
-					<span class="arrow_carrot-down"></span>
-					<li><a href="logout">Logout</a></li>
+					
 				</div>
 			</c:if>
 			<c:if test="${sessionScope.name == null }">
@@ -93,18 +92,19 @@
 			<ul>
 				<li class="active"><a href="./Home">Home</a></li>
 				<li><a href="./shop-grid.jsp">Shop</a></li>
-							<li><a href="UserServlet?command=GET_USER_DETAIL">USER</a>
-					<ul class="header__menu__dropdown">
-						<li><a href="CartServlet?command=VIEW_CART">Shoping Cart</a></li>
-						<c:if test="${sessionScope.name == null }">
-							<li><a href="CartServlet?command=VIEW_ORDER_HISTORY">Order
-									History</a></li>
+				<c:if test="${sessionScope.name != null }">
 
-						</c:if>
-						<li><a href="CartServlet?command=VIEW_ORDER_HISTORY">Order
-								History</a></li>
+					<li><a href="UserServlet?command=GET_USER_DETAIL">USER</a>
+						<ul class="header__menu__dropdown">
+							<li><a href="CartServlet?command=VIEW_CART">Shoping Cart</a></li>
+							<c:if test="${sessionScope.name != null }">
+								<li><a href="CartServlet?command=VIEW_ORDER_HISTORY">Order
+										History</a></li>
+							</c:if>
 
-					</ul></li>
+
+						</ul></li>
+				</c:if>
 				<!-- <li><a href="./blog.html">Blog</a></li>
 				<li><a href="./contact.html">Contact</a></li> -->
 			</ul>
@@ -158,11 +158,10 @@
 							<c:if test="${sessionScope.name != null }">
 								<div class="header__top__right__auth">
 									<div>
-										<a href="#"><i class="fa fa-user"></i>
-											${sessionScope.name}</a>
+														<a href="#"><i class="fa fa-user"></i>${sessionScope.name} /</a> <i><a href="logout"> Logout</a></i>
+
 									</div>
-									<span class="arrow_carrot-down"></span>
-									<li><a href="logout">Logout</a></li>
+									
 
 								</div>
 							</c:if>
@@ -190,19 +189,21 @@
 						<ul>
 							<li class="active"><a href="./Home">Home</a></li>
 							<li><a href="./ProductList">Shop</a></li>
-							<li><a href="UserServlet?command=GET_USER_DETAIL">USER</a>
-								<ul class="header__menu__dropdown">
-									<li><a href="CartServlet?command=VIEW_CART">Shoping
-											Cart</a></li>
-									<c:if test="${sessionScope.name == null }">
-										<li><a href="CartServlet?command=VIEW_ORDER_HISTORY">Order
-												History</a></li>
+							<c:if test="${sessionScope.name != null }">
 
-									</c:if>
-									<li><a href="CartServlet?command=VIEW_ORDER_HISTORY">Order
-											History</a></li>
+								<li><a href="UserServlet?command=GET_USER_DETAIL">USER</a>
+									<ul class="header__menu__dropdown">
+										<li><a href="CartServlet?command=VIEW_CART">Shoping
+												Cart</a></li>
+										<c:if test="${sessionScope.name != null }">
+											<li><a href="CartServlet?command=VIEW_ORDER_HISTORY">Order
+													History</a></li>
+										</c:if>
 
-								</ul></li>
+
+									</ul></li>
+							</c:if>
+
 							<!-- 							<li><a href="./blog.html">Blog</a></li> -->
 							<!-- 							<li><a href="./contact.html">Contact</a></li> -->
 						</ul>
@@ -241,7 +242,8 @@
 						<ul>
 
 							<c:forEach var="category" items="${categoryList}">
-								<li><a href="ProductList?categoryId=${category.categoryId}">${category.categoryName}</a></li>
+								<li><a
+									href="ProductList?command=GET_PRODUCTS_BY_CATEGORY_ID&categoryId=${category.categoryId}">${category.categoryName}</a></li>
 							</c:forEach>
 
 						</ul>
@@ -254,7 +256,7 @@
 							<form action="ProductList?command=SEARCH">
 
 								<div class="searchInput">
-									<input name="Command" hidden=true value="SEARCH"></input> <input
+									<input name="command" hidden=true value="SEARCH"></input> <input
 										type="text" name="keyword" id="searchTxt"
 										placeholder="What do you need?" value="${keyword}">
 
@@ -315,7 +317,7 @@
 							<ul>
 								<c:forEach var="category" items="${categoryList}">
 									<li><a
-										href="ProductList?categoryId=${category.categoryId}">${category.categoryName}</a></li>
+										href="ProductList?command=GET_PRODUCTS_BY_CATEGORY_ID&categoryId=${category.categoryId}">${category.categoryName}</a></li>
 								</c:forEach>
 							</ul>
 						</div>
@@ -346,60 +348,60 @@
 							<div class="latest-product__text">
 								<h4>Latest Products</h4>
 								<div class="latest-product__slider owl-carousel">
+
 									<div class="latest-prdouct__slider__item">
-										<a href="#" class="latest-product__item">
-											<div class="latest-product__item__pic">
-												<img src="img/latest-product/lp-1.jpg" alt="">
-											</div>
-											<div class="latest-product__item__text">
-												<h6>Crab Pool Security</h6>
-												<span>$30.00</span>
-											</div>
-										</a> <a href="#" class="latest-product__item">
-											<div class="latest-product__item__pic">
-												<img src="img/latest-product/lp-2.jpg" alt="">
-											</div>
-											<div class="latest-product__item__text">
-												<h6>Crab Pool Security</h6>
-												<span>$30.00</span>
-											</div>
-										</a> <a href="#" class="latest-product__item">
-											<div class="latest-product__item__pic">
-												<img src="img/latest-product/lp-3.jpg" alt="">
-											</div>
-											<div class="latest-product__item__text">
-												<h6>Crab Pool Security</h6>
-												<span>$30.00</span>
-											</div>
-										</a>
+										<c:forEach var="product" items="${lastest10ProductList}"
+											begin="0" end="2">
+											<a href="ProductDetailServlet?productId=${product.productId}"
+												class="latest-product__item">
+												<div class="latest-product__item__pic">
+													<img src="${product.imageUrl}" alt=""
+														style="width: 110px; height: 110px;">
+												</div>
+												<div class="latest-product__item__text">
+													<h6>${product.productName}</h6>
+													<span>$${product.price}</span>
+												</div>
+											</a>
+										</c:forEach>
+
 									</div>
 									<div class="latest-prdouct__slider__item">
-										<a href="#" class="latest-product__item">
-											<div class="latest-product__item__pic">
-												<img src="img/latest-product/lp-1.jpg" alt="">
-											</div>
-											<div class="latest-product__item__text">
-												<h6>Crab Pool Security</h6>
-												<span>$30.00</span>
-											</div>
-										</a> <a href="#" class="latest-product__item">
-											<div class="latest-product__item__pic">
-												<img src="img/latest-product/lp-2.jpg" alt="">
-											</div>
-											<div class="latest-product__item__text">
-												<h6>Crab Pool Security</h6>
-												<span>$30.00</span>
-											</div>
-										</a> <a href="#" class="latest-product__item">
-											<div class="latest-product__item__pic">
-												<img src="img/latest-product/lp-3.jpg" alt="">
-											</div>
-											<div class="latest-product__item__text">
-												<h6>Crab Pool Security</h6>
-												<span>$30.00</span>
-											</div>
-										</a>
+										<c:forEach var="product" items="${lastest10ProductList}"
+											begin="3" end="5">
+											<a href="ProductDetailServlet?productId=${product.productId}"
+												class="latest-product__item">
+												<div class="latest-product__item__pic">
+													<img src="${product.imageUrl}" alt=""
+														style="width: 110px; height: 110px;">
+												</div>
+												<div class="latest-product__item__text">
+													<h6>${product.productName}</h6>
+													<span>$${product.price}</span>
+												</div>
+											</a>
+										</c:forEach>
+
 									</div>
+
+									<div class="latest-prdouct__slider__item">
+										<c:forEach var="product" items="${lastest10ProductList}"
+											begin="6" end="8">
+											<a href="ProductDetailServlet?productId=${product.productId}"
+												class="latest-product__item">
+												<div class="latest-product__item__pic">
+													<img src="${product.imageUrl}" alt=""
+														style="width: 110px; height: 110px;">
+												</div>
+												<div class="latest-product__item__text">
+													<h6>${product.productName}</h6>
+													<span>$${product.price}</span>
+												</div>
+											</a>
+										</c:forEach>
+
+									</div>
+
 								</div>
 							</div>
 						</div>
@@ -463,24 +465,17 @@
 							<div class="col-lg-4 col-md-4">
 								<div class="filter__found">
 									<h6>
-										<c:if test="${empty keyword}">
-											<span>${productListByCategoryId.size()}</span> Products found
-									
-										</c:if>
+										<span>${productList.size()}</span> Products found
 
-										<c:if test="${not empty keyword}">
-											<span>${productListBySearch.size()}</span> Products found
-									
-										</c:if>
 									</h6>
 								</div>
 							</div>
 							<form name="paging" id="paging" action="Paging?itemsPerPage=">
 								<div class="filter__sort">
 									<span>Items per page : </span> <select id="itemsPerPage">
-										<option value="10">10</option>
-										<option value="15">15</option>
-										<option value="20">20</option>
+										<option value="9">9</option>
+										<option value="18">18</option>
+										<option value="27">27</option>
 									</select>
 								</div>
 							</form>
@@ -489,62 +484,42 @@
 						</div>
 					</div>
 					<div class="row">
-						<c:if test="${empty keyword}">
-							<c:forEach var="product" items="${productListByCategoryId}">
-								<div class="col-lg-4 col-md-6 col-sm-6">
-									<div class="product__item">
-										<div class="product__item__pic set-bg"
-											data-setbg="${product.imageUrl}">
-											<ul class="product__item__pic__hover">
-												<li><a href="#"><i class="fa fa-heart"></i></a></li>
-												<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-												<li><a
-													href="CartServlet?command=ADD_TO_CART&productId=${product.productId}"><i
-														class="fa fa-shopping-cart"></i></a></li>
 
-											</ul>
-										</div>
-										<div class="product__item__text">
-											<h6>
-												<a
-													href="ProductDetailServlet?productId=${product.productId}">${product.productName}</a>
-											</h6>
-											<h5>$${product.price}</h5>
-										</div>
+
+						<c:forEach var="product" items="${productList}">
+							<div class="col-lg-4 col-md-6 col-sm-6">
+								<div class="product__item">
+									<div class="product__item__pic set-bg"
+										data-setbg="${product.imageUrl}">
+										<ul class="product__item__pic__hover">
+											<li><a href="#"><i class="fa fa-heart"></i></a></li>
+											<li><a href="#"><i class="fa fa-retweet"></i></a></li>
+											<li><a
+												href="CartServlet?command=ADD_TO_CART&productId=${product.productId}"><i
+													class="fa fa-shopping-cart"></i></a></li>
+
+										</ul>
+									</div>
+									<div class="product__item__text">
+										<h6>
+											<a href="#">${product.productName}</a>
+										</h6>
+										<h5>$${product.price}</h5>
 									</div>
 								</div>
-							</c:forEach>
-						</c:if>
-
-						<c:if test="${not empty keyword}">
-							<c:forEach var="product" items="${productListBySearch}">
-								<div class="col-lg-4 col-md-6 col-sm-6">
-									<div class="product__item">
-										<div class="product__item__pic set-bg"
-											data-setbg="${product.imageUrl}">
-											<ul class="product__item__pic__hover">
-												<li><a href="#"><i class="fa fa-heart"></i></a></li>
-												<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-												<li><a
-													href="CartServlet?command=ADD_TO_CART&productId=${product.productId}"><i
-														class="fa fa-shopping-cart"></i></a></li>
-
-											</ul>
-										</div>
-										<div class="product__item__text">
-											<h6>
-												<a href="#">${product.productName}</a>
-											</h6>
-											<h5>$${product.price}</h5>
-										</div>
-									</div>
-								</div>
-							</c:forEach>
-						</c:if>
+							</div>
+						</c:forEach>
 					</div>
 					<div class="product__pagination">
-						<a href="#">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#"><i
-							class="fa fa-long-arrow-right"></i></a>
+						<div class="list-page">
+							<p>Items</p>
+						</div>
+						<div class="page-number">
+							<c:forEach var="pageNumber" begin="1" end="${totalPage}">
+								<a href="ProductList?page=${pageNumber}" class="btn"${pageNumber == currentPage ? 'btn-success' : '' }">
+									${pageNumber}</a>
+							</c:forEach>
+						</div>
 					</div>
 				</div>
 			</div>

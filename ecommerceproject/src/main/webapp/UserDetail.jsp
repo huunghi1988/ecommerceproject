@@ -46,7 +46,7 @@
 						class="fa fa-shopping-bag"></i> <span>Cart(${empty sessionScope.cart? 0 : sessionScope.cart.size()})</span></a></li>
 			</ul>
 			<div class="header__cart__price">
-				item: <span>S${sessionScope.totalCartPrice}</span>
+				item: <span>$<c:if test="${empty sessionScope.cart}"></c:if>${sessionScope.totalPrice}</span>
 			</div>
 		</div>
 		<div class="humberger__menu__widget">
@@ -62,10 +62,9 @@
 			<c:if test="${sessionScope.name != null }">
 				<div class="header__top__right__auth">
 					<div>
-						<a href="#"><i class="fa fa-user"></i> ${sessionScope.name}</a>
+					<a href="#"><i class="fa fa-user"></i>${sessionScope.name} /</a> <i><a href="logout"> Logout</a></i>
 					</div>
-					<span class="arrow_carrot-down"></span>
-					<li><a href="logout">Logout</a></li>
+					
 				</div>
 			</c:if>
 			<c:if test="${sessionScope.name == null }">
@@ -79,18 +78,19 @@
 			<ul>
 				<li class="active"><a href="./Home">Home</a></li>
 				<li><a href="./shop-grid.jsp">Shop</a></li>
-				<li><a href="#">USER</a>
-					<ul class="header__menu__dropdown">
-						<li><a href="CartServlet?command=VIEW_CART">Shoping Cart</a></li>
-						<c:if test="${sessionScope.name == null }">
-							<li><a href="CartServlet?command=VIEW_ORDER_HISTORY">Order
-									History</a></li>
+				<c:if test="${sessionScope.name != null }">
 
-						</c:if>
-						<li><a href="CartServlet?command=VIEW_ORDER_HISTORY">Order
-								History</a></li>
+					<li><a href="UserServlet?command=GET_USER_DETAIL">USER</a>
+						<ul class="header__menu__dropdown">
+							<li><a href="CartServlet?command=VIEW_CART">Shoping Cart</a></li>
+							<c:if test="${sessionScope.name != null }">
+								<li><a href="CartServlet?command=VIEW_ORDER_HISTORY">Order
+										History</a></li>
+							</c:if>
 
-					</ul></li>
+
+						</ul></li>
+				</c:if>
 				<!-- <li><a href="./blog.html">Blog</a></li>
 				<li><a href="./contact.html">Contact</a></li> -->
 			</ul>
@@ -144,11 +144,10 @@
 							<c:if test="${sessionScope.name != null }">
 								<div class="header__top__right__auth">
 									<div>
-										<a href="#"><i class="fa fa-user"></i>
-											${sessionScope.name}</a>
+														<a href="#"><i class="fa fa-user"></i>${sessionScope.name} /</a> <i><a href="logout"> Logout</a></i>
+
 									</div>
-									<span class="arrow_carrot-down"></span>
-									<li><a href="logout">Logout</a></li>
+									
 
 								</div>
 							</c:if>
@@ -176,19 +175,21 @@
 						<ul>
 							<li class="active"><a href="./Home">Home</a></li>
 							<li><a href="./ProductList">Shop</a></li>
-							<li><a href="UserServlet?command=GET_USER_DETAIL">USER</a>
-								<ul class="header__menu__dropdown">
-									<li><a href="CartServlet?command=VIEW_CART">Shoping
-											Cart</a></li>
-									<c:if test="${sessionScope.name == null }">
-										<li><a href="CartServlet?command=VIEW_ORDER_HISTORY">Order
-												History</a></li>
+							<c:if test="${sessionScope.name != null }">
 
-									</c:if>
-									<li><a href="CartServlet?command=VIEW_ORDER_HISTORY">Order
-											History</a></li>
+								<li><a href="UserServlet?command=GET_USER_DETAIL">USER</a>
+									<ul class="header__menu__dropdown">
+										<li><a href="CartServlet?command=VIEW_CART">Shoping
+												Cart</a></li>
+										<c:if test="${sessionScope.name != null }">
+											<li><a href="CartServlet?command=VIEW_ORDER_HISTORY">Order
+													History</a></li>
+										</c:if>
 
-								</ul></li>
+
+									</ul></li>
+							</c:if>
+
 							<!-- 							<li><a href="./blog.html">Blog</a></li> -->
 							<!-- 							<li><a href="./contact.html">Contact</a></li> -->
 						</ul>
@@ -227,7 +228,8 @@
 						<ul>
 
 							<c:forEach var="category" items="${categoryList}">
-								<li><a href="ProductList?categoryId=${category.categoryId}">${category.categoryName}</a></li>
+								<li><a
+									href="ProductList?command=GET_PRODUCTS_BY_CATEGORY_ID&categoryId=${category.categoryId}">${category.categoryName}</a></li>
 							</c:forEach>
 
 						</ul>
@@ -240,7 +242,7 @@
 							<form action="ProductList?command=SEARCH">
 
 								<div class="searchInput">
-									<input name="Command" hidden=true value="SEARCH"></input> <input
+									<input name="command" hidden=true value="SEARCH"></input> <input
 										type="text" name="keyword" id="searchTxt"
 										placeholder="What do you need?" value="${keyword}">
 

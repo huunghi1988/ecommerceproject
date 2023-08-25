@@ -32,6 +32,7 @@
 <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
 <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
 <link rel="stylesheet" href="css/style.css" type="text/css">
+
 </head>
 
 <body>
@@ -54,7 +55,7 @@
 						class="fa fa-shopping-bag"></i> <span>Cart(${empty sessionScope.cart? 0 : sessionScope.cart.size()})</span></a></li>
 			</ul>
 			<div class="header__cart__price">
-				item: <span>S${sessionScope.totalCartPrice}</span>
+				item: <span>$${sessionScope.totalCartPrice}</span>
 			</div>
 		</div>
 		<div class="humberger__menu__widget">
@@ -70,10 +71,9 @@
 			<c:if test="${sessionScope.name != null }">
 				<div class="header__top__right__auth">
 					<div>
-						<a href="#"><i class="fa fa-user"></i> ${sessionScope.name}</a>
+						<a href="#"><i class="fa fa-user"></i>${sessionScope.name} /</a> <i><a
+							href="logout"> Logout</a></i>
 					</div>
-					<span class="arrow_carrot-down"></span>
-					<li><a href="logout">Logout</a></li>
 				</div>
 			</c:if>
 			<c:if test="${sessionScope.name == null }">
@@ -86,14 +86,20 @@
 		<nav class="humberger__menu__nav mobile-menu">
 			<ul>
 				<li class="active"><a href="./Home">Home</a></li>
-				<li><a href="./shop-grid.jsp">Shop</a></li>
-				<li><a href="#">Pages</a>
-					<ul class="header__menu__dropdown">
-						<li><a href="./shop-details.html">Shop Details</a></li>
-						<li><a href="./shoping-cart.html">Shoping Cart</a></li>
-						<li><a href="./checkout.html">Check Out</a></li>
-						<li><a href="./blog-details.html">Blog Details</a></li>
-					</ul></li>
+				<li><a href="ProductList">Shop</a></li>
+				<c:if test="${sessionScope.name != null }">
+
+					<li><a href="UserServlet?command=GET_USER_DETAIL">USER</a>
+						<ul class="header__menu__dropdown">
+							<li><a href="CartServlet?command=VIEW_CART">Shoping Cart</a></li>
+							<c:if test="${sessionScope.name != null }">
+								<li><a href="CartServlet?command=VIEW_ORDER_HISTORY">Order
+										History</a></li>
+							</c:if>
+
+
+						</ul></li>
+				</c:if>
 				<!-- <li><a href="./blog.html">Blog</a></li>
 				<li><a href="./contact.html">Contact</a></li> -->
 			</ul>
@@ -148,10 +154,9 @@
 								<div class="header__top__right__auth">
 									<div>
 										<a href="#"><i class="fa fa-user"></i>
-											${sessionScope.name}</a>
+											${sessionScope.name} /</a> <i><a href="logout"> Logout</a></i>
+
 									</div>
-									<span class="arrow_carrot-down"></span>
-									<li><a href="logout">Logout</a></li>
 
 								</div>
 							</c:if>
@@ -179,19 +184,20 @@
 						<ul>
 							<li class="active"><a href="./Home">Home</a></li>
 							<li><a href="./ProductList">Shop</a></li>
-							<li><a href="UserServlet?command=GET_USER_DETAIL">USER</a>
-								<ul class="header__menu__dropdown">
-									<li><a href="CartServlet?command=VIEW_CART">Shoping
-											Cart</a></li>
-									<c:if test="${sessionScope.name == null }">
-										<li><a href="CartServlet?command=VIEW_ORDER_HISTORY">Order
-												History</a></li>
+							<c:if test="${sessionScope.name != null }">
 
-									</c:if>
-									<li><a href="CartServlet?command=VIEW_ORDER_HISTORY">Order
-											History</a></li>
+								<li><a href="UserServlet?command=GET_USER_DETAIL">USER</a>
+									<ul class="header__menu__dropdown">
+										<li><a href="CartServlet?command=VIEW_CART">Shoping
+												Cart</a></li>
+										<c:if test="${sessionScope.name != null }">
+											<li><a href="CartServlet?command=VIEW_ORDER_HISTORY">Order
+													History</a></li>
+										</c:if>
 
-								</ul></li>
+
+									</ul></li>
+							</c:if>
 					</nav>
 				</div>
 				<div class="col-lg-3">
@@ -227,7 +233,8 @@
 						<ul>
 
 							<c:forEach var="category" items="${categoryList}">
-								<li><a href="ProductList?categoryId=${category.categoryId}">${category.categoryName}</a></li>
+								<li><a
+									href="ProductList?command=GET_PRODUCTS_BY_CATEGORY_ID&categoryId=${category.categoryId}">${category.categoryName}</a></li>
 							</c:forEach>
 
 						</ul>
@@ -240,7 +247,7 @@
 							<form action="ProductList?command=SEARCH">
 
 								<div class="searchInput">
-									<input name="Command" hidden=true value="SEARCH"></input> <input
+									<input name="command" hidden=true value="SEARCH"></input> <input
 										type="text" name="keyword" id="searchTxt"
 										placeholder="What do you need?" value="${keyword}">
 
@@ -291,7 +298,8 @@
 							<div class="categories__item set-bg"
 								data-setbg="${category.imageUrl}">
 								<h5>
-									<a href="ProductList?categoryId=${category.categoryId}">${category.categoryName}</a>
+									<a
+										href="ProductList?command=GET_PRODUCTS_BY_CATEGORY_ID&categoryId=${category.categoryId}">${category.categoryName}</a>
 								</h5>
 							</div>
 						</div>
@@ -336,14 +344,13 @@
 									<li><a href="#"><i class="fa fa-heart"></i></a></li>
 
 									<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-									<li><a
-										href="CartServlet?command=ADD_TO_CART&productId=${product.productId}"><i
-											class="fa fa-shopping-cart"></i></a></li>
+									<li><button type="submit" class="fa fa-shopping-cart"
+											onclick="window.location.href='CartServlet?command=ADD_TO_CART&productId=${product.productId}'"></button></li>
 								</ul>
 							</div>
 							<div class="featured__item__text">
 								<h6>
-									<a href="ProductDetailServlet?productId=${product.productId}">${product.productName}</a>
+									<a href="#">${product.productName}</a>
 								</h6>
 								<h5>$${product.price}</h5>
 							</div>
@@ -353,9 +360,20 @@
 
 			</div>
 		</div>
+
 	</section>
 	<!-- Featured Section End -->
-
+<div class="product__pagination">
+						<div class="list-page">
+							<p> Items </p>
+						</div>
+						<div class ="page-number">
+							<c:forEach var ="pageNumber" begin="1" end="${totalPage}">
+							<a href="ProductList?page=${pageNumber}" 
+							class ="btn" ${pageNumber == currentPage ? 'btn-success' : '' }> ${pageNumber}</a>
+							</c:forEach>
+						</div>
+					</div>
 	<!-- Banner Begin -->
 	<div class="banner">
 		<div class="container">

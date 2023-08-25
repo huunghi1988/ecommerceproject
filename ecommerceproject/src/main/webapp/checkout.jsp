@@ -46,7 +46,7 @@
 						class="fa fa-shopping-bag"></i> <span>Cart(${empty sessionScope.cart? 0 : sessionScope.cart.size()})</span></a></li>
 			</ul>
 			<div class="header__cart__price">
-				item: <span>S${sessionScope.totalCartPrice}</span>
+				item: <span>$<c:if test="${empty sessionScope.cart}"></c:if>${sessionScope.totalPrice}</span>
 			</div>
 		</div>
 		<div class="humberger__menu__widget">
@@ -62,10 +62,9 @@
 			<c:if test="${sessionScope.name != null }">
 				<div class="header__top__right__auth">
 					<div>
-						<a href="#"><i class="fa fa-user"></i> ${sessionScope.name}</a>
+					<a href="#"><i class="fa fa-user"></i>${sessionScope.name} /</a> <i><a href="logout"> Logout</a></i>
 					</div>
-					<span class="arrow_carrot-down"></span>
-					<li><a href="logout">Logout</a></li>
+					
 				</div>
 			</c:if>
 			<c:if test="${sessionScope.name == null }">
@@ -79,19 +78,19 @@
 			<ul>
 				<li class="active"><a href="./Home">Home</a></li>
 				<li><a href="./shop-grid.jsp">Shop</a></li>
-				<li><a href="#">USER</a>
-								<ul class="header__menu__dropdown">
-									<li><a href="CartServlet?command=VIEW_CART">Shoping
-											Cart</a></li>
-									<c:if test="${sessionScope.name == null }">
-										<li><a href="CartServlet?command=VIEW_ORDER_HISTORY">Order
-												History</a></li>
+				<c:if test="${sessionScope.name != null }">
 
-									</c:if>
-									<li><a href="CartServlet?command=VIEW_ORDER_HISTORY">Order
-											History</a></li>
+					<li><a href="UserServlet?command=GET_USER_DETAIL">USER</a>
+						<ul class="header__menu__dropdown">
+							<li><a href="CartServlet?command=VIEW_CART">Shoping Cart</a></li>
+							<c:if test="${sessionScope.name != null }">
+								<li><a href="CartServlet?command=VIEW_ORDER_HISTORY">Order
+										History</a></li>
+							</c:if>
 
-								</ul></li>
+
+						</ul></li>
+				</c:if>
 				<!-- <li><a href="./blog.html">Blog</a></li>
 				<li><a href="./contact.html">Contact</a></li> -->
 			</ul>
@@ -145,11 +144,10 @@
 							<c:if test="${sessionScope.name != null }">
 								<div class="header__top__right__auth">
 									<div>
-										<a href="#"><i class="fa fa-user"></i>
-											${sessionScope.name}</a>
+											<a href="#"><i class="fa fa-user"></i>${sessionScope.name} /</a> <i><a href="logout"> Logout</a></i>
+
 									</div>
-									<span class="arrow_carrot-down"></span>
-									<li><a href="logout">Logout</a></li>
+								
 
 								</div>
 							</c:if>
@@ -177,19 +175,21 @@
 						<ul>
 							<li class="active"><a href="./Home">Home</a></li>
 							<li><a href="./ProductList">Shop</a></li>
-						<li><a href="#">USER</a>
-								<ul class="header__menu__dropdown">
-									<li><a href="CartServlet?command=VIEW_CART">Shoping
-											Cart</a></li>
-									<c:if test="${sessionScope.name == null }">
-										<li><a href="CartServlet?command=VIEW_ORDER_HISTORY">Order
-												History</a></li>
+							<c:if test="${sessionScope.name != null }">
 
-									</c:if>
-									<li><a href="CartServlet?command=VIEW_ORDER_HISTORY">Order
-											History</a></li>
+								<li><a href="UserServlet?command=GET_USER_DETAIL">USER</a>
+									<ul class="header__menu__dropdown">
+										<li><a href="CartServlet?command=VIEW_CART">Shoping
+												Cart</a></li>
+										<c:if test="${sessionScope.name != null }">
+											<li><a href="CartServlet?command=VIEW_ORDER_HISTORY">Order
+													History</a></li>
+										</c:if>
 
-								</ul></li>
+
+									</ul></li>
+							</c:if>
+
 							<!-- 							<li><a href="./blog.html">Blog</a></li> -->
 							<!-- 							<li><a href="./contact.html">Contact</a></li> -->
 						</ul>
@@ -228,7 +228,8 @@
 						<ul>
 
 							<c:forEach var="category" items="${categoryList}">
-								<li><a href="ProductList?categoryId=${category.categoryId}">${category.categoryName}</a></li>
+								<li><a
+									href="ProductList?command=GET_PRODUCTS_BY_CATEGORY_ID&categoryId=${category.categoryId}">${category.categoryName}</a></li>
 							</c:forEach>
 
 						</ul>
@@ -241,7 +242,7 @@
 							<form action="ProductList?command=SEARCH">
 
 								<div class="searchInput">
-									<input name="Command" hidden=true value="SEARCH"></input> <input
+									<input name="command" hidden=true value="SEARCH"></input> <input
 										type="text" name="keyword" id="searchTxt"
 										placeholder="What do you need?" value="${keyword}">
 
@@ -377,7 +378,7 @@
 							<c:if test="${sessionScope.name == null }">
 							<div class="checkout__input__checkbox">
 								<label for="acc"> Create an account? <input
-									type="checkbox" id="acc"> <span class="checkmark"></span>
+									type="checkbox" id="acc" name="createAccountCheckbox"> <span class="checkmark"></span>
 								</label>
 							</div>
 								<p>Create an account by entering the information below. If
@@ -441,6 +442,100 @@
 										id="paypal" name="paypal" > <span class="checkmark"></span>
 									</label>
 								</div>
+								 <script data-sdk-integration-source="integrationbuilder_ac"></script>
+    <div id="paypal-button-container"></div>
+    <script src="https://www.paypal.com/sdk/js?client-id=AZsxutXjbO6DXJFYfTdJx-QwTP3QavYpR4LqI-acwyl36yxHnMJWelnvEBTKy5eTSmLmAB6pSkX71Nco&components=buttons&enable-funding=venmo,paylater"></script>
+    <script>
+      const FUNDING_SOURCES = [
+        paypal.FUNDING.PAYPAL,
+        paypal.FUNDING.PAYLATER,
+        paypal.FUNDING.VENMO,
+        paypal.FUNDING.CARD,
+      ];
+
+      FUNDING_SOURCES.forEach((fundingSource) => {
+        paypal
+          .Buttons({
+            fundingSource,
+            style: {
+              layout: 'vertical',
+              shape: 'rect',
+              color: fundingSource === paypal.FUNDING.PAYLATER ? 'gold' : '',
+            },
+            createOrder: async (data, actions) => {
+              try {
+                const response = await fetch('http://localhost:9597/orders', {
+                  method: 'POST',
+                });
+
+                const details = await response.json();
+                return details.id;
+              } catch (error) {
+                console.error(error);
+                // Handle the error or display an appropriate error message to the user
+              }
+            },
+            onApprove: async (data, actions) => {
+              try {
+                const response = await fetch(
+                  `http://localhost:9597/orders/${data.orderID}/capture`,
+                  {
+                    method: 'POST',
+                  }
+                );
+
+                const details = await response.json();
+                // Three cases to handle:
+                //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
+                //   (2) Other non-recoverable errors -> Show a failure message
+                //   (3) Successful transaction -> Show confirmation or thank you message
+
+                // This example reads a v2/checkout/orders capture response, propagated from the server
+                // You could use a different API or structure for your 'orderData'
+                const errorDetail =
+                  Array.isArray(details.details) && details.details[0];
+
+                if (
+                  errorDetail &&
+                  errorDetail.issue === 'INSTRUMENT_DECLINED'
+                ) {
+                  return actions.restart();
+                  // https://developer.paypal.com/docs/checkout/integration-features/funding-failure/
+                }
+
+                if (errorDetail) {
+                  let msg = 'Sorry, your transaction could not be processed.';
+                  msg += errorDetail.description
+                    ? ' ' + errorDetail.description
+                    : '';
+                  msg += details.debug_id ? ' (' + details.debug_id + ')' : '';
+                  alert(msg);
+                }
+
+                // Successful capture! For demo purposes:
+                console.log(
+                  'Capture result',
+                  details,
+                  JSON.stringify(details, null, 2)
+                );
+                const transaction =
+                  details.purchase_units[0].payments.captures[0];
+                alert(
+                  'Transaction ' +
+                    transaction.status +
+                    ': ' +
+                    transaction.id +
+                    'See console for all available details'
+                );
+              } catch (error) {
+                console.error(error);
+                // Handle the error or display an appropriate error message to the user
+              }
+            },
+          })
+          .render('#paypal-button-container');
+      });
+    </script>
 								<button type="submit" class="site-btn">PLACE ORDER</button>
 							</div>
 						</div>

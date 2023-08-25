@@ -42,7 +42,6 @@ public class CartServlet extends HttpServlet {
 	private final String VIEW_ORDER_HISTORY = "VIEW_ORDER_HISTORY";
 	private final String VIEW_ORDER_DETAIL = "VIEW_ORDER_DETAIL";
 
-
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -112,11 +111,11 @@ public class CartServlet extends HttpServlet {
 				return;
 			}
 			case VIEW_ORDER_HISTORY: {
-				showOrdersHistory( session,  request,  response);
+				showOrdersHistory(session, request, response);
 				return;
 			}
 			case VIEW_ORDER_DETAIL: {
-				showOrderDetail( session,  request,  response);
+				showOrderDetail(session, request, response);
 				return;
 			}
 
@@ -199,9 +198,13 @@ public class CartServlet extends HttpServlet {
 			throws ServletException, IOException {
 		OrderService orderService = new OrderService();
 		try {
-			List<OrderInFull> orderList = orderService.getOrdersById((int) session.getAttribute("userId"));
+			if(session.getAttribute("userId")!=null) {
+				List<OrderInFull> orderList = orderService.getOrdersById((int) session.getAttribute("userId"));
+				request.setAttribute("orderList", orderList);
+
+			}
+			
 			RequestDispatcher rd = request.getRequestDispatcher("OrderHistory.jsp");
-			request.setAttribute("orderList", orderList);
 			rd.forward(request, response);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -209,10 +212,10 @@ public class CartServlet extends HttpServlet {
 		}
 
 	}
-	
+
 	public void showOrderDetail(HttpSession session, HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		int orderId = Integer.parseInt(request.getParameter("orderId"));
 
 		OrderService orderService = new OrderService();
@@ -245,7 +248,11 @@ public class CartServlet extends HttpServlet {
 	public void submitCart(Map<Integer, ProductInCart> cart, HttpSession session, HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		try {
-			int userId = (int) session.getAttribute("userId");
+			int userId;
+			if (session.getAttribute("userId") != null) {
+				userId = (int) session.getAttribute("userId");
+			} else
+				userId = 9999;
 
 			String address = (String) request.getParameter("address");
 			String city = (String) request.getParameter("city");
@@ -260,8 +267,10 @@ public class CartServlet extends HttpServlet {
 
 			for (Map.Entry<Integer, ProductInCart> entry : cart.entrySet()) {
 				ProductInCart productInCart = entry.getValue();
-				ProductService productService=new ProductService();
-				OrderDetail orderDetail = new OrderDetail(orderId, productInCart.getProduct().getProductId(),productService.getProductsByProductId(productInCart.getProduct().getProductId()).getProductName(),
+				ProductService productService = new ProductService();
+				OrderDetail orderDetail = new OrderDetail(
+						orderId, productInCart.getProduct().getProductId(), productService
+								.getProductsByProductId(productInCart.getProduct().getProductId()).getProductName(),
 						productInCart.getQuantity(), productInCart.getProduct().getPrice());
 				// update stock quanity
 				int newStockQuantity = productService.getProductsByProductId(productInCart.getProduct().getProductId())
@@ -276,7 +285,6 @@ public class CartServlet extends HttpServlet {
 			request.setAttribute("email", email);
 			RequestDispatcher rd = request.getRequestDispatcher("CheckoutSuccessful.jsp");
 			rd.forward(request, response);
-			
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -289,10 +297,15 @@ public class CartServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		try {
 			UserService userService = new UserService();
-			User user = userService.getUserDetail((int) session.getAttribute("userId"));
+			if (session.getAttribute("userId") != null) {
+				User user = userService.getUserDetail((int) session.getAttribute("userId"));
+				request.setAttribute("user", user);
+
+			}
+
 			RequestDispatcher rd = request.getRequestDispatcher("checkout.jsp");
 			request.setAttribute("cart", cart);
-			request.setAttribute("user", user);
+
 			rd.forward(request, response);
 
 		} catch (SQLException e) {

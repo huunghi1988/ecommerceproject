@@ -55,7 +55,7 @@ input.onkeyup = (e)=>{
 function showSuggestions(list){
     let listData;
     if(!list.length){
-        userValue = document.getElementById("searchTxt").value;;
+        userValue = document.getElementByName("keyword").value;;
         listData = '<li>'+ userValue +'</li>';
     }else{
         listData = list.join('');

@@ -69,13 +69,30 @@ public class HomeServlet extends HttpServlet {
 			discountProductsList=productService.getDiscountProducts();
 			
 			
-			RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+			int currentPage =1;
+			if(request.getParameter("page") !=null) {
+				currentPage = Integer.parseInt(request.getParameter("page"));
+			}
+			
+			List<Product> productList  = new ArrayList<Product>();
+			productList= productService.getProductsByPage(currentPage); 
+			
+			RequestDispatcher rd1 = request.getRequestDispatcher("index.jsp");
 			request.setAttribute("categoryList", categoryList);
+			request.setAttribute("productListByCategoryId", productList);
+			request.setAttribute("productListBySearch", productList);
+			request.setAttribute("totalPage", productService.getTotalPage());
+			request.setAttribute("currentPage", currentPage);
+			
+			
+			
+			
+			
 			request.setAttribute("lastest10ProductList", lastest10ProductList);
 			request.setAttribute("discountProductsList", discountProductsList);
 
 			request.setAttribute("productListByCategoryId", productListByCategoryId);
-			rd.forward(request, response);
+			rd1.forward(request,response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
