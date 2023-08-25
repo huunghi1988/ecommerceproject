@@ -20,16 +20,19 @@ public class Order {
 	
 	
 	
-	public Order(int userId, double totalAmount, String shippingAddress, String shippingSuburb, String shippingState,
+	public Order(int userId,Date orderDate, double totalAmount, String shippingAddress, String shippingSuburb, String shippingState,
 			String shippingPostcode,String email) {
 		super();
 		this.userId = userId;
+		this.orderDate = orderDate;
+
 		this.totalAmount = totalAmount;
 		this.shippingAddress = shippingAddress;
 		this.shippingSuburb = shippingSuburb;
 		this.shippingState = shippingState;
 		this.shippingPostcode = shippingPostcode;
 		this.email = email;
+
 
 	}
 	

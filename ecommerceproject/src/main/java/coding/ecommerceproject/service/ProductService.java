@@ -289,6 +289,38 @@ public class ProductService {
 		}
 		return minPrice;
 	}
+	
+	public void updateStockQuanity(int productId ,int quantity) throws SQLException {
+
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+			conn = DBUtil.makeConnection();
+
+			ps = conn.prepareStatement("UPDATE `sql6631093`.`product` SET `stock_quantity` = ? WHERE `product_id` = ?");
+			ps.setInt(1, quantity);
+
+			ps.setInt(2, productId);
+
+			ps.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		} finally {
+			if (rs != null) {
+				rs.close();
+			}
+			if (ps != null) {
+				ps.close();
+			}
+			if (conn != null) {
+				conn.close();
+			}
+		}
+	}
 
 	public List<Product> getProductsBySearch(String keyword) throws SQLException {
 

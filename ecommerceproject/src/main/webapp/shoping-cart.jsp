@@ -127,13 +127,19 @@
 			<ul>
 				<li class="active"><a href="./Home">Home</a></li>
 				<li><a href="./shop-grid.jsp">Shop</a></li>
-				<li><a href="#">Pages</a>
-					<ul class="header__menu__dropdown">
-						<li><a href="./shop-details.html">Shop Details</a></li>
-						<li><a href="./shoping-cart.html">Shoping Cart</a></li>
-						<li><a href="./checkout.html">Check Out</a></li>
-						<li><a href="./blog-details.html">Blog Details</a></li>
-					</ul></li>
+				<li><a href="#">USER</a>
+								<ul class="header__menu__dropdown">
+									<li><a href="CartServlet?command=VIEW_CART">Shoping
+											Cart</a></li>
+									<c:if test="${sessionScope.name == null }">
+										<li><a href="CartServlet?command=VIEW_ORDER_HISTORY">Order
+												History</a></li>
+
+									</c:if>
+									<li><a href="CartServlet?command=VIEW_ORDER_HISTORY">Order
+											History</a></li>
+
+								</ul></li>
 				<!-- <li><a href="./blog.html">Blog</a></li>
 				<li><a href="./contact.html">Contact</a></li> -->
 			</ul>
@@ -219,12 +225,18 @@
 						<ul>
 							<li class="active"><a href="./Home">Home</a></li>
 							<li><a href="./ProductList">Shop</a></li>
-							<li><a href="#">Pages</a>
+							<li><a href="UserServlet?command=GET_USER_DETAIL">USER</a>
 								<ul class="header__menu__dropdown">
-									<li><a href="./shop-details.html">Shop Details</a></li>
-									<li><a href="./shoping-cart.html">Shoping Cart</a></li>
-									<li><a href="./checkout.html">Check Out</a></li>
-									<li><a href="./blog-details.html">Blog Details</a></li>
+									<li><a href="CartServlet?command=VIEW_CART">Shoping
+											Cart</a></li>
+									<c:if test="${sessionScope.name == null }">
+										<li><a href="CartServlet?command=VIEW_ORDER_HISTORY">Order
+												History</a></li>
+
+									</c:if>
+									<li><a href="CartServlet?command=VIEW_ORDER_HISTORY">Order
+											History</a></li>
+
 								</ul></li>
 							<!-- 							<li><a href="./blog.html">Blog</a></li> -->
 							<!-- 							<li><a href="./contact.html">Contact</a></li> -->

@@ -14,7 +14,7 @@ public class ScheduledDeleteTask {
 	private final static String DELETE_EXPIRED_VERIFICATION_USER = "DELETE FROM `sql6631093`.`user` WHERE is_active = 0 and email = ?";
 
 	public static void ScheduleVerificationRowDeletion(String email) throws SQLException {
-		 final int expirationMinute = 1;// set exp 
+		 final int expirationMinute = 60;// set exp 
 
 		TimerTask task = new TimerTask() {
 			public void run() {

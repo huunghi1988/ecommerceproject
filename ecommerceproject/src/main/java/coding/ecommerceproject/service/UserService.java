@@ -17,7 +17,7 @@ public class UserService {
 	private final static String GET_USER_DETAIL = "SELECT * FROM sql6631093.user where user_id = ?";
 	private final static String CHECK_DUPLICATE_USER = "SELECT email FROM sql6631093.user where email  =? ";
 	private final static String GET_TOKEN = "SELECT * FROM sql6631093.verification_token where email  =? ";
-	private final static String SET_USER_ACTIVE = "UPDATE `sql6631093`.`user` SET `is_active` = 1 WHERE (`email` = ?)`";
+	private final static String SET_USER_ACTIVE = "UPDATE `sql6631093`.`user` SET `is_active` = 1 WHERE (`email` = ?)";
 	private final static String SET_NEW_PASSWORD = "UPDATE `sql6631093`.`user` SET `password` = ? WHERE (`email` = ?)";
 
 
@@ -101,7 +101,7 @@ public class UserService {
 				int isActive = rs.getInt("is_active");
 				int forgetPassword = rs.getInt("forget_password");
 
-				user = new User(userId, userName, email, password, firstName, lastName, address, city, state, postcode,
+				user = new User(userId, userName,password, email, firstName, lastName, address, city, state, postcode,
 						isActive, forgetPassword, phoneNumber);
 				
 			}
@@ -206,6 +206,7 @@ public class UserService {
 
 			ps.setString(1, email);
 			ps.executeUpdate();
+			System.out.println(ps);
 
 		
 		} catch (Exception e) {
@@ -223,6 +224,46 @@ public class UserService {
 			}
 		}
 	}
+	
+	public void updateUserDetail(int userId,String firstName,String lastName,String address,String suburb,String state,String postcode,String phone,String email) throws SQLException {
+
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			conn = DBUtil.makeConnection();
+
+			ps = conn.prepareStatement("UPDATE `sql6631093`.`user` SET  `email` = ?,  `first_name` = ?, `last_name` = ?, `address` = ?, `suburb` = ?, `state` = ?, `postcode` = ? ,`phone_number`= ? WHERE (`user_id` = ?)");
+			ps.setString(1, email);
+			ps.setString(2, firstName);
+			ps.setString(3, lastName);
+			ps.setString(4, address);
+			ps.setString(5, suburb);
+			ps.setString(6, state);
+			ps.setString(7, postcode);
+			ps.setString(8, phone);
+			ps.setInt(9, userId);
+
+			ps.executeUpdate();
+			System.out.println(ps);
+
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		} finally {
+			if (rs != null) {
+				rs.close();
+			}
+			if (ps != null) {
+				ps.close();
+			}
+			if (conn != null) {
+				conn.close();
+			}
+		}
+	}
+
 	
 	public static void setNewPassword(String email,String password) throws SQLException {
 

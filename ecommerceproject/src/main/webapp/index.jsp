@@ -179,16 +179,19 @@
 						<ul>
 							<li class="active"><a href="./Home">Home</a></li>
 							<li><a href="./ProductList">Shop</a></li>
-							<li><a href="#">Pages</a>
+							<li><a href="UserServlet?command=GET_USER_DETAIL">USER</a>
 								<ul class="header__menu__dropdown">
-									<li><a href="./shop-details.html">Shop Details</a></li>
-									<li><a href="./shoping-cart.html">Shoping Cart</a></li>
-									<li><a href="./checkout.html">Check Out</a></li>
-									<li><a href="./blog-details.html">Blog Details</a></li>
+									<li><a href="CartServlet?command=VIEW_CART">Shoping
+											Cart</a></li>
+									<c:if test="${sessionScope.name == null }">
+										<li><a href="CartServlet?command=VIEW_ORDER_HISTORY">Order
+												History</a></li>
+
+									</c:if>
+									<li><a href="CartServlet?command=VIEW_ORDER_HISTORY">Order
+											History</a></li>
+
 								</ul></li>
-							<!-- 							<li><a href="./blog.html">Blog</a></li> -->
-							<!-- 							<li><a href="./contact.html">Contact</a></li> -->
-						</ul>
 					</nav>
 				</div>
 				<div class="col-lg-3">
@@ -384,7 +387,8 @@
 							<div class="latest-prdouct__slider__item">
 								<c:forEach var="product" items="${lastest10ProductList}"
 									begin="0" end="2">
-									<a href="ProductDetailServlet?productId=${product.productId}" class="latest-product__item">
+									<a href="ProductDetailServlet?productId=${product.productId}"
+										class="latest-product__item">
 										<div class="latest-product__item__pic">
 											<img src="${product.imageUrl}" alt=""
 												style="width: 110px; height: 110px;">
@@ -400,7 +404,8 @@
 							<div class="latest-prdouct__slider__item">
 								<c:forEach var="product" items="${lastest10ProductList}"
 									begin="3" end="5">
-									<a href="ProductDetailServlet?productId=${product.productId}" class="latest-product__item">
+									<a href="ProductDetailServlet?productId=${product.productId}"
+										class="latest-product__item">
 										<div class="latest-product__item__pic">
 											<img src="${product.imageUrl}" alt=""
 												style="width: 110px; height: 110px;">
@@ -417,7 +422,8 @@
 							<div class="latest-prdouct__slider__item">
 								<c:forEach var="product" items="${lastest10ProductList}"
 									begin="6" end="8">
-									<a href="ProductDetailServlet?productId=${product.productId}" class="latest-product__item">
+									<a href="ProductDetailServlet?productId=${product.productId}"
+										class="latest-product__item">
 										<div class="latest-product__item__pic">
 											<img src="${product.imageUrl}" alt=""
 												style="width: 110px; height: 110px;">
@@ -442,14 +448,16 @@
 							<div class="latest-prdouct__slider__item">
 								<c:forEach var="product" items="${discountProductsList}"
 									begin="0" end="2">
-									<a href="ProductDetailServlet?productId=${product.productId}" class="latest-product__item">
+									<a href="ProductDetailServlet?productId=${product.productId}"
+										class="latest-product__item">
 										<div class="latest-product__item__pic">
 											<img src="${product.imageUrl}" alt=""
 												style="width: 110px; height: 110px;">
 										</div>
 										<div class="latest-product__item__text">
 											<h6>${product.productName}</h6>
-											<span><s>$${product.discountPrice }</s>   <font color="red">$${product.price}</font></span>
+											<span><s>$${product.discountPrice }</s> <font
+												color="red">$${product.price}</font></span>
 										</div>
 									</a>
 								</c:forEach>
@@ -458,14 +466,16 @@
 							<div class="latest-prdouct__slider__item">
 								<c:forEach var="product" items="${discountProductsList}"
 									begin="3" end="5">
-									<a href="ProductDetailServlet?productId=${product.productId}" class="latest-product__item">
+									<a href="ProductDetailServlet?productId=${product.productId}"
+										class="latest-product__item">
 										<div class="latest-product__item__pic">
 											<img src="${product.imageUrl}" alt=""
 												style="width: 110px; height: 110px;">
 										</div>
 										<div class="latest-product__item__text">
 											<h6>${product.productName}</h6>
-											<span><s>$${product.discountPrice }</s>   <font color="red">$${product.price}</font></span>
+											<span><s>$${product.discountPrice }</s> <font
+												color="red">$${product.price}</font></span>
 										</div>
 									</a>
 								</c:forEach>
@@ -475,14 +485,16 @@
 							<div class="latest-prdouct__slider__item">
 								<c:forEach var="product" items="${discountProductsList}"
 									begin="6" end="8">
-									<a href="ProductDetailServlet?productId=${product.productId}" class="latest-product__item">
+									<a href="ProductDetailServlet?productId=${product.productId}"
+										class="latest-product__item">
 										<div class="latest-product__item__pic">
 											<img src="${product.imageUrl}" alt=""
 												style="width: 110px; height: 110px;">
 										</div>
 										<div class="latest-product__item__text">
 											<h6>${product.productName}</h6>
-											<span><s>$${product.discountPrice }</s>   <font color="red">$${product.price}</font></span>
+											<span><s>$${product.discountPrice }</s> <font
+												color="red">$${product.price}</font></span>
 										</div>
 									</a>
 								</c:forEach>

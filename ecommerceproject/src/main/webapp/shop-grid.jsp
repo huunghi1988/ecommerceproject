@@ -93,12 +93,17 @@
 			<ul>
 				<li class="active"><a href="./Home">Home</a></li>
 				<li><a href="./shop-grid.jsp">Shop</a></li>
-				<li><a href="#">Pages</a>
+							<li><a href="UserServlet?command=GET_USER_DETAIL">USER</a>
 					<ul class="header__menu__dropdown">
-						<li><a href="./shop-details.html">Shop Details</a></li>
-						<li><a href="./shoping-cart.html">Shoping Cart</a></li>
-						<li><a href="./checkout.html">Check Out</a></li>
-						<li><a href="./blog-details.html">Blog Details</a></li>
+						<li><a href="CartServlet?command=VIEW_CART">Shoping Cart</a></li>
+						<c:if test="${sessionScope.name == null }">
+							<li><a href="CartServlet?command=VIEW_ORDER_HISTORY">Order
+									History</a></li>
+
+						</c:if>
+						<li><a href="CartServlet?command=VIEW_ORDER_HISTORY">Order
+								History</a></li>
+
 					</ul></li>
 				<!-- <li><a href="./blog.html">Blog</a></li>
 				<li><a href="./contact.html">Contact</a></li> -->
@@ -185,12 +190,18 @@
 						<ul>
 							<li class="active"><a href="./Home">Home</a></li>
 							<li><a href="./ProductList">Shop</a></li>
-							<li><a href="#">Pages</a>
+							<li><a href="UserServlet?command=GET_USER_DETAIL">USER</a>
 								<ul class="header__menu__dropdown">
-									<li><a href="./shop-details.html">Shop Details</a></li>
-									<li><a href="./shoping-cart.html">Shoping Cart</a></li>
-									<li><a href="./checkout.html">Check Out</a></li>
-									<li><a href="./blog-details.html">Blog Details</a></li>
+									<li><a href="CartServlet?command=VIEW_CART">Shoping
+											Cart</a></li>
+									<c:if test="${sessionScope.name == null }">
+										<li><a href="CartServlet?command=VIEW_ORDER_HISTORY">Order
+												History</a></li>
+
+									</c:if>
+									<li><a href="CartServlet?command=VIEW_ORDER_HISTORY">Order
+											History</a></li>
+
 								</ul></li>
 							<!-- 							<li><a href="./blog.html">Blog</a></li> -->
 							<!-- 							<li><a href="./contact.html">Contact</a></li> -->
@@ -225,8 +236,7 @@
 				<div class="col-lg-3">
 					<div class="hero__categories">
 						<div class="hero__categories__all">
-							<i class="fa fa-bars"></i> 
-							<span>All departments</span>
+							<i class="fa fa-bars"></i> <span>All departments</span>
 						</div>
 						<ul>
 
@@ -268,7 +278,7 @@
 							</div>
 						</div>
 					</div>
-					
+
 				</div>
 			</div>
 		</div>
@@ -417,8 +427,8 @@
 													<li><a href="#"><i class="fa fa-heart"></i></a></li>
 													<li><a href="#"><i class="fa fa-retweet"></i></a></li>
 													<li><a
-													href="CartServlet?command=ADD_TO_CART&productId=${product.productId}"><i
-														class="fa fa-shopping-cart"></i></a></li>
+														href="CartServlet?command=ADD_TO_CART&productId=${product.productId}"><i
+															class="fa fa-shopping-cart"></i></a></li>
 												</ul>
 											</div>
 											<div class="product__discount__item__text">
@@ -543,7 +553,7 @@
 	<!-- Product Section End -->
 
 	<!-- Footer Section Begin -->
-		<jsp:include page="footer.jsp">
+	<jsp:include page="footer.jsp">
 		<jsp:param name="userId" value="${sessionScope.userId}" />
 
 	</jsp:include>
