@@ -340,13 +340,13 @@
 						<div class="featured__item">
 							<div class="featured__item__pic set-bg"
 								data-setbg="${product.imageUrl}">
-								<ul class="featured__item__pic__hover">
-									<li><a href="#"><i class="fa fa-heart"></i></a></li>
-
-									<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-									<li><button type="submit" class="fa fa-shopping-cart"
-											onclick="window.location.href='CartServlet?command=ADD_TO_CART&productId=${product.productId}'"></button></li>
-								</ul>
+								<ul class="product__item__pic__hover">
+													<li><a href="#"><i class="fa fa-heart"></i></a></li>
+													<li><a href="#"><i class="fa fa-retweet"></i></a></li>
+													<li><a
+														href="CartServlet?command=ADD_TO_CART&productId=${product.productId}"><i
+															class="fa fa-shopping-cart"></i></a></li>
+												</ul>
 							</div>
 							<div class="featured__item__text">
 								<h6>
